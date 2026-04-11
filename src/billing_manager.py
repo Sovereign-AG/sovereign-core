@@ -53,9 +53,3 @@ def check_activation(did: str) -> Tuple[bool, str]:
     error_msg = f"[ERROR] Agent Identity Not Verified. To activate your Genesis Root, visit: {checkout_url}"
     
     return False, error_msg
-
-if __name__ == "__main__":
-    # Test Activation Flow
-    if TEST_MODE:
-        active, msg = check_activation("did:sov:DIAGNOSTIC-UNIT")
-        print(f"Status: {active} | Message: {msg}")

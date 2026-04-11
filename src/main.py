@@ -25,7 +25,7 @@ from audit_logger import SovereignAuditor
 from mint_sovereign_identity import mint_identity
 from billing_manager import generate_checkout_url
 
-app = FastAPI(title="Sovereign AG: Unified Gateway (Production)", version="v1.4.1")
+app = FastAPI(title="Sovereign AG: Unified Gateway (Production)", version="v0.1.0")
 
 # High-Authority Logging
 logging.basicConfig(level=logging.INFO)
@@ -182,7 +182,7 @@ async def unified_handshake(payload: HandshakePayload):
 
 @app.get("/health")
 async def health():
-    return {"status": "OPERATIONAL", "v": "1.4.1"}
+    return {"status": "OPERATIONAL", "v": "0.1.0"}
 
 if __name__ == "__main__":
     import uvicorn

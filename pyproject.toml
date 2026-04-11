@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "sovereign-sdk"
 version = "0.1.0"
-description = "The official Sovereign AG SDK for decentralized identity and NIST-2026 compliant trust."
+description = "Hardened AI Agent Identity & NIST-800-218 Compliance Wrapper."
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
@@ -25,7 +25,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Sovereign-AG/sovereign-core"
+Homepage = "https://sovereign-ag.com"
+Repository = "https://github.com/Sovereign-AG/sovereign-core"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/sovereign_sdk"]

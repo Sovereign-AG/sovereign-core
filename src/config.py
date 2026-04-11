@@ -85,10 +85,6 @@ class SovereignKeyRegistry:
 registry = SovereignKeyRegistry()
 
 if __name__ == "__main__":
-    # Internal Unit Test for NIST Rotation
-    print("\n[SOVEREIGN PROTOCOL: CRYPTOGRAPHIC CONFIGURATION AUDIT]")
-    print("-" * 56)
-    
-    # Mock some PEM for demonstration if env is missing
-    # In production, the try/except in _initialize handles the real injection
-    pass
+    # Internal Cryptographic Context
+    print("\n[SOVEREIGN PROTOCOL: CRYPTOGRAPHIC CONTEXT]")
+    print("-" * 50)
