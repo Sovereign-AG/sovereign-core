@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sovereign-sdk"
+version = "0.1.0"
+description = "The official Sovereign AG SDK for decentralized identity and NIST-2026 compliant trust."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+    { name = "Sovereign AG", email = "engineering@sovereign-ag.com" }
+]
+keywords = ["sovereign", "identity", "nist", "trust", "sdk"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "requests>=2.28.0",
+    "cryptography>=41.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Sovereign-AG/sovereign-core"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sovereign_sdk"]

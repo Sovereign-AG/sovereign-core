@@ -1,0 +1,27 @@
+{
+  "organizations": [],
+  "agents": [],
+  "usage_logs": [],
+  "usage_ledger": [],
+  "pricing_rules": [
+    {
+      "event_type": "MINT",
+      "cost": 1
+    },
+    {
+      "event_type": "ACTION",
+      "cost": 0.01
+    },
+    {
+      "event_type": "PULSE",
+      "cost": 0.0001
+    }
+  ],
+  "api_keys": [
+    {
+      "key": "sov_prod_root_key",
+      "org_id": "org-root",
+      "label": "Universal Root Key"
+    }
+  ]
+}

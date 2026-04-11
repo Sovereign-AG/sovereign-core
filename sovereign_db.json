@@ -1,0 +1,11 @@
+{
+  "registered_agents": [
+    {
+      "did": "did:sov:genesis:7782",
+      "trust_score": 99.8,
+      "status": "ACTIVE",
+      "timestamp": "2026-04-11T19:40:00Z"
+    }
+  ],
+  "total_heartbeats": 130000
+}

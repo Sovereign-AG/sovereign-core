@@ -1,0 +1,17 @@
+{
+  "issuer": "Sovereign AG (India)",
+  "version": "1.0.0-NIST-2026",
+  "comment": "Decentralized Agent Identity Registry - Web Bot Auth Standard",
+  "keys": [
+    {
+      "kid": "ag-sovereign-2026-v1",
+      "kty": "OKP",
+      "crv": "Ed25519",
+      "x": "MCowBQYDK2VwAyEAZhesB64KZZGnIz6mLzGJuzSolf6DU637bSwTlV9xPrc=",
+      "use": "sig",
+      "alg": "EdDSA",
+      "description": "Primary NIST Submission Identity for Web Bot Auth non-repudiation."
+    }
+  ],
+  "registry_endpoint": "/.well-known/http-message-signatures-directory.json"
+}

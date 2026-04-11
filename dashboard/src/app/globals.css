@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  --background: #020202;
+  --foreground: #e5e7eb;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.bg-dot-pattern {
+  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+}
+
+.bg-tech-grid {
+  background-image: radial-gradient(circle, #ffffff05 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.bg-light-grid {
+  background-color: #f8fafc; /* slate-50 */
+  background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px); /* slate-300 */
+  background-size: 24px 24px;
+}
+
+.glass-panel {
+  background: #080808;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-sidebar {
+  background: #040404;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gradient-text {
+  color: #fff;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}

@@ -1,0 +1,11 @@
+# --- Sovereign AG: Protective Scrutiny ---
+# Protect all high-entropy key materials and session mandates
+**/*.pem
+**/*.key
+keys/
+data/sovereign.db
+data/policies.json
+logs/
+.env
+__pycache__/
+**/__pycache__/
