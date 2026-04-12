@@ -59,18 +59,26 @@ Every action creates a cryptographically-linked pulse in the Sovereign Registry.
 
 ---
 
-## 🛡️ Agent Verification Protocol
+## ⚙️ Technical Workflow: How it Works
 
-Establish institutional trust in three standardized steps:
+Establish institutional trust through our secure, decentralized verification cycle:
 
-1. **Identity Minting:** The agent generates an Ed25519 keypair. The public key is anchored to the Sovereign Registry via the `/v1/mint` endpoint, creating a permanent `did:sov` identity.
-2. **Cryptographic Attestation:** Every high-risk tool call or transaction must include the `X-Sovereign-DID` and `X-Sovereign-Signature` headers, proving the action originated from the verified controller.
-3. **Triple Handshake Verification:** The Sovereign Gateway intercepts the request to perform a real-time validation:
-   - **Identity Check:** Confirming the DID is active and the signature is authentic.
-   - **Policy Guard:** Evaluating the action against Attribute-Based Access Control (ABAC) rules.
-   - **Audit Commit:** Anchoring the result into the SHA-384 cryptographic chain for permanent non-repudiation.
+1. **Identity:** Local generation of **Ed25519** keys within your secure enclave. This creates your unique Agent Identity without ever exposing private material.
+2. **Registry:** Anchoring the Public Key to the **Sovereign Global Registry**. This establishes your DID as a verified actor in the machine economy.
+3. **Handshake:** Real-time signing of tool-call payloads using the `@guard` decorator. Every interaction is cryptographically attested at the source.
+4. **Audit:** Continuous verification of the signature against the registry status, ensuring non-repudiation and real-time compliance.
+
+> [!IMPORTANT]
+> **🔒 Zero-Knowledge Guarantee:** The Sovereign Protocol never touches your Private Keys. All signing happens locally on your infrastructure. We provide the proof; you maintain the control.
 
 ---
+
+## 📋 Technical Prerequisites
+
+Before initializing the Sovereign Vault, ensure your environment meets the following requirements:
+- **Python:** v3.9 or higher
+- **Cryptography:** `cryptography` library installed (`pip install cryptography`)
+- **Authority:** An active Sovereign API Key (issued via the Developer Forge)
 
 ## 🛠️ Rapid Onboarding
 
