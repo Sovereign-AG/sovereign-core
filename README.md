@@ -106,7 +106,7 @@ Follow these standardized steps to integrate your agent into the Sovereign Root 
 
 ## 🏛️ Institutional Contact
 
-**Sovereign AG** is a division of **AG Pixel Studio**. For partnership inquiries or federal-level compliance integration:
+**Sovereign AG** is the definitive global trust registry for the autonomous machine economy. For partnership inquiries or federal-level compliance integration:
 - **Global:** [sovereign-ag.com](https://sovereign-ag.com)
 - **Engineering:** engineering@sovereign-ag.com
 - **Standards:** [NIST 800-218 (Rule 4.2)](https://csrc.nist.gov/pubs/sp/800/218/final)
