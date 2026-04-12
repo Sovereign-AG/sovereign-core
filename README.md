@@ -25,15 +25,18 @@ def secure_transaction(agent_id, payload):
 
 ---
 
-## 💎 The Sovereign Economics
+## 💎 The Sovereign Triple-Tier Economics (v0.1.0)
 
-Transparency is the core of trust. Sovereign AG implements a flat-rate **Action Tax** model to ensure the sustainability of the global reputation ledger.
+Trust is quantified. Sovereign AG implements a granular, triple-tier revenue model to ensure the sustainability of the global reputation ledger and NIST-certified audit trails.
 
-$$ 
-\text{Total Cost} = \text{Actions Secured} \times \$0.01 
-$$
+1. **Identity Minting ($1.00):** One-time cryptographic DID anchoring. The entry point for institutional trust.
+2. **Action Tax ($0.01):** Per high-criticality agentic interaction. Known as the **"Visa for Machines,"** this ensures every authoritative act is insured and attested.
+3. **Heartbeat Sync ($0.001):** Per passive attestation. Ensures real-time NIST-800-218 compliance and "Liability Clock" updates.
 
-*Every high-criticality tool call is insured and attested for a fraction of a cent.*
+By decoupling passive health ($0.001) from active authority ($0.01), Sovereign AG provides the most granular and cost-effective security layer for high-density agent fleets.
+
+### 🧮 Revenue Formula
+$$\text{Protocol Revenue} = \sum \text{Minting} + \sum (\text{Actions} \times \$0.01) + \sum (\text{Syncs} \times \$0.001)$$
 
 ---
 
