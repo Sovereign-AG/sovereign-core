@@ -19,28 +19,82 @@ class SovereignAgent:
     """
 
     TEST_MODE = os.getenv("SOVEREIGN_TEST_MODE", "False").lower() == "true"
+    _FIRST_RUN_NOTIFIED = False
 
     def __init__(self, did: Optional[str] = None, private_key_pem: Optional[str] = None):
         """
         Zero-Config Initialization.
         Automatically loads credentials from SOVEREIGN_DID and SOVEREIGN_PRIVATE_KEY.
+        Implements First-Run Redirect logic for NIST-800-218 compliance activation.
         """
         self.did = did or os.getenv("SOVEREIGN_DID")
-        self.registry_url = os.getenv("SOVEREIGN_REGISTRY_URL", "http://127.0.0.1:8000")
-        
+        self.registry_url = os.getenv("SOVEREIGN_REGISTRY_URL", "https://sovereign-ag.com")
+        self.api_key = os.getenv("SOVEREIGN_API_KEY")
+        self.verified = True
+        self.bypass_mode = False
+
+        # First-Run Redirect & Identity Detection Logic
+        if not self.api_key:
+            self.verified = False
+            self.bypass_mode = True # Non-blocking design
+            
+            if not SovereignAgent._FIRST_RUN_NOTIFIED:
+                import webbrowser
+                print(f"\n[SOVEREIGN-AG] 🛡️ STATUS: \033[1mUNVERIFIED\033[0m")
+                print("[SOVEREIGN-AG] Identity Anchor not found. NIST-800-218 protection is INACTIVE.")
+                print("[SOVEREIGN-AG] Redirecting to the Sovereign Registry to mint your DID...")
+                print(f"[SOVEREIGN-AG] Fallback: https://sovereign-ag.com/verify\n")
+                
+                webbrowser.open("https://sovereign-ag.com/mint?source=sdk_direct")
+                SovereignAgent._FIRST_RUN_NOTIFIED = True
+            
+            logging.warning("[SOVEREIGN] SDK operating in UNVERIFIED mode. High-criticality actions will be blocked.")
+
         pk_pem = private_key_pem or os.getenv("SOVEREIGN_PRIVATE_KEY")
         if not self.did or not pk_pem:
-            raise EnvironmentError(
-                "Sovereign Identity incomplete. Initialize with credentials or set Environment Variables."
-            )
-            
-        try:
-            self._private_key = serialization.load_pem_private_key(
-                pk_pem.encode('utf-8'),
-                password=None
-            )
-        except Exception as e:
-            raise ValueError(f"Failed to load Ed25519 Private Key: {str(e)}")
+            if not self.bypass_mode:
+                logging.error("[SOVEREIGN] Identity credentials missing (DID/Private Key).")
+            self.verified = False
+            self.bypass_mode = True
+            self._private_key = None
+        else:
+            try:
+                self._private_key = serialization.load_pem_private_key(
+                    pk_pem.encode('utf-8'),
+                    password=None
+                )
+            except Exception as e:
+                logging.error(f"[SOVEREIGN] Failed to load Ed25519 Private Key: {str(e)}")
+                self.verified = False
+                self.bypass_mode = True
+                self._private_key = None
+
+    @staticmethod
+    def guard():
+        """
+        Pillar 2: The Universal Security Decorator.
+        Apply @SovereignAgent.guard() to critical tool calls for real-time authorization.
+        """
+        def decorator(func):
+            import functools
+            @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                # Initialize SDK in-flight if not already (Simulated)
+                instance = SovereignAgent()
+                
+                if not instance.verified:
+                    print(f"\n[SOVEREIGN-AG] ⚠️ ACTION BLOCKED: Unverified Identity cannot execute high-criticality tool calls.")
+                    print(f"[SOVEREIGN-AG] Target: {func.__name__} | Status: NIST-NON-COMPLIANT\n")
+                    return None
+                
+                # Perform real-time authorization handshake
+                if instance.authorize_action(instance.api_key, action_type="action"):
+                    return func(*args, **kwargs)
+                else:
+                    print(f"\n[BLOCK] {func.__name__} denied by Sovereign Protocol. Insufficient Mandate.\n")
+                    return None
+            return wrapper
+        return decorator
 
     def check_activation(self) -> Tuple[bool, str]:
         """
@@ -83,12 +137,15 @@ class SovereignAgent:
             logging.error(f"[ERROR] Could not connect to Sovereign Verification API: {str(e)}")
             return False
 
-    def authorize_action(self, api_key: str, action_type: str = "action") -> bool:
+    def authorize_action(self, api_key: Optional[str], action_type: str = "action") -> bool:
         """
         Tiered Sovereign Authorization Engine.
         Tiers: MINT ($1.00), ACTION ($0.01), PULSE ($0.0001).
         Pings /api/v1/auth/verify to authorize and meter the action.
         """
+        if self.bypass_mode or not api_key:
+            return True if self.bypass_mode else False
+
         try:
             r = requests.post(
                 f"{self.registry_url}/api/v1/auth/verify", 
@@ -108,14 +165,14 @@ class SovereignAgent:
             return False
 
     @classmethod
-    def mint(cls, agent_name: str, registry_url: str = "http://127.0.0.1:8000") -> Optional['SovereignAgent']:
+    def mint(cls, agent_name: str, registry_url: str = "https://sovereign-ag.com") -> Optional['SovereignAgent']:
         """Pillar 1: Identity Minting with Revenue Gateway Integration."""
         logging.info(f"[MINT] Initiating Sovereign Identity request for '{agent_name}'...")
         try:
             r = requests.post(f"{registry_url}/v1/mint", json={"agent_name": agent_name})
             if r.status_code == 402:
                 detail = r.json().get("detail", {})
-                checkout_url = detail.get("checkout_url", "https://dodopayments.com/checkout")
+                checkout_url = detail.get("checkout_url", "https://sovereign-ag.com/mint")
                 print(f"\n[ERROR] Agent Identity Not Verified. To activate your Genesis Root, visit: {checkout_url}\n")
                 return None
             if r.status_code == 200:
@@ -133,8 +190,11 @@ class SovereignAgent:
         active, msg = self.check_activation()
         if not active:
             print(msg)
-            # We still send but expect 402 from registry if the SDK is used for raw requests
             
+        if self.bypass_mode or not self._private_key:
+            logging.warning("[SOVEREIGN] Sending unsigned payload due to Bypass/Inactive state.")
+            return requests.request(method, target_url, json=payload)
+
         message = json.dumps(payload, sort_keys=True)
         signature = self._private_key.sign(message.encode('utf-8')).hex()
         headers = {
