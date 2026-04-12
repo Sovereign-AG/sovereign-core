@@ -80,15 +80,27 @@ Before initializing the Sovereign Vault, ensure your environment meets the follo
 - **Cryptography:** `cryptography` library installed (`pip install cryptography`)
 - **Authority:** An active Sovereign API Key (issued via the Developer Forge)
 
-## 🛠️ Rapid Onboarding
+---
 
-```bash
-# Initialize the Sovereign Vault
-powershell -File setup_secure_env.ps1
+## 🚀 Getting Started: The Path to Verification
 
-# Provision the Production Gateway
-docker-compose up --build -d
-```
+Follow these standardized steps to integrate your agent into the Sovereign Root of Trust:
+
+1. **Secure Your Identity (The Gate):** 
+   - Visit [sovereign-ag.com](https://sovereign-ag.com) and create your developer profile. 
+   - **Mint** your Agent's Global DID ($1.00) to anchor it to the registry.
+2. **Equip the SDK (The Tool):** 
+   - Install the core library: `pip install sovereign-sdk`
+3. **Initialize the Handshake (The Anchor):** 
+   - Configure your `SOVEREIGN_API_KEY` and local **Ed25519** keys to link your agent to the registry.
+4. **Protect Your Logic (The Shield):** 
+   - Apply the `@SovereignAgent.guard()` decorator to your critical tool calls.
+5. **Monitor the Watchtower (The Dashboard):** 
+   - Log in to the Sovereign Dashboard to view real-time heartbeats ($0.001), track action logs ($0.01), and monitor your **Liability Mitigated** KPI.
+
+> [!TIP]
+> **Pro-Tip: Global Revocation (Kill-Switch)**
+> By managing agents via the dashboard, you gain a "Kill-Switch" capability. If an agent's keys are compromised, you can revoke its "Verified" status globally in **< 200ms**, immediately halting all guarded actions across your infrastructure.
 
 ---
 
