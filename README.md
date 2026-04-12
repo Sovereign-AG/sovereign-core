@@ -40,16 +40,22 @@ $$\text{Protocol Revenue} = \sum \text{Minting} + \sum (\text{Actions} \times \$
 
 ---
 
-## 🏗️ Core Pillars of the Fortress
+## 🏗️ Core Architecture (The Three Pillars)
 
-### 1. Cryptographic Identity (did:sov)
-Every agent is issued an **Ed25519-anchored identity** that persists across deployments. No more ephemeral API keys; only permanent institutional trust.
+### 1. Pillar 1: Identity (Ed25519)
+Every agent is issued an **Ed25519-anchored identity** (did:sov) that persists across deployments. 
+- **Non-interactivity:** Verification via NIST-compliant `X-Sovereign-Signature` headers.
+- **Persistence:** No more ephemeral API keys; only permanent institutional trust.
 
-### 2. Behavioral Policy Engine (ABAC)
-Enforce fine-grained **Attribute-Based Access Control**. Define exactly which tools an agent can touch, when, and for how much.
+### 2. Pillar 2: Authorization (ABAC)
+Enforce fine-grained **Attribute-Based Access Control** enforced by the **Sovereign Guard** engine.
+- **Granularity:** Define exactly which tools an agent can touch, when, and for how much.
+- **Mandates:** Real-time evaluation of transaction limits, endpoint scoping, and expiration.
 
-### 3. SHA-384 Chained Audit Trails
-Every action creates a cryptographically-linked pulse in the Sovereign Registry. The audit trail is immutable, tamper-evident, and ready for regulatory scrutiny.
+### 3. Pillar 3: Audit (SHA-384 Chained Database)
+Every action creates a cryptographically-linked pulse in the Sovereign Registry.
+- **Non-repudiation:** Each audit row is hashed and signed to prevent tampering using a **SHA-384 Chained Database**.
+- **Compliance:** The audit trail is immutable, tamper-evident, and ready for regulatory scrutiny (NIST-800-218).
 
 ---
 
