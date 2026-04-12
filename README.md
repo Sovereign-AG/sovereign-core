@@ -10,7 +10,7 @@ Sovereign AG provides the definitive **Decentralized Identity (DID)** and **Trus
 
 ---
 
-## ⚡ The 1-Line Handshake
+## ⚡ The One-Line Security Wrapper
 
 Integrate Sovereign AG into any Python-based Agentic framework (CrewAI, LangGraph, AutoGen) with a single architectural gate.
 
@@ -56,6 +56,19 @@ Enforce fine-grained **Attribute-Based Access Control** enforced by the **Sovere
 Every action creates a cryptographically-linked pulse in the Sovereign Registry.
 - **Non-repudiation:** Each audit row is hashed and signed to prevent tampering using a **SHA-384 Chained Database**.
 - **Compliance:** The audit trail is immutable, tamper-evident, and ready for regulatory scrutiny (NIST-800-218).
+
+---
+
+## 🛡️ Agent Verification Protocol
+
+Establish institutional trust in three standardized steps:
+
+1. **Identity Minting:** The agent generates an Ed25519 keypair. The public key is anchored to the Sovereign Registry via the `/v1/mint` endpoint, creating a permanent `did:sov` identity.
+2. **Cryptographic Attestation:** Every high-risk tool call or transaction must include the `X-Sovereign-DID` and `X-Sovereign-Signature` headers, proving the action originated from the verified controller.
+3. **Triple Handshake Verification:** The Sovereign Gateway intercepts the request to perform a real-time validation:
+   - **Identity Check:** Confirming the DID is active and the signature is authentic.
+   - **Policy Guard:** Evaluating the action against Attribute-Based Access Control (ABAC) rules.
+   - **Audit Commit:** Anchoring the result into the SHA-384 cryptographic chain for permanent non-repudiation.
 
 ---
 
