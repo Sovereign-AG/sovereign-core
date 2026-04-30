@@ -18,19 +18,19 @@ pip install ./sdk/python
 
 ## ⚡ 1-Line Protocol Activation
 
-To activate the entire Sovereign protocol, simply wrap your existing agent object with the `SovereignAgent` class.
+To activate the entire Sovereign protocol, simply wrap your existing agent object with the `Sovereign.wrap` method.
 
 ```python
-from sovereign_sdk import SovereignAgent
+from sovereign_sdk import Sovereign
 from my_agent_library import OriginalAgent
 
 # 1. Initialize your original agent as usual
 base_agent = OriginalAgent(...)
 
-# 2. Wrap it in the Sovereign Proxy (Protocol Activation)
-agent = SovereignAgent(base_agent, api_key="GRANT_GENESIS")
+# 2. Wrap it in the Sovereign Proxy (The HAIP-00 Standard)
+agent = Sovereign.wrap(base_agent, sovereign_key="GRANT_GENESIS")
 
-# 3. Use the agent normally - All methods are now proxied and logged
+# 3. Use the agent normally - All methods are now proxied, signed, and logged
 agent.run("Analyze the market for BTC-USD")
 ```
 
