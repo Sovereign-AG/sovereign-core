@@ -1,11 +1,51 @@
-# --- Sovereign AG: Protective Scrutiny ---
-# Protect all high-entropy key materials and session mandates
+# --- Sovereign AG: IETF Compliance .gitignore ---
+# Protect institutional privacy and sensitive audit data
+
+# Identity & Security
 **/*.pem
 **/*.key
 keys/
-data/sovereign.db
-data/policies.json
-logs/
 .env
+keys_registry.json
+
+# Internal Tools (Private Dashboards)
+admin-nexus/
+dashboard/
+archive/
+tmp/
+
+# Technical Specification (Local Only)
+whitepaper_v5.html
+whitepaper.css
+docs/
+
+# Audit Data & Ledgers (NIST Isolation)
+*.ndjson
+*.ndjson.bak
+*.json
+!pyproject.toml
+!package.json
+!package-lock.json
+
+# Test Infrastructure
+tests/
+scripts/
+reports/
+extreme_latency_test.py
+extreme_drift_sim_175.py
+nuclear_*.py
+genesis_validation.py
+
+# Python Environment
 __pycache__/
 **/__pycache__/
+*.pyc
+.venv/
+dist/
+build/
+*.egg-info/
+
+# VS Code & OS
+.vscode/
+.DS_Store
+Thumbs.db
