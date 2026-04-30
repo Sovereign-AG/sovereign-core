@@ -4,6 +4,7 @@
 [![NIST-800-218 Compliance](https://img.shields.io/badge/NIST-800--218%20Level%204-black?style=for-the-badge&logo=shield&logoColor=gold)](https://sovereign-ag.com/compliance)
 [![IETF Status: HAIP--00](https://img.shields.io/badge/IETF-HAIP--00%20Standard-blue?style=for-the-badge&logo=internetexplorer&logoColor=white)](https://datatracker.ietf.org/doc/draft-sovereign-haip-00/)
 [![Compliance: NIST%20AAL3](https://img.shields.io/badge/Compliance-NIST%20AAL3-000000?style=for-the-badge&logo=checkmarx&logoColor=green)](https://sovereign-ag.com/audit)
+[![PyPI version](https://img.shields.io/pypi/v/sovereign-sdk.svg?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/sovereign-sdk/)
 
 > "In the machine economy, identity is the only capital that matters."
 
@@ -20,13 +21,15 @@ This implementation strictly adheres to the following regulatory frameworks:
 
 ---
 
+## ⚡ 1-Line Protocol Activation (Institutional Standard)
+
 Integrate Sovereign AG into any Python-based Agentic framework (CrewAI, LangGraph, AutoGen) with a single architectural gate.
 
 ```python
 from sovereign_sdk import Sovereign
 
 # The HAIP-00 One-Line Wrapper
-agent = Sovereign.wrap(your_agent_instance)
+agent = Sovereign.wrap(your_agent_instance, sovereign_key="GRANT_GENESIS")
 ```
 
 ---
