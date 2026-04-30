@@ -1,27 +1,37 @@
+# Sovereign AG SDK - Registry Client
+# License: Sovereign Source-Available License (SSAL) v1.0
+# Copyright (c) 2026 Sovereign AG.
+# Commercial use > 10 agents requires a Sovereign Enterprise License.
+
 import os
 import requests
 import logging
 import time
+import threading
 from typing import Optional, Dict, Any
 
 class RegistryClient:
     """
     RegistryClient - Interfaces with api.sovereign-ag.ai for Kill-Switch and Identity checks.
     """
-    def __init__(self, api_key: str, base_url: str = "https://api.sovereign-ag.ai"):
-        self.api_key = api_key
+    def __init__(self, sovereign_key: str, base_url: str = "http://127.0.0.1:5001"):
+        self.sovereign_key = sovereign_key
         self.base_url = base_url
-        self.fail_safe_mode = os.getenv("SOVEREIGN_FAIL_SAFE", "BLOCK").upper() # BLOCK or LOG
+        self.fail_safe_mode = "BLOCK" # v1.0 strict enforcement
+        self._is_blocked = False # Zero-Latency local cache
+        self._lock = threading.Lock()
 
     def check_kill_switch(self, agent_id: str) -> bool:
         """
         Returns True if the agent is allowed to proceed, False otherwise.
         """
         try:
-            # In production, this should be high-performance (e.g. cached or ultra-fast)
             response = requests.get(
                 f"{self.base_url}/v1/status/{agent_id}",
-                headers={"Authorization": f"Bearer {self.api_key}"},
+                headers={
+                    "Authorization": f"Bearer {self.sovereign_key}",
+                    "X-Sovereign-Key": self.sovereign_key
+                },
                 timeout=2.0
             )
             if response.status_code == 200:
@@ -29,12 +39,12 @@ class RegistryClient:
                 return data.get("is_active", True)
             
             if response.status_code == 403:
-                logging.error(f"[SOVEREIGN] Kill-Switch ACTIVATED for {agent_id}.")
+                logging.error(f"[SOVEREIGN] Kill-Switch ACTIVATED or Unauthorized for {agent_id}.")
                 return False
                 
             return True # Default to active if status is unknown but reached
         except Exception as e:
-            logging.warning(f"[SOVEREIGN] Registry unreachable: {e}")
+            logging.warning(f"[SOVEREIGN) Registry unreachable or invalid key: {e}")
             if self.fail_safe_mode == "BLOCK":
                 return False
             return True
@@ -48,26 +58,27 @@ class RegistryClient:
         return await loop.run_in_executor(None, self._handshake_sync, agent_name, hitl_config)
 
     def _handshake_sync(self, agent_name: str, hitl_config: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        url = f"{self.base_url}/v1/mint"
+        url = f"{self.base_url}/register" # Linked to server.py register endpoint for v1.0
         payload = {
-            "agent_name": agent_name, 
-            "api_key": self.api_key,
+            "did": agent_name, # In v1.0, agent_name IS the DID from the Passport
+            "sovereign_key": self.sovereign_key,
             "hitl_config": hitl_config
         }
         
         try:
-            resp = requests.post(url, json=payload, timeout=5.0)
-            if resp.status_code == 200:
+            resp = requests.post(
+                url, 
+                json=payload, 
+                headers={"X-Sovereign-Key": self.sovereign_key}, 
+                timeout=5.0
+            )
+            if resp.status_code == 201 or resp.status_code == 200:
                 return resp.json()
-            elif resp.status_code == 402 and self.api_key == "GRANT_GENESIS":
-                return self._mint_genesis_did()
             else:
                 logging.error(f"[SOVEREIGN] Handshake failed: {resp.text}")
-                return {"error": "Handshake failed"}
+                return {"error": "Handshake failed - Unregistered or Invalid Key"}
         except Exception as e:
             logging.warning(f"[SOVEREIGN] Registry unreachable during handshake: {e}")
-            if self.api_key == "GRANT_GENESIS":
-                return self._mint_genesis_did()
             return {"error": str(e)}
 
     def _mint_genesis_did(self) -> Dict[str, Any]:
@@ -83,12 +94,22 @@ class RegistryClient:
         """
         try:
             r = requests.post(
-                f"{self.base_url}/v1/pulse",
+                f"{self.base_url}/heartbeat",
                 json={"agent_id": agent_id, "state_hash": state_hash},
-                headers={"Authorization": f"Bearer {self.api_key}"},
+                headers={
+                    "X-Sovereign-DID": agent_id,
+                    "X-Sovereign-Key": self.sovereign_key,
+                    "Authorization": f"Bearer {self.sovereign_key}"
+                },
                 timeout=1.0
             )
-            return r.status_code == 200
+            resp = r.status_code == 200
+            with self._lock:
+                if r.status_code == 403:
+                    self._is_blocked = True
+                elif r.status_code == 200:
+                    self._is_blocked = False
+            return resp
         except:
             return False
 

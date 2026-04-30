@@ -20,9 +20,10 @@ setup(
     },
     classifiers=[
         "Programming Language :: Python :: 3.11",
-        "License :: OSI Approved :: MIT License",
+        "License :: Other/Proprietary License",
         "Operating System :: OS Independent",
         "Topic :: Security :: Cryptography",
     ],
+    license="Sovereign Source-Available License v1.0",
     python_requires=">=3.8",
 )

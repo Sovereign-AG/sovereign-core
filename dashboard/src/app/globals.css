@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #020202;
+  --background: #050505;
   --foreground: #e5e7eb;
 }
 
@@ -18,21 +18,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.bg-dot-pattern {
-  background-size: 24px 24px;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-}
+.bg-dot-pattern {}
 
-.bg-tech-grid {
-  background-image: radial-gradient(circle, #ffffff05 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-.bg-light-grid {
-  background-color: #f8fafc; /* slate-50 */
-  background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px); /* slate-300 */
-  background-size: 24px 24px;
-}
+.bg-tech-grid {}
 
 .glass-panel {
   background: #080808;
@@ -71,4 +59,13 @@ body {
 
 .animate-marquee {
   animation: marquee 20s linear infinite;
+}
+
+@keyframes scan {
+  from { top: -100%; }
+  to { top: 100%; }
+}
+
+.animate-scan {
+  animation: scan 2s linear infinite;
 }

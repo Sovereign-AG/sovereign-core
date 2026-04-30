@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, ArrowRight, Activity, CheckCircle2, Lock, Terminal, Shield, ShieldCheck 
 } from 'lucide-react';
@@ -14,11 +14,19 @@ import HeroBackground from '@/components/HeroBackground';
 import IdentityCardModal from '@/components/IdentityCardModal';
 import DarkHeroBackground from '@/components/DarkHeroBackground';
 import { FleetDashboard } from '@/components/FleetDashboard';
-import { GenesisGrantPortal } from '@/components/GenesisGrantPortal';
+
 import { DeveloperPortal } from '@/components/DeveloperPortal';
 import { RegistrySearch } from '@/components/RegistrySearch';
 import { SovereignLibrarian } from '@/components/SovereignLibrarian';
-import { LiabilityClock } from '@/components/LiabilityClock';
+
+const ShieldLogo = () => (
+  <div className="relative mb-6">
+    <div className="absolute inset-0 bg-white/5 blur-2xl rounded-full" />
+    <div className="relative p-5 bg-black border border-white/10 rounded-2xl shadow-2xl">
+      <Shield className="w-12 h-12 text-white opacity-90" />
+    </div>
+  </div>
+);
 
 export default function LandingPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,8 +35,13 @@ export default function LandingPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [stats, setStats] = useState({ verifications: 124802, actions: 2400000 });
+  const [handshakeStatus, setHandshakeStatus] = useState<'idle' | 'verifying' | 'success'>('idle');
+  const [handshakeMsg, setHandshakeMsg] = useState('');
+  const [hasSession, setHasSession] = useState(false);
 
   useEffect(() => {
+    fetch('/api/auth/session').then(r => r.json()).then(data => setHasSession(data.active));
+
     fetch('/api/stats').then(r => r.json()).then(data => {
       if (data.success) {
         setStats({
@@ -129,30 +142,13 @@ export default function LandingPage() {
       />
       
       {/* --- VANTABLACK AUTHORITY HERO --- */}
-      <section className="relative pt-44 pb-52 overflow-hidden bg-[#000000]">
-        {/* High-Performance Industrial Grid (Pure CSS) */}
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[linear-gradient(to_right,#333_1px,transparent_1px),linear-gradient(to_bottom,#333_1px,transparent_1px)] bg-[size:40px_40px]" />
+       {/* Clean Professional Background */}
+      <section className="relative pt-44 pb-52 overflow-hidden bg-black">
+        {/* Minimal Depth - Subtle center glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_0%,transparent_70%)] pointer-events-none" />
         
-        {/* Subtle Depth Gradient */}
-        <div className="absolute inset-0 bg-[#000] [mask-image:radial-gradient(ellipse_at_center,transparent_0%,black_100%)] pointer-events-none" />
-
-        {/* CSS-Only Scanning Beam (Ultra Lightweight) */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-           <motion.div 
-             animate={{ top: ['-20%', '120%'] }}
-             transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-             className="absolute left-0 w-full h-[30%] bg-gradient-to-b from-transparent via-lime-500/5 to-transparent blur-[120px]"
-           />
-        </div>
-        
-        {/* Cyber-Lime Data Pulse (Bottom Anchor) */}
-        <div className="absolute bottom-0 left-0 w-full h-[1px] overflow-hidden z-20">
-           <motion.div 
-             animate={{ x: ['-100%', '100%'] }}
-             transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-             className="w-1/3 h-full bg-gradient-to-r from-transparent via-[#CBFF00] to-transparent shadow-[0_0_15px_rgba(203,255,0,0.5)]"
-           />
-        </div>
+        {/* Extremely Subtle Border Bottom */}
+        <div className="absolute bottom-0 left-0 w-full h-px bg-zinc-900" />
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
@@ -169,20 +165,19 @@ export default function LandingPage() {
                </motion.div>
 
                <motion.div 
-                 initial={{ opacity: 0, y: 20 }}
-                 animate={{ opacity: 1, y: 0 }}
-                 transition={{ delay: 0.1 }}
-                 className="space-y-8"
-               >
-                  <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-[-0.05em] leading-[0.9] uppercase">
-                     The Protocol Standard <br/>
-                     <span className="text-gray-500">for Agentic Infrastructure.</span>
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="space-y-6"
+                >
+                  <h1 className="text-5xl lg:text-6xl font-black uppercase tracking-[-0.05em] leading-[1] text-white">
+                    The Sovereign Standard<br/>
+                    <span className="text-gray-500">For Machine Identity.</span>
                   </h1>
-                  <p className="text-[#888888] text-xl font-medium max-w-lg leading-relaxed">
-                     Non-repudiable Compliance Attestation at the edge. <br/>
-                     Satisfy NIST-800-218 requirements in a single implementation.
+                  <p className="text-gray-400 text-lg font-medium leading-relaxed max-w-lg">
+                    Secure every agent action with NIST-800-218 compliant cryptographic anchors. A global protocol for verifiable attribution in the autonomous economy.
                   </p>
-               </motion.div>
+                </motion.div>
 
                <motion.div 
                  initial={{ opacity: 0, y: 20 }}
@@ -190,28 +185,33 @@ export default function LandingPage() {
                  transition={{ delay: 0.2 }}
                  className="space-y-10 pt-4"
                >
-                  <div className="flex flex-col sm:flex-row items-center gap-6">
-                    <form onSubmit={handleSearch} className="relative w-full sm:w-[450px]">
-                       <input 
-                         type="text" 
-                         value={searchQuery}
-                         onChange={(e) => setSearchQuery(e.target.value)}
-                         placeholder="Verify DID or Agent Signature..." 
-                         className="w-full bg-[#0A0A0A] border border-[#1A1A1A] rounded p-5 text-sm font-bold text-white placeholder:text-gray-700 focus:outline-none focus:border-lime-500/50 transition-all"
-                       />
-                       <button className="absolute right-3 top-3 bottom-3 px-6 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded hover:bg-gray-200 transition-colors">
-                          Execute
-                       </button>
-                    </form>
-                    <Link 
-                      href="/support/docs" 
-                      className="px-8 py-5 border border-[#1A1A1A] text-[#888888] text-[10px] font-black uppercase tracking-widest rounded hover:text-white hover:border-white transition-all text-center"
-                    >
-                       View Docs
-                    </Link>
+                  <div className="flex flex-col items-start gap-6">
+                    <div className="flex flex-col sm:flex-row items-center gap-6 mt-4">
+                      <Link 
+                        href="/auth/mint"
+                        className="group relative px-8 py-3.5 bg-yellow-400 text-black text-sm font-medium rounded-lg hover:bg-yellow-500 hover:shadow-lg transition-all active:scale-[0.98] flex items-center overflow-hidden"
+                      >
+                        <span className="relative z-10">Initialize Identity Anchor</span>
+                        <ArrowRight size={18} className="ml-3 relative z-10 group-hover:translate-x-1 transition-transform" />
+                      </Link>
+                      
+                      <Link 
+                        href="/protocol"
+                        className="px-8 py-3.5 border border-zinc-700 text-zinc-300 text-sm font-medium rounded-lg hover:bg-zinc-800/50 hover:text-white transition-all active:scale-[0.98]"
+                      >
+                        View Whitepaper
+                      </Link>
+                    </div>
+                    
+                    <div className="flex flex-col space-y-1.5 ml-1 mt-6">
+                      <div className="text-xs font-medium text-zinc-500 tracking-wide">
+                        Institutional Standard: NIST-2026 Non-Repudiation Anchors.
+                      </div>
+
+                    </div>
                   </div>
                   
-                  <LiabilityClock />
+                  {/* Liability Stats Purged for Institutional Minimalist Profile */}
                </motion.div>
             </div>
 
@@ -229,19 +229,23 @@ export default function LandingPage() {
         </div>
       </section>
       
-      <div id="registry-search">
-        <RegistrySearch />
-      </div>
+      {hasSession && (
+        <div id="search">
+          <RegistrySearch />
+        </div>
+      )}
       
       <LiveProtocolHeartbeat />
 
-      <div id="developer-portal">
+      <div id="handshake-form">
         <DeveloperPortal />
       </div>
 
-      <div id="fleet-dashboard">
-        <FleetDashboard />
-      </div>
+      {hasSession && (
+        <div id="fleet-dashboard">
+          <FleetDashboard />
+        </div>
+      )}
 
       {/* 2. SCROLLYTELLING: THE THREE PILLARS */}
       <section className="relative bg-[#050505] text-white py-0">
@@ -262,13 +266,13 @@ export default function LandingPage() {
 
                <div className="space-y-8">
                   <h2 className="text-5xl font-black tracking-tight leading-tight">
-                     Pillar II:<br/><span className="text-blue-400">Just-In-Time (JIT) Auth.</span>
+                     Pillar II:<br/><span className="text-yellow-400">Just-In-Time (JIT) Auth.</span>
                   </h2>
                   <p className="text-slate-400 text-lg font-medium leading-relaxed max-w-lg">
                      Execute with Least Privilege. Our **JIT Authorization** engine evaluates scoping and expiration in real-time, enforcing the NIST-800-218 security standard to prevent lateral movement.
                   </p>
                   <div className="flex items-center text-sm font-bold uppercase tracking-widest text-slate-300">
-                     <CheckCircle2 size={18} className="mr-3 text-blue-500" /> Behavioral Attestation
+                     <CheckCircle2 size={18} className="mr-3 text-yellow-500" /> Behavioral Attestation
                   </div>
                </div>
 
@@ -316,9 +320,7 @@ export default function LandingPage() {
 
       <LiveProofDashboard />
       
-      <div id="genesis-grant">
-        <GenesisGrantPortal />
-      </div>
+      {/* Restricted Section Purged: Legacy Grant Portal */}
 
       {/* 4. AEO LAYER: STRATEGIC INTELLIGENCE INDEX (VANTABLACK TRANSFORMATION) */}
       <section className="py-32 bg-[#000000] border-t border-[#1A1A1A]">
@@ -369,14 +371,14 @@ export default function LandingPage() {
                </div>
             </div>
 
-            <div className="pt-20 border-t border-[#1A1A1A] flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="pt-20 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-8">
                <div className="flex flex-col items-start">
-                  <span className="text-[10px] font-mono text-[#333] uppercase tracking-[0.3em] mb-2">Registry Endpoint</span>
-                  <code className="text-[12px] font-bold text-gray-400 bg-[#0A0A0A] px-3 py-1 border border-[#1A1A1A] rounded">
+                  <span className="text-xs font-semibold text-zinc-600 uppercase tracking-widest mb-2">Registry Endpoint</span>
+                  <code className="text-sm font-bold text-zinc-400 bg-zinc-950 px-4 py-1.5 border border-zinc-900 rounded-lg">
                      https://api.sovereign.ag/v1/trust/verify
                   </code>
                </div>
-                <Link href="/support/docs" className="px-10 py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-gray-200 transition-all">
+                <Link href="/support/docs" className="px-10 py-3.5 bg-yellow-400 text-black text-sm font-semibold rounded-lg hover:bg-yellow-500 transition-all active:scale-[0.98]">
                    Access Full Documentation
                 </Link>
             </div>
@@ -384,76 +386,71 @@ export default function LandingPage() {
       </section>
 
       {/* 5. GOVERNANCE MODULES (VANTABLACK TRANSFORMATION) */}
-      <section className="py-32 bg-[#000000] border-t border-[#1A1A1A] relative overflow-hidden">
-        {/* Subtle Background Ornament */}
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(20,20,20,1)_0%,rgba(0,0,0,1)_100%)] pointer-events-none" />
-        
+
+      <section className="py-32 bg-black border-t border-zinc-900 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-8 relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-[#1A1A1A] pb-12">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-zinc-900 pb-12">
              <div className="text-left space-y-4">
-                <div className="text-[10px] font-mono text-lime-400 uppercase tracking-[0.4em]">Protocol Framework</div>
-                <h2 className="text-5xl font-black text-white tracking-tighter m-0 uppercase">The Sovereign Core</h2>
-                <p className="text-gray-500 font-medium text-xl max-w-xl leading-relaxed">Standardized infrastructure for the future of agentic economies.</p>
+                <div className="text-xs font-semibold text-yellow-500/80 tracking-widest uppercase">Protocol Framework</div>
+                <h2 className="text-5xl font-bold text-white tracking-tight m-0">The Sovereign Core</h2>
+                <p className="text-zinc-500 font-medium text-xl max-w-xl leading-relaxed">Standardized infrastructure for the future of agentic economies.</p>
              </div>
-             <Link href="/protocol" className="text-xs font-black text-white uppercase tracking-[0.3em] flex items-center group mb-4 md:mb-0 border-b-2 border-lime-500 pb-2 hover:text-lime-400 transition-colors">
+             <Link href="/protocol" className="text-sm font-semibold text-white flex items-center group mb-4 md:mb-0 border-b border-yellow-500/50 pb-2 hover:text-yellow-400 transition-colors">
                 Explore Protocol <ArrowRight size={16} className="ml-3 group-hover:translate-x-1 transition-transform" />
              </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
              <GovernanceCard 
                 title="Identity Vault" 
-                desc="A permanent, immutable Ed25519-backed registry for AI agent genesis and cryptographic anchoring."
-                icon={<Lock size={22} />}
+                desc="A permanent, immutable Ed25519-backed registry for AI agent initialization and cryptographic anchoring."
+                icon={<Lock size={24} />}
                 href="/protocol"
              />
              <GovernanceCard 
                 title="Compliance Core" 
                 desc="Real-time NIST 800-218 mapping and metered action-tax verification for strict institutional safety."
-                icon={<Terminal size={22} />}
+                icon={<Terminal size={24} />}
                 href="/security"
              />
              <GovernanceCard 
                 title="The Kill-Switch" 
                 desc="Instantaneous identity revocation and network severance protocols for malfunctioning agent flows."
-                icon={<Shield size={22} />}
+                icon={<Shield size={24} />}
                 href="/ethics/kill-switch"
              />
           </div>
         </div>
       </section>
-
+ 
       {/* 6. PROTOCOL ASSISTANCE: THE LIBRARIAN */}
-      <section className="py-32 bg-[#050505] border-t border-[#1A1A1A]">
+      <section className="py-32 bg-black border-t border-zinc-900">
          <div className="max-w-4xl mx-auto px-8 text-center space-y-8">
-            <h2 className="text-3xl font-black text-white uppercase tracking-tighter">Protocol Assistance</h2>
-            <p className="text-gray-500 font-medium">Have questions about NIST-800-218 or Ed25519 integration? Access the Sovereign Librarian for real-time protocol guidance.</p>
+            <h2 className="text-3xl font-bold text-white tracking-tight">Protocol Assistance</h2>
+            <p className="text-zinc-500 font-medium text-lg">Have questions about NIST-800-218 or Ed25519 integration? Access the Sovereign Librarian for real-time protocol guidance.</p>
          </div>
       </section>
-
+ 
       <IdentityCardModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
         didData={foundData} 
       />
-
+ 
       <SovereignLibrarian />
     </div>
   );
 }
-
+ 
 const GovernanceCard = ({ title, desc, icon, href }: { title: string, desc: string, icon: any, href: string }) => (
-  <Link href={href} className="group p-12 bg-[#050505] border border-[#1A1A1A] rounded-[3rem] hover:border-white/20 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] hover:-translate-y-3 transition-all duration-700 flex flex-col justify-between h-[450px] text-left relative overflow-hidden">
-    {/* Subtle Card Glow */}
-    <div className="absolute -inset-24 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-    
-    <div className="w-16 h-16 bg-[#0A0A0A] border border-[#1A1A1A] rounded-[1.5rem] flex items-center justify-center text-gray-700 group-hover:bg-white group-hover:text-black transition-all duration-500 ring-1 ring-white/5 group-hover:ring-white relative z-10">
+  <Link href={href} className="group p-12 bg-zinc-900/20 border border-zinc-800 rounded-[2.5rem] hover:border-zinc-700 hover:bg-zinc-900/30 transition-all duration-500 flex flex-col justify-between h-[450px] text-left relative overflow-hidden">
+    <div className="w-16 h-16 bg-zinc-900 border border-zinc-800 rounded-2xl flex items-center justify-center text-zinc-500 group-hover:bg-yellow-400 group-hover:text-black transition-all duration-500 relative z-10">
        {icon}
     </div>
     <div className="space-y-6 relative z-10">
-       <h3 className="text-2xl font-black text-white tracking-tight m-0 uppercase">{title}</h3>
-       <p className="text-base text-gray-500 font-medium leading-relaxed">{desc}</p>
-       <div className="pt-4 flex items-center text-[10px] font-black text-[#333] uppercase tracking-widest group-hover:text-white transition-colors">
-          View Infrastructure Specs <ArrowRight size={12} className="ml-2" />
+       <h3 className="text-2xl font-bold text-white tracking-tight m-0">{title}</h3>
+       <p className="text-base text-zinc-500 font-medium leading-relaxed">{desc}</p>
+       <div className="pt-4 flex items-center text-xs font-bold text-zinc-600 tracking-wide group-hover:text-zinc-200 transition-colors">
+          View Infrastructure Specs <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
        </div>
     </div>
   </Link>

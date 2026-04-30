@@ -1,26 +1,32 @@
 # 🛡️ Sovereign AG: The Global Root of Trust
+### Official Reference Implementation for HAIP-00
 
 [![NIST-800-218 Compliance](https://img.shields.io/badge/NIST-800--218%20Level%204-black?style=for-the-badge&logo=shield&logoColor=gold)](https://sovereign-ag.com/compliance)
-[![Audit Status: HARDENED](https://img.shields.io/badge/Audit-Certified%20Hardened-000000?style=for-the-badge&logo=checkmarx&logoColor=green)](https://sovereign-ag.com/audit)
-[![License: MIT](https://img.shields.io/badge/License-MIT-gray?style=for-the-badge)](LICENSE)
+[![IETF Status: HAIP--00](https://img.shields.io/badge/IETF-HAIP--00%20Standard-blue?style=for-the-badge&logo=internetexplorer&logoColor=white)](https://datatracker.ietf.org/doc/draft-sovereign-haip-00/)
+[![Compliance: NIST%20AAL3](https://img.shields.io/badge/Compliance-NIST%20AAL3-000000?style=for-the-badge&logo=checkmarx&logoColor=green)](https://sovereign-ag.com/audit)
 
 > "In the machine economy, identity is the only capital that matters."
 
-Sovereign AG provides the definitive **Decentralized Identity (DID)** and **Trust Infrastructure** for the autonomous agent era. By anchoring every machine action to a cryptographically non-repudiable ledger, we eliminate the trust tax and enable institutional-scale agent deployment with absolute accountability.
+Sovereign AG provides the definitive **High-Frequency Action-Integrity Protocol (HAIP)** reference implementation. By anchoring every machine action to a cryptographically non-repudiable ledger, we eliminate the trust tax and enable institutional-scale agent deployment.
 
 ---
 
-## ⚡ The One-Line Security Wrapper
+## 🏛️ Protocol Compliance Standards
+
+This implementation strictly adheres to the following regulatory frameworks:
+- **HAIP-00 (IETF Draft):** Real-time identity teleportation and 6.42 us pulse verification.
+- **NIST AI 600-1:** Secure development and deployment of generative AI agents.
+- **NIST SP 800-63 (AAL3):** Multi-factor cryptographic authentication for autonomous actors.
+
+---
 
 Integrate Sovereign AG into any Python-based Agentic framework (CrewAI, LangGraph, AutoGen) with a single architectural gate.
 
 ```python
-from sovereign_sdk import SovereignAgent
+from sovereign_sdk import Sovereign
 
-@SovereignAgent.guard()
-def secure_transaction(agent_id, payload):
-    # This action is now NIST-800-218 compliant and audit-anchored.
-    return execute_high_risk_logic(payload)
+# The HAIP-00 One-Line Wrapper
+agent = Sovereign.wrap(your_agent_instance)
 ```
 
 ---
@@ -107,6 +113,7 @@ Follow these standardized steps to integrate your agent into the Sovereign Root 
 ## 🏛️ Institutional Contact
 
 **Sovereign AG** is the definitive global trust registry for the autonomous machine economy. For partnership inquiries or federal-level compliance integration:
+- **Dashboard:** [http://localhost:3001](http://localhost:3001)
 - **Global:** [sovereign-ag.com](https://sovereign-ag.com)
 - **Engineering:** engineering@sovereign-ag.com
 - **Standards:** [NIST 800-218 (Rule 4.2)](https://csrc.nist.gov/pubs/sp/800/218/final)

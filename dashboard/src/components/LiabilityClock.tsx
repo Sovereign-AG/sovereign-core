@@ -6,14 +6,16 @@ import { Clock } from 'lucide-react';
 
 export const LiabilityClock = () => {
   const [heartbeats, setHeartbeats] = useState(0);
+  const [revenue, setRevenue] = useState(0);
   const [lastSync, setLastSync] = useState(0);
 
   const fetchStats = async () => {
     try {
-      const res = await fetch('/api/stats');
+      const res = await fetch('http://localhost:5001/api/stats');
       const data = await res.json();
       setHeartbeats(data.usageLedgerCount + (data.totalVerifications || 0));
-      setLastSync(0); // Reset timer on successful sync
+      setRevenue(data.totalRevenue || 0);
+      setLastSync(0); 
     } catch (error) {
       console.error("Clock Sync Failed");
     }
@@ -33,7 +35,7 @@ export const LiabilityClock = () => {
   }, []);
 
   return (
-    <div className="flex items-center space-x-6 bg-[#0A0A0A]/50 backdrop-blur-md border border-[#1A1A1A] px-6 py-3 rounded shadow-2xl">
+    <div className="flex items-center space-x-6 bg-[#050505]/50 backdrop-blur-md border border-[#1A1A1A] px-6 py-3 rounded shadow-2xl">
       <div className="flex flex-col items-start translate-y-[2px]">
         <div className="flex items-center space-x-2 mb-1">
           <span className="text-[9px] font-black text-[#555] uppercase tracking-[0.3em] leading-none">Total Compliance Heartbeats</span>
@@ -50,7 +52,7 @@ export const LiabilityClock = () => {
       <div className="flex flex-col items-start translate-y-[2px]">
         <span className="text-[9px] font-black text-[#555] uppercase tracking-[0.3em] leading-none mb-1">Protocol Revenue (Certified)</span>
         <span className="font-mono text-xl font-black text-lime-400 tabular-nums tracking-tighter">
-          ${(heartbeats * 0.01).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          ${revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })}
         </span>
       </div>
     </div>

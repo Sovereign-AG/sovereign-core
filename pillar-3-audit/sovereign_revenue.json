@@ -1,0 +1,14 @@
+{
+  "total_revenue": 175.0175,
+  "breakdown": {
+    "pulse": 0.01749999999999995,
+    "mint": 175.0,
+    "action": 0.0
+  },
+  "vaults": {
+    "Infrastructure": 70.00699999999965,
+    "Reserve": 52.50525000000028,
+    "Treasury": 52.50525000000028
+  },
+  "last_updated": "2026-04-23T14:44:22Z"
+}

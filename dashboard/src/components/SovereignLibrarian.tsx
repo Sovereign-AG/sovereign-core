@@ -64,7 +64,7 @@ export const SovereignLibrarian = () => {
 \`\`\`python
 import SovereignAgent
 
-# Initialize with a dummy genesis seed
+# Initialize with a dummy production seed
 @SovereignAgent.guard()
 def secure_operation(data):
     # Simulated high-risk tool call
@@ -72,7 +72,7 @@ def secure_operation(data):
 
 if __name__ == "__main__":
     result = secure_operation("Initialize Fleet")
-    print(f"[SUCCESS] Heartbeat anchored to did:sov:genesis:7782")
+    print(f"[SUCCESS] Heartbeat anchored to did:sov:root:7782")
     print(f"Attestation: {result}")
 \`\`\`
 
@@ -144,7 +144,7 @@ if __name__ == "__main__":
       <button 
         onClick={() => setIsOpen(true)}
         aria-label="Open Sovereign Concierge"
-        className="fixed bottom-10 right-10 z-[100] w-16 h-16 bg-[#0A0A0A] border border-[#1A1A1A] rounded-full flex items-center justify-center text-[#CCFF00] hover:scale-110 transition-all shadow-[0_0_30px_rgba(204,255,0,0.1)] group"
+        className="fixed bottom-10 right-10 z-[20000] w-16 h-16 bg-[#0A0A0A] border border-[#1A1A1A] rounded-full flex items-center justify-center text-[#CCFF00] hover:scale-110 transition-all shadow-[0_0_30px_rgba(204,255,0,0.1)] group"
       >
         <MessageSquare size={24} className="group-hover:rotate-12 transition-transform" />
         <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#CCFF00] rounded-full animate-pulse border-2 border-black" />
@@ -156,7 +156,7 @@ if __name__ == "__main__":
             initial={{ opacity: 0, y: 100, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 100, scale: 0.9 }}
-            className={`fixed bottom-32 right-10 z-[100] w-[400px] h-[600px] flex flex-col rounded-2xl overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] transition-all duration-500 bg-[#000] p-[4px] ${(input.length > 0 || isThinking) ? 'rgb-active' : ''} ${isThinking ? 'pulse-active' : ''}`}
+            className={`fixed bottom-32 right-10 z-[20000] w-[400px] h-[600px] flex flex-col rounded-2xl overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] transition-all duration-500 bg-[#000] p-[4px] ${(input.length > 0 || isThinking) ? 'rgb-active' : ''} ${isThinking ? 'pulse-active' : ''}`}
           >
             {/* High-Performance 60FPS Glow Engine + Pulse Logic */}
             <style jsx>{`

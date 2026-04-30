@@ -19,7 +19,7 @@ export const CertificationBadge = ({ did }: CertificationBadgeProps) => {
          setData({
             trust_score: agent.trust_index || '98.4',
             last_pulse: 'Online',
-            isGrant: true // Defaulting to true for Genesis phase
+            isGrant: true // Defaulting to true for Production phase
          });
       }
     });

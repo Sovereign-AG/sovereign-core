@@ -30,17 +30,17 @@ export default function SecurityPage() {
 
           <section className="space-y-12">
             <h2 className="text-3xl font-black text-white uppercase tracking-tight">01. NIST-800-218 Alignment</h2>
-            <p className="text-lg text-gray-500">The Sovereign Protocol is the first identity standard to natively satisfy the **NIST SP 800-218 (Secure Software Development Framework)** mandates specifically for autonomous agents.</p>
-            <div className="bg-[#050505] border border-[#111] p-10 rounded-[2rem] space-y-8">
+            <p className="text-lg text-gray-500 font-medium">The Sovereign Protocol is the first identity standard to natively satisfy the **NIST SP 800-218 (Secure Software Development Framework)** mandates specifically for autonomous agents.</p>
+            <div className="bg-[#050505] border border-[#111] p-10 rounded-none space-y-8">
                <div className="flex items-center space-x-6">
-                  <div className="w-12 h-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-xs font-black text-lime-500">4.2</div>
+                  <div className="w-12 h-12 bg-black border border-[#1A1A1A] rounded-none flex items-center justify-center text-xs font-black text-lime-500 shadow-inner">4.2</div>
                   <div className="space-y-1">
                      <h4 className="text-xs font-black text-white uppercase tracking-widest">Provisioning Control</h4>
                      <p className="text-xs text-gray-700">Satisfies RFI requirement for 'Reasonable Institutional Origin'.</p>
                   </div>
                </div>
                <div className="flex items-center space-x-6">
-                  <div className="w-12 h-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-xs font-black text-lime-500">3.1</div>
+                  <div className="w-12 h-12 bg-black border border-[#1A1A1A] rounded-none flex items-center justify-center text-xs font-black text-lime-500 shadow-inner">3.1</div>
                   <div className="space-y-1">
                      <h4 className="text-xs font-black text-white uppercase tracking-widest">Policy Enforcement</h4>
                      <p className="text-xs text-gray-700">Automated gatekeeping for all outgoing tool-calls and requests.</p>
@@ -51,8 +51,8 @@ export default function SecurityPage() {
 
           <section className="space-y-8">
              <h2 className="text-3xl font-black text-white uppercase tracking-tight">02. Resident-Only Keys</h2>
-             <p className="text-lg">Unlike legacy cloud identity providers (IAM), Sovereign AG **never** handles your private keys. Cryptographic secrets remain resident in your infrastructure. Our 'Librarian' and 'Concierge' agents interact with proofs of identity, not the identity itself.</p>
-             <div className="p-8 bg-black border-2 border-[#111] border-dashed rounded-3xl text-xs font-mono text-gray-800 italic leading-relaxed">
+             <p className="text-lg text-gray-500 font-medium leading-relaxed">Unlike legacy cloud identity providers (IAM), Sovereign AG **never** handles your private keys. Cryptographic secrets remain resident in your infrastructure. Our 'Librarian' and 'Concierge' agents interact with proofs of identity, not the identity itself.</p>
+             <div className="p-8 bg-[#050505] border-2 border-[#111] border-dashed rounded-none text-xs font-mono text-gray-700 italic leading-relaxed">
                 # SECURITY_MEMORANDUM: The mathematical boundary between the Registry and the Controller is absolute. Zero-Knowledge Proofs ensure that if the Registry is compromised, no agent secrets are at risk.
              </div>
           </section>

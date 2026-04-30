@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sovereign Admin Nexus</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Auth Gate -->
+    <div id="auth-screen" class="auth-screen">
+      <div class="auth-box">
+        <div class="header-title-flex" style="justify-content: center; margin-bottom: 2rem;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-navy)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <h3 class="label" style="margin:0; font-size:12px;">Hardware Authentication</h3>
+        </div>
+        <input type="password" id="master-password" class="auth-input" placeholder="ACCESS CODE" autofocus />
+        <button id="auth-btn">Authorize</button>
+        <p id="auth-error" style="color: var(--accent-crimson); margin-top: 1.5rem; display: none; font-size: 10px; letter-spacing: 0.2em;">ACCESS DENIED // MISMATCH</p>
+      </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="dashboard" style="display: none;">
+      
+      <!-- Thermometer Status Bar -->
+      <div class="status-bar">
+        <div class="status-bar-title">
+          <svg style="margin-right:8px; width:14px; opacity: 0.6;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Sovereign Admin Nexus // Node 01
+        </div>
+        
+        <div class="thermometer" style="display: flex; gap: 1rem; align-items: center;">
+            <div class="status-badge" style="display:flex; gap:0.5rem;"><span class="label" style="color:var(--text-label)">CPU</span> <span id="sys-cpu" style="font-weight:800; color:var(--text-primary)">0%</span></div>
+            <div class="status-badge" style="display:flex; gap:0.5rem;"><span class="label" style="color:var(--text-label)">RAM</span> <span id="sys-ram" style="font-weight:800; color:var(--text-primary)">0 MB</span></div>
+            <div class="status-badge" style="display:flex; gap:0.5rem;"><span class="label" style="color:var(--text-label)">LEDGER</span> <span id="sys-ledger" style="font-weight:800; color:var(--text-primary)">0 MB</span></div>
+            <button id="rotate-ledger-btn" style="padding: 0.4rem 0.8rem; font-size:10px; letter-spacing:0.1em; margin-left: 1rem;">ROTATE LEDGER</button>
+        </div>
+      </div>
+
+      <!-- Tab Layout -->
+      <div class="tab-controls">
+        <button class="tab-btn active" data-target="tab-command">COMMAND</button>
+        <button class="tab-btn" data-target="tab-ledger">LEDGER</button>
+        <button class="tab-btn" data-target="tab-intelligence">INTELLIGENCE</button>
+      </div>
+
+      <!-- TAB 1: COMMAND (Fleet Grid) -->
+      <div id="tab-command" class="tab-content active grid">
+        <div class="side-panel">
+          <!-- Audit Module -->
+          <div class="module" style="flex: 1;">
+            <div class="module-header">
+              <div class="header-title-flex">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                <span>ZERO-ERROR AUDIT</span>
+              </div>
+            </div>
+            <div class="audit-panel">
+              <div class="audit-metrics">
+                <div class="metric">
+                  <div class="label">LEDGER</div>
+                  <div class="metric-value" id="audit-ledger">$0.0000</div>
+                </div>
+                <div class="metric">
+                  <div class="label">DB RECORD</div>
+                  <div class="metric-value" id="audit-db">$0.0000</div>
+                </div>
+              </div>
+              <div id="integrity-status" class="integrity-status">ALL SYSTEMS NOMINAL</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module central-command">
+          <div class="module-header">
+            <div class="header-title-flex">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-navy)"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+              <span>ANCHORED FLEET MAPPING</span>
+            </div>
+            <span style="color: var(--accent-amber); display: flex; align-items: center; font-size:11px; font-weight:600;"><span class="led syncing"></span>API: 100.X.X.X (PRIVATE)</span>
+          </div>
+          <div class="table-container">
+            <table id="fleet-table">
+              <thead>
+                <tr>
+                  <th>AGENT ID</th>
+                  <th>RISK SCORE</th>
+                  <th>STATUS</th>
+                  <th class="cell-right">YIELD</th>
+                  <th class="cell-right">OVERSIGHT</th>
+                </tr>
+              </thead>
+              <tbody id="fleet-table-body">
+                <!-- Rows map here via TypeScript -->
+              </tbody>
+            </table>
+            <!-- Empty State Render -->
+            <div id="fleet-empty-state" class="empty-state" style="display: none;">
+              <div class="scanning-ring"></div>
+              <span>SCANNING FOR PEERS...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: LEDGER (Forensic) -->
+      <div id="tab-ledger" class="tab-content module" style="flex:1; overflow:hidden;">
+        <div class="module-header">
+          <div class="header-title-flex">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>FORENSIC LEDGER STREAM</span>
+          </div>
+        </div>
+        <div class="table-container">
+            <table id="forensic-table">
+              <thead>
+                <tr>
+                  <th>TXN ID</th>
+                  <th>EVENT</th>
+                  <th class="cell-right">LATENCY</th>
+                </tr>
+              </thead>
+              <tbody id="forensic-table-body">
+              </tbody>
+            </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: INTELLIGENCE (Analytics) -->
+      <div id="tab-intelligence" class="tab-content grid">
+        <div class="side-panel" style="width: 100%; display: flex; flex-direction:row;">
+            <!-- Sub-Ledger Yield Breakdown -->
+            <div class="module" style="flex:1;">
+                <div class="module-header"><span>MINT REVENUE</span></div>
+                <div class="metric-value" style="font-size:24px; color:var(--text-primary)" id="intel-mint">$0.0000</div>
+                <div class="label" style="margin-top:1rem; opacity:0.6;">(Core Protocol Genesis Fee)</div>
+            </div>
+            <div class="module" style="flex:1;">
+                <div class="module-header"><span>ACTION YIELD</span></div>
+                <div class="metric-value" style="font-size:24px; color:var(--text-primary)" id="intel-action">$0.0000</div>
+                <div class="label" style="margin-top:1rem; opacity:0.6;">(Agent Execution Tax)</div>
+            </div>
+            <div class="module" style="flex:1;">
+                <div class="module-header"><span>PULSE YIELD</span></div>
+                <div class="metric-value" style="font-size:24px; color:var(--text-primary)" id="intel-pulse">$0.0000</div>
+                <div class="label" style="margin-top:1rem; opacity:0.6;">(Passive Maintenance Drain)</div>
+            </div>
+        </div>
+        
+        <div class="module" style="height: 350px; width: 100%">
+            <div class="module-header">
+              <div class="header-title-flex">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span>METABOLISM HEARTBEAT</span>
+              </div>
+              <span style="color: var(--accent-emerald); display: flex; align-items: center; font-size:11px; font-weight:600;"><span class="led nominal"></span>100ms</span>
+            </div>
+            <div class="heatmap-container">
+              <canvas id="metabolism-chart" style="width: 100%; height: 100%; position: relative; z-index: 10;"></canvas>
+            </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Right Side Forensic Drawer -->
+    <div id="forensic-drawer" class="forensic-drawer">
+        <div class="drawer-header">
+            <h4>TRANSACTION METADATA</h4>
+            <button id="close-drawer-btn" style="border:none; box-shadow:none;">X</button>
+        </div>
+        <div class="drawer-content">
+            <div class="drawer-row"><span class="label">TXN ID</span><span class="value" id="drawer-id"></span></div>
+            <div class="drawer-row"><span class="label">EVENT TYPE</span><span class="value" id="drawer-event"></span></div>
+            <div class="drawer-row"><span class="label">IP ORIGIN</span><span class="value" id="drawer-ip"></span></div>
+            <div class="drawer-row"><span class="label">LATENCY</span><span class="value" id="drawer-latency"></span></div>
+            <div class="drawer-row" style="flex-direction:column; align-items:flex-start; border:none;">
+                <span class="label" style="margin-bottom: 1rem;">ED25519 SIGNATURE</span>
+                <span class="value signature-box" id="drawer-sig"></span>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

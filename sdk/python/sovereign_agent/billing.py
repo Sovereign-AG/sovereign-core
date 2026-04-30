@@ -1,3 +1,6 @@
+# Project: Sovereign AG SDK
+# License: Sovereign Source-Available License (SSAL) v1.0
+# Copyright (c) 2026 Sovereign AG.
 import os
 from typing import Optional
 
@@ -19,3 +22,4 @@ def get_dodo_checkout_url(product_id: str, agent_did: str, test_mode: bool = Fal
     # Production Production Dodo Link
     # Note: registry uses the 'external_id' or 'customer_reference' to map the payment to the DID
     return f"{DODO_BASE_URL}/buy/{product_id}?customer_reference={agent_did}&quantity=1"
+

@@ -12,7 +12,7 @@ const InstitutionalFooter = () => {
     {
       title: "Protocol Hub",
       links: [
-        { label: "Genesis Grant Access", href: "/grant" },
+        { label: "Institutional Anchor Forge", href: "/#handshake-form" },
         { label: "NIST Alignment", href: "/protocol/nist" },
         { label: "Kill-Switch Charter", href: "/ethics/kill-switch" },
         { label: "Data Sovereignty", href: "/ethics/sovereignty" },
@@ -59,7 +59,7 @@ const InstitutionalFooter = () => {
   return (
     <footer className="bg-[#000000] border-t border-[#1A1A1A] pt-32 pb-16 px-8 md:px-16 overflow-hidden relative">
       {/* Background Ornament - Subtler for Vantablack */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-lime-500/5 blur-[120px] -mr-48 -mt-48 rounded-full pointer-events-none" />
+
       
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-16 mb-24">
@@ -102,7 +102,7 @@ const InstitutionalFooter = () => {
                  { Icon: Globe, id: 'glb' },
                  { Icon: Shield, id: 'shd' }
                ].map(({ Icon, id }) => (
-                 <div key={id} className="p-3 bg-[#050505] border border-[#1A1A1A] rounded hover:border-white/20 transition-colors cursor-pointer group">
+                 <div key={id} className="p-3 bg-[#050505] border border-[#1A1A1A] rounded-none hover:border-white/20 transition-colors cursor-pointer group">
                     <Icon size={16} className="text-[#333] group-hover:text-white" />
                  </div>
                ))}

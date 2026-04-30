@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Terminal, Database, Shield, Zap, ArrowRight, BookOpen, Globe, Activity, Lock, ShieldCheck, FileCheck, CheckCircle2 } from 'lucide-react';
+import { Search, Terminal, Database, Shield, Activity, ArrowRight, BookOpen, Globe, Lock, ShieldCheck, FileCheck, CheckCircle2 } from 'lucide-react';
 import { SovereignLogo } from '@/components/SovereignLogo';
 
 export default function DocsPage() {
@@ -28,7 +28,7 @@ export default function DocsPage() {
     { 
       group: "Implementation", 
       items: [
-        { id: "sdk", label: "07. Python SDK", icon: <Zap size={14} /> },
+        { id: "sdk", label: "07. Python SDK", icon: <Terminal size={14} /> },
         { id: "headers", label: "08. Request Headers", icon: <ArrowRight size={14} /> },
         { id: "api", label: "09. API Reference", icon: <Lock size={14} /> }
       ]
@@ -36,9 +36,12 @@ export default function DocsPage() {
     { 
       group: "Governance", 
       items: [
-        { id: "killswitch", label: "10. Kill-Switch", icon: <ShieldCheck size={14} /> },
+        { id: "killswitch", label: "10. Global Revocation", icon: <ShieldCheck size={14} /> },
         { id: "economics", label: "11. Action Tax", icon: <Database size={14} /> },
-        { id: "auditing", label: "12. Audit Exports", icon: <FileCheck size={14} /> }
+        { id: "auditing", label: "12. Audit Exports", icon: <FileCheck size={14} /> },
+        { id: "sla", label: "13. Institutional SLA", icon: <CheckCircle2 size={14} /> },
+        { id: "liability-shield", label: "14. Liability Shield", icon: <Shield size={14} /> },
+        { id: "horizon", label: "15. Governance Horizon", icon: <Globe size={14} /> }
       ]
     }
   ];
@@ -88,9 +91,9 @@ export default function DocsPage() {
            </div>
 
            <div className="mt-32 p-10 bg-[#050505] border border-[#111] rounded-[2rem] space-y-4">
-              <Zap size={18} className="text-lime-500" />
+              <Terminal size={18} className="text-lime-500" />
               <div className="text-[10px] font-black text-white uppercase tracking-widest leading-relaxed">Identity Validator active</div>
-              <div className="text-[10px] text-gray-600 font-medium italic">Your local environment is pre-authorized via Genesis Grant #7782. Accessing the deep-index.</div>
+               <div className="text-[10px] text-gray-600 font-medium italic">Your local environment is authorized via Sovereign Institutional Standard. Accessing the deep-index.</div>
            </div>
         </aside>
 
@@ -206,7 +209,7 @@ export default function DocsPage() {
                        <tr className="border-b border-[#111] hover:bg-white/5 transition-colors">
                           <td className="py-6 px-4 text-white">/v1/trust/verify</td>
                           <td className="py-6 px-4 text-blue-500">GET</td>
-                          <td className="py-6 px-4 text-gray-600">{"?did=sov:genesis"}</td>
+                          <td className="py-6 px-4 text-gray-600">{"?did=sov:production"}</td>
                           <td className="py-6 px-4 text-gray-500 text-right uppercase tracking-tighter">Fetch Reputation Stats</td>
                        </tr>
                        <tr className="hover:bg-white/5 transition-colors">
@@ -220,20 +223,20 @@ export default function DocsPage() {
               </div>
            </section>
 
-           {/* --- 10. KILL-SWITCH PROTOCOL --- */}
+           {/* --- 10. GLOBAL REVOCATION --- */}
            <section id="killswitch" className="space-y-20">
               <div className="space-y-6">
-                 <h2 className="text-4xl font-black text-white uppercase tracking-tighter">10. The Global Kill-Switch</h2>
+                 <h2 className="text-4xl font-black text-white uppercase tracking-tighter">10. Global Revocation</h2>
                  <p className="text-gray-500 text-lg leading-relaxed max-w-3xl">
-                    For institutional safety, the Sovereign Network maintains a **Cryptographically Revocable Governance Gate**. This is the ultimate tool for AI alignment.
+                    The Global Kill-Switch is not a failure of the system; it is the ultimate expression of control. It grants the 'Shadow Architect' the omnipotent ability to purge rogue actors in milliseconds, maintaining absolute hygienic containment over the ecosystem.
                  </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                  <div className="p-12 border border-[#111] bg-[#050505] rounded-[3rem] space-y-6">
                     <ShieldCheck className="text-red-500" size={32} />
-                    <h4 className="text-white font-black uppercase text-[10px] tracking-[0.3em]">Institutional Revocation</h4>
-                    <p className="text-sm text-gray-600 leading-relaxed font-medium">In the event of anomalous agent behavior, the Root Controller can broadcast a 'SEVER' command. This instantly invalidates all JIT signatures for that DID globally, effectively freezing the agent in its current state.</p>
+                    <h4 className="text-white font-black uppercase text-[10px] tracking-[0.3em]">Instant Purgation</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed font-medium">In the event of an anomalous variance, the Root Controller can issue a global signature revocation. This operation diffuses through the network instantaneously, severing cryptographic pathways and freezing the rogue entity without collateral damage.</p>
                  </div>
                  <div className="p-12 border border-[#111] bg-[#050505] rounded-[3rem] space-y-6">
                     <Activity className="text-lime-500" size={32} />
@@ -263,23 +266,138 @@ export default function DocsPage() {
               </div>
            </section>
 
-           {/* --- 11. ACTION TAX ECONOMICS --- */}
-           <section id="economics" className="space-y-16">
-              <h2 className="text-3xl font-black text-white uppercase tracking-tighter">11. Action-Tax Economics</h2>
-              <p className="text-lg text-gray-500 leading-relaxed max-w-3xl">
-                 The network is sustained by a flat **$0.01 per high-risk action** tax. This ensures that the Sovereign Registry is a self-funding infrastructure provider with zero dependency on venture capital or centralized subsidies.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                 <div className="p-8 bg-[#020202] border border-[#111] rounded-2xl flex items-center justify-between">
-                    <span className="text-[10px] font-black text-gray-700 uppercase tracking-widest">Verification Fee</span>
-                    <span className="text-white font-black">$0.01 / action</span>
-                 </div>
-                 <div className="p-8 bg-[#020202] border border-[#111] rounded-2xl flex items-center justify-between">
-                    <span className="text-[10px] font-black text-gray-700 uppercase tracking-widest">Registry Sync</span>
-                    <span className="text-white font-black">FREE (Genesis Grant)</span>
-                 </div>
-              </div>
-           </section>
+            {/* --- 11. ACTION TAX ECONOMICS --- */}
+            <section id="economics" className="space-y-16">
+               <h2 className="text-3xl font-black text-white uppercase tracking-tighter">11. Protocol Economics ($1.00 / $0.01 / $0.0001)</h2>
+               <p className="text-lg text-gray-500 leading-relaxed max-w-3xl font-medium">
+                  The Sovereign Network operates on a tiered micro-metered model designed for the high-velocity autonomous economy. By distributing the tax burden across three specific layers—MINT, ACTION, and PULSE—we ensure registry sustainability with minimal execution friction. All fees are settled in cryptographically bridged USDT via the Sovereign Root.
+               </p>
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div className="p-8 bg-[#020202] border border-[#111] rounded-2xl flex flex-col justify-between space-y-4">
+                     <span className="text-[10px] font-black text-gray-700 uppercase tracking-widest">Production MINT</span>
+                     <span className="text-white font-black text-2xl tracking-tighter">$1.00 <span className="text-xs text-gray-600">/ DID</span></span>
+                     <p className="text-[10px] text-gray-700 leading-relaxed">Paid once per identity anchor formation. Includes NIST-2026 certification.</p>
+                  </div>
+                  <div className="p-8 bg-[#020202] border border-[#111] rounded-2xl flex flex-col justify-between space-y-4">
+                     <span className="text-[10px] font-black text-gray-700 uppercase tracking-widest">Action Handshake</span>
+                     <span className="text-white font-black text-2xl tracking-tighter">$0.01 <span className="text-xs text-gray-600">/ EVENT</span></span>
+                     <p className="text-[10px] text-gray-700 leading-relaxed">Mandatory for high-risk tool calls (Bank, File, Net). Anchors the audit trail.</p>
+                  </div>
+                  <div className="p-8 bg-[#020202] border border-[#111] rounded-2xl flex flex-col justify-between space-y-4">
+                     <span className="text-[10px] font-black text-gray-700 uppercase tracking-widest">Pulse Heartbeat</span>
+                     <span className="text-white font-black text-2xl tracking-tighter">$0.0001 <span className="text-xs text-gray-600">/ PING</span></span>
+                     <p className="text-[10px] text-gray-700 leading-relaxed">A System Utility Fee that funds the decentralized infrastructure of trust, ensuring the standard remains independent of any single corporate king.</p>
+                  </div>
+               </div>
+            </section>
+
+            {/* --- 12. AUDIT EXPORTS --- */}
+            <section id="auditing" className="space-y-16">
+               <h2 className="text-3xl font-black text-white uppercase tracking-tighter">12. NIST Audit Exports</h2>
+               <p className="text-lg text-gray-500 leading-relaxed max-w-3xl">
+                  Transparency is a mathematical requirement. The Sovereign Protocol provides automated export utilities for generating NIST-800-218 compliant audit reports from the raw NDJSON ledger.
+               </p>
+               <div className="bg-[#050505] border border-[#111] p-10 rounded-2xl flex items-center justify-between">
+                  <div className="space-y-2">
+                     <div className="text-[10px] font-black text-lime-500 uppercase tracking-widest">Export Available</div>
+                     <div className="text-sm font-bold text-white uppercase">sovereign_ledger_v01.ndjson</div>
+                  </div>
+                  <a href="/api/logs/download" className="px-6 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-lg">Download Trace</a>
+               </div>
+            </section>
+
+            {/* --- 13. INSTITUTIONAL SLA --- */}
+            <section id="sla" className="space-y-16">
+               <h2 className="text-3xl font-black text-white uppercase tracking-tighter border-b border-[#111] pb-8">13. Institutional SLA</h2>
+               <div className="space-y-10">
+                  <p className="text-lg text-gray-500 font-medium leading-relaxed max-w-3xl">
+                     Sovereign AG guarantees high-authority uptime for all Regional Verification Clusters. This Service Level Agreement (SLA) defines the cryptographic reliability bound and the liability protection provided to Controller Entities.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                     <div className="space-y-4">
+                        <h4 className="text-white font-black uppercase text-[10px] tracking-[0.3em]">99.999% Attestation Uptime</h4>
+                        <p className="text-xs text-gray-600 leading-relaxed">Regional nodes must maintain a synchronized revocation cache with &lt;100ms latency at the 99th percentile across all global consortium endpoints.</p>
+                     </div>
+                     <div className="space-y-4">
+                        <h4 className="text-white font-black uppercase text-[10px] tracking-[0.3em]">Proof of Integrity</h4>
+                        <p className="text-xs text-gray-600 leading-relaxed">In the event of a cluster failure, the Sovereign SDK automatically fails-closed (REVOKED_STATUS) unless an 'Override Air-Gap' is explicitly signed by the Controller.</p>
+                     </div>
+                  </div>
+               </div>
+            </section>
+
+            {/* --- 14. LIABILITY-SHIELD ARCHITECTURE --- */}
+            <section id="liability-shield" className="space-y-16">
+               <h2 className="text-3xl font-black text-white uppercase tracking-tighter border-b border-[#111] pb-8">14. Liability-Shield Architecture</h2>
+               <div className="space-y-10">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                     <div className="space-y-4">
+                        <h4 className="text-white font-black uppercase text-[10px] tracking-[0.3em]">Fleet Integrity Score</h4>
+                        <p className="text-sm text-gray-500 leading-relaxed font-medium">This is not merely a health check. The Fleet Integrity Score is a cryptographic guarantee that every agent connected to the Sovereign ecosystem is operating within strictly defined institutional bounds.</p>
+                     </div>
+                     <div className="space-y-4">
+                        <h4 className="text-white font-black uppercase text-[10px] tracking-[0.3em]">The Liability Clock</h4>
+                        <p className="text-sm text-gray-500 leading-relaxed font-medium">We define 'Zero-Variance Continuity' as the new gold standard for corporate insurance compliance in 2026. The continuous alignment timer quantifies the exact duration of perfect algorithmic obedience.</p>
+                     </div>
+                  </div>
+               </div>
+            </section>
+
+            {/* --- 15. GOVERNANCE HORIZON --- */}
+            <section id="horizon" className="space-y-24">
+               <div className="space-y-8">
+                  <h2 className="text-4xl font-black text-white uppercase tracking-tighter border-b border-[#111] pb-10">15. The 2026 Governance Horizon</h2>
+                  <p className="text-xl text-gray-500 font-medium max-w-3xl leading-relaxed">
+                     Standardizing the Machine Economy from Local Pilots to Global Infrastructure.
+                  </p>
+               </div>
+
+               <div className="space-y-20">
+                  {/* Phase 2 */}
+                  <div className="relative pl-12 border-l border-lime-500/30 space-y-6">
+                     <div className="absolute -left-1.5 top-0 w-3 h-3 bg-lime-500 rounded-full shadow-[0_0_10px_rgba(132,204,22,0.5)]" />
+                     <div className="inline-flex items-center px-2 py-0.5 rounded text-[10px] uppercase font-black bg-lime-500/10 text-lime-500 border border-lime-500/20 tracking-widest">Interoperability (Q2 2026)</div>
+                     <h4 className="text-white font-black uppercase text-xs tracking-widest">Alignment: NIST AI Agent Standards Initiative (CAISI)</h4>
+                     <p className="text-sm text-gray-600 leading-relaxed font-medium max-w-2xl">
+                        Sovereign AG is moving beyond isolated registries to a Federated Identity Model. We are integrating the Model Context Protocol (MCP) to allow secured agents to securely bridge internal data (Google Drive, Slack, Databases) with external industrial workflows without proprietary integration overhead. This bridge is now **Built-In** to the *Developer Forge (Integrations)* zone.
+                     </p>
+                     <p className="text-[10px] text-gray-700 font-mono uppercase italic tracking-widest">The Goal: Every Sovereign-Minted agent becomes an interoperable unit, verified across the global digital ecosystem.</p>
+                  </div>
+
+                  {/* Phase 3 */}
+                  <div className="relative pl-12 border-l border-blue-500/30 space-y-6">
+                     <div className="absolute -left-1.5 top-0 w-3 h-3 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                     <div className="inline-flex items-center px-2 py-0.5 rounded text-[10px] uppercase font-black bg-blue-500/10 text-blue-500 border border-blue-500/20 tracking-widest">Economic Foundation (Q3 2026)</div>
+                     <h4 className="text-white font-black uppercase text-xs tracking-widest">Alignment: x402 Protocol & Autonomous Settlement</h4>
+                     <p className="text-sm text-gray-600 leading-relaxed font-medium max-w-2xl">
+                        The future of AI is agent-to-agent commerce. We are implementing the x402 Payment Required standard, allowing agents to settle high-value transactions autonomously using USDT/USDC stablecoins. The x402 Settlement Engine is now **Built-In** to the *Institutional Treasury* zone.
+                     </p>
+                     <p className="text-[10px] text-gray-700 font-mono uppercase italic tracking-widest">The Goal: Your $0.01 Action Tax becomes an automated, real-time micro-settlement. Sovereign AG moves from a "Registry" to a Financial Clearinghouse for machines.</p>
+                  </div>
+
+                  {/* Phase 4 */}
+                  <div className="relative pl-12 border-l border-emerald-500/30 space-y-6">
+                     <div className="absolute -left-1.5 top-0 w-3 h-3 bg-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                     <div className="inline-flex items-center px-2 py-0.5 rounded text-[10px] uppercase font-black bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 tracking-widest">Institutional Scale (Q4 2026)</div>
+                     <h4 className="text-white font-black uppercase text-xs tracking-widest">Alignment: ESG & Energy Provenance (ITU-T L.1801)</h4>
+                     <p className="text-sm text-gray-600 leading-relaxed font-medium max-w-2xl">
+                        As industrial power demands hit the "Gigawatt Ceiling," sustainability is no longer optional. Sovereign AG is adding Carbon Intensity & Power Provenance metrics to every pulse. Real-time Power Provenance is now **Built-In** to the *Registry Watchtower (ESG AI Tracker)*.
+                     </p>
+                     <p className="text-[10px] text-gray-700 font-mono uppercase italic tracking-widest">The Goal: CFOs get real-time energy audits for their entire fleet, ensuring AI growth stays within Scope 2 emission targets and net-zero commitments.</p>
+                  </div>
+
+                  {/* Phase 5 */}
+                  <div className="relative pl-12 border-l border-indigo-500/30 space-y-6">
+                     <div className="absolute -left-1.5 top-0 w-3 h-3 bg-indigo-500 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)]" />
+                     <div className="inline-flex items-center px-2 py-0.5 rounded text-[10px] uppercase font-black bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 tracking-widest">Global Governance Seal (Q1 2027)</div>
+                     <h4 className="text-white font-black uppercase text-xs tracking-widest">Alignment: ISO/IEC 42001 & NIST AI RMF</h4>
+                     <p className="text-sm text-gray-600 leading-relaxed font-medium max-w-2xl">
+                        Final certification of the Sovereign AG protocol against the ISO/IEC JTC 1/SC 42 governance framework. Certification status and the **Sovereign Golden Seal** are now active in the *Sovereign Settings* and dashboard headers.
+                     </p>
+                     <p className="text-[10px] text-gray-700 font-mono uppercase italic tracking-widest">The Goal: Providing a "Golden Seal" for any enterprise agent, ensuring it meets the highest international standards for security, ethics, and robustness.</p>
+                  </div>
+               </div>
+            </section>
 
            {/* --- FOOTER --- */}
            <footer className="pt-48 border-t border-[#111] flex flex-col md:flex-row justify-between items-center gap-12">
@@ -292,7 +410,7 @@ export default function DocsPage() {
                  </div>
               </div>
               <a 
-                href="/grant" 
+                href="/support/contact" 
                 className="group px-10 py-5 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(255,255,255,0.1)] transition-all duration-500"
               >
                 Request Validator Node

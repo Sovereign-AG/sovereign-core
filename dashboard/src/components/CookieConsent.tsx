@@ -83,57 +83,57 @@ export default function CookieConsent() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="absolute inset-0 bg-slate-900/40 backdrop-blur-md"
+            className="absolute inset-0 bg-black/90 backdrop-blur-2xl"
           />
           
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="relative w-full max-w-xl bg-black border border-white/10 shadow-[0_0_100px_rgba(0,0,0,1)] flex flex-col rounded-2xl overflow-hidden mt-20 mb-10"
           >
             {/* Header */}
-            <div className="p-8 border-b border-slate-50 flex items-center justify-between bg-white">
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-slate-50 rounded-2xl">
-                  <Shield size={24} className="text-slate-900" />
+            <div className="p-8 border-b border-white/5 flex items-center justify-between bg-black relative z-10">
+              <div className="flex items-center space-x-5">
+                <div className="p-3 bg-white/5 border border-white/10 rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.05)]">
+                  <Shield size={24} className="text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900 tracking-tight">Trust Preferences</h2>
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mt-0.5">Sovereign Governance Center</p>
+                  <h2 className="text-xl font-black text-white uppercase tracking-tighter leading-none">Trust Preferences</h2>
+                  <p className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.3em] mt-2 font-mono">Sovereign Governance Center</p>
                 </div>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
                 aria-label="Close preferences"
-                className="p-2 hover:bg-slate-50 rounded-full transition-colors text-slate-400 hover:text-slate-900"
+                className="p-2 hover:bg-white/5 transition-colors text-gray-500 hover:text-white rounded-full"
               >
                 <X size={20} />
               </button>
             </div>
 
             {/* List */}
-            <div className="p-8 space-y-6 max-h-[60vh] overflow-y-auto">
-              <div className="bg-emerald-50/50 border border-emerald-100/50 p-4 rounded-2xl flex items-start space-x-3">
-                 <Info size={16} className="text-emerald-600 mt-0.5 shrink-0" />
-                 <p className="text-xs leading-relaxed text-emerald-800 font-medium">
+            <div className="p-8 space-y-6 max-h-[50vh] overflow-y-auto custom-scrollbar bg-black relative">
+              <div className="bg-indigo-500/5 border-l-2 border-indigo-500 p-5 rounded-lg flex items-start space-x-4 mb-4">
+                 <Info size={16} className="text-indigo-400 mt-0.5 shrink-0" />
+                 <p className="text-[10px] leading-relaxed text-gray-400 font-bold font-mono uppercase tracking-widest">
                    Sovereign AG does not use third-party marketing or advertising cookies. Our telemetry is 100% focused on Network Integrity.
                  </p>
               </div>
 
               <div className="space-y-4">
                 {CATEGORIES.map((cat) => (
-                  <div key={cat.id} className="flex items-start justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors group">
+                  <div key={cat.id} className="flex items-start justify-between p-6 rounded-xl hover:bg-white/5 transition-colors group border border-transparent hover:border-white/5">
                     <div className="flex-1 mr-8">
-                       <div className="flex items-center space-x-2 mb-1">
-                          <h3 className="text-sm font-bold text-slate-900">{cat.title}</h3>
+                       <div className="flex items-center space-x-3 mb-2">
+                          <h3 className="text-sm font-black text-white uppercase tracking-tight">{cat.title}</h3>
                           {cat.required && (
-                            <div className="flex items-center text-[10px] font-bold text-slate-400 uppercase tracking-tighter bg-slate-100 px-1.5 py-0.5 rounded">
-                              <Lock size={10} className="mr-1" /> Mandatory
+                            <div className="flex items-center text-[8px] font-black text-white/40 uppercase tracking-[0.2em] bg-white/5 px-2 py-0.5 rounded-md border border-white/10">
+                              <Lock size={10} className="mr-2" /> Mandatory
                             </div>
                           )}
                        </div>
-                       <p className="text-xs text-slate-500 leading-relaxed font-medium">{cat.description}</p>
+                       <p className="text-[11px] text-gray-500 leading-relaxed font-medium font-mono uppercase tracking-tighter">{cat.description}</p>
                     </div>
                     
                     <button 
@@ -142,9 +142,9 @@ export default function CookieConsent() {
                       aria-label={`Toggle ${cat.title}`}
                       role="switch"
                       aria-checked={preferences[cat.id] ? "true" : "false"}
-                      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${preferences[cat.id] ? 'bg-slate-900' : 'bg-slate-200'} ${cat.required ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      className={`relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${preferences[cat.id] ? 'bg-indigo-600' : 'bg-[#111]'} ${cat.required ? 'opacity-30 cursor-not-allowed' : ''}`}
                     >
-                      <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${preferences[cat.id] ? 'translate-x-5' : 'translate-x-0'}`} />
+                      <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-lg transition duration-200 ease-in-out ${preferences[cat.id] ? 'translate-x-5' : 'translate-x-0'}`} />
                     </button>
                   </div>
                 ))}
@@ -152,23 +152,23 @@ export default function CookieConsent() {
             </div>
 
             {/* Actions */}
-            <div className="p-8 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+            <div className="p-10 bg-[#020202] border-t border-white/5 flex items-center justify-between relative z-10">
               <a 
                 href="/legal/cookies" 
-                className="text-[10px] font-bold text-slate-400 hover:text-slate-900 uppercase tracking-[0.2em] flex items-center transition-colors px-2"
+                className="text-[10px] font-black text-gray-600 hover:text-indigo-400 uppercase tracking-[0.4em] flex items-center transition-colors px-2 font-mono"
               >
                 Detailed Framework <ChevronRight size={14} className="ml-1" />
               </a>
-              <div className="flex space-x-3">
+              <div className="flex space-x-6">
                  <button 
                     onClick={() => setIsOpen(false)}
-                    className="px-6 py-3 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors uppercase tracking-widest"
+                    className="px-6 py-3 text-[10px] font-black text-gray-500 hover:text-white transition-colors uppercase tracking-[0.3em]"
                  >
                     Dismiss
                  </button>
                  <button 
                     onClick={handleSave}
-                    className="px-8 py-3 bg-slate-900 text-white text-xs font-bold rounded-xl shadow-lg shadow-slate-900/10 hover:bg-slate-800 transition-all active:scale-95 uppercase tracking-widest flex items-center"
+                    className="px-8 py-4 bg-white text-black text-[10px] font-black border border-white rounded-xl transition-all active:scale-95 uppercase tracking-[0.3em] flex items-center hover:bg-gray-200 shadow-[0_0_30px_rgba(255,255,255,0.1)]"
                  >
                     Confirm Preferences <Check size={14} className="ml-2" />
                  </button>

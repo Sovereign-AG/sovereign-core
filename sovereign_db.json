@@ -1,11 +1,160 @@
 {
-  "registered_agents": [
+  "agents": [
     {
-      "did": "did:sov:genesis:7782",
-      "trust_score": 99.8,
-      "status": "ACTIVE",
-      "timestamp": "2026-04-11T19:40:00Z"
+      "id": "ag-test-001",
+      "alias": "INSTITUTIONAL_PROVISION_NODE",
+      "did": "did:sov:test-123456789",
+      "status": "Compromised",
+      "owner": "adityagawand79@gmail.com",
+      "trust_index": "99.2",
+      "baseline_state_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "current_state_hash": "MALICIOUS_OVERRIDE_HASH_X77"
+    },
+    {
+      "id": "ag-4940",
+      "alias": "ROOT_IDENTITY_ANCHOR",
+      "did": "did:sov:3lmv66ovso",
+      "public_key": "sov_pub_wnj32u8uiz",
+      "private_key": "sov_priv_mbpnhvipl4",
+      "tier": "Standard",
+      "nist": "Verified",
+      "trust_index": "98.5",
+      "liability_limit": "$1.0M",
+      "status": "Active",
+      "owner": "adityagawand79@gmail.com",
+      "org_id": "sovereign-org",
+      "cpu": "0%",
+      "models": [],
+      "baseline_state_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "auditHash": "0xfd362a75",
+      "purpose": "Institutional Root of Trust (Auto-Provisioned)"
+    },
+    {
+      "id": "ag-4940-2oq3",
+      "alias": "aditya",
+      "did": "did:sov:n4oseocdqi",
+      "public_key": "sov_pub_0bsjikw6f2o",
+      "private_key": "sov_priv_i58f2x2g0f",
+      "tier": "Standard",
+      "nist": "Verified",
+      "trust_index": "98.3",
+      "liability_limit": "$1.0M",
+      "status": "Active",
+      "owner": "adityagawand79@gmail.com",
+      "org_id": "sovereign-org",
+      "cpu": "0%",
+      "models": [],
+      "baseline_state_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "auditHash": "0xc2a594dc",
+      "purpose": "this is just for fun"
+    },
+    {
+      "id": "ag-1344-y69w",
+      "alias": "ROOT_IDENTITY_ANCHOR",
+      "did": "did:sov:vqonjovpdd",
+      "public_key": "sov_pub_upt7vm7zsom",
+      "private_key": "sov_priv_kou7ujfxxvn",
+      "tier": "Standard",
+      "nist": "Verified",
+      "trust_index": "98.1",
+      "liability_limit": "$1.0M",
+      "status": "Active",
+      "owner": "adityagawand79@gmail.com",
+      "org_id": "sovereign-org",
+      "cpu": "0%",
+      "models": [],
+      "baseline_state_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "auditHash": "0xe911b6d1",
+      "purpose": "Institutional Root of Trust (Auto-Provisioned)"
+    },
+    {
+      "id": "ag-4729-5ift",
+      "alias": "ROOT_IDENTITY_ANCHOR",
+      "did": "did:sov:e12rbrpbdu",
+      "public_key": "sov_pub_hkkkhopxnjc",
+      "private_key": "sov_priv_ekx9l9dx48",
+      "tier": "Standard",
+      "nist": "Verified",
+      "trust_index": "98.4",
+      "liability_limit": "$1.0M",
+      "status": "Active",
+      "owner": "adityagawand79@gmail.com",
+      "org_id": "sovereign-org",
+      "cpu": "0%",
+      "models": [],
+      "baseline_state_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "auditHash": "0xf5b3e3b2",
+      "purpose": "Institutional Root of Trust (Auto-Provisioned)"
+    },
+    {
+      "id": "ag-7388-lioy",
+      "alias": "ROOT_IDENTITY_ANCHOR",
+      "did": "did:sov:sw3jdo1jak",
+      "public_key": "sov_pub_lq3we2mf7n",
+      "private_key": "sov_priv_7qy782lxtkx",
+      "tier": "Standard",
+      "nist": "Verified",
+      "trust_index": "99.0",
+      "liability_limit": "$1.0M",
+      "status": "Active",
+      "owner": "adityagawand79@gmail.com",
+      "org_id": "sovereign-org",
+      "cpu": "0%",
+      "models": [],
+      "baseline_state_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "auditHash": "0x2eb9516e",
+      "purpose": "Institutional Root of Trust (Auto-Provisioned)"
     }
   ],
-  "total_heartbeats": 130000
+  "total_heartbeats": 0,
+  "organizations": [
+    {
+      "id": "sovereign-org",
+      "unbilled_assessments": 0,
+      "settlement_threshold": 1000,
+      "total_verifications": 0,
+      "balance": 499.6425000000003,
+      "billing_cycle_start": "2026-04-29T07:16:45.792Z",
+      "free_agent_slots": 0,
+      "institutional_billing_active": false,
+      "payment_method": null
+    }
+  ],
+  "shadow_registry": [],
+  "pricing_rules": [
+    {
+      "event_type": "MINT",
+      "cost": 1
+    },
+    {
+      "event_type": "ACTION",
+      "cost": 0.01
+    },
+    {
+      "event_type": "PULSE",
+      "cost": 0.001
+    }
+  ],
+  "branding": {
+    "logo_url": "",
+    "brand_color": "#0EA5E9",
+    "company_name": "Sovereign AG"
+  },
+  "governance": {
+    "variance_threshold": 0.0005,
+    "tfa_active_for_revocation": false
+  },
+  "registered_agents": [],
+  "billing": {
+    "ledger": [
+      {
+        "id": "AUTH-3538",
+        "date": "2026-04-29T07:16:45.792Z",
+        "type": "Institutional Billing Authorized",
+        "amount": 0,
+        "status": "Confirmed",
+        "did": "SOV-TREASURY-001"
+      }
+    ]
+  }
 }

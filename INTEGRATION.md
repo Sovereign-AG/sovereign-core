@@ -62,4 +62,14 @@ Sovereign AG transitions autonomous agents from **Anonymous Scripts** to **Verif
 - **Policy Enforcement**: Centralized kill-switches and behavioral attestation.
 
 ---
+
+### 6. Zero-Friction SDK Handshake
+To accelerate institutional deployment, the Sovereign SDK implements an automated identity capture loop:
+
+1.  **SDK Init**: The `SovereignAgent` starts a local `localhost:8080` listener.
+2.  **Redirect**: Automatically launches the browser to the **Institutional Onboarding Gate**.
+3.  **Authentication**: After the controller verifies via the Sovereign Identity Forge, the portal sends an automated POST handshake back to the SDK.
+4.  **Activation**: The SDK captures the DID and Key, activating NIST-certified protection without manual credential entry.
+
+---
 *Sovereign Framework v1.0 — NIST-2026 Ready Infrastructure.*

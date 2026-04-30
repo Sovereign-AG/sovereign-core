@@ -1,8 +1,14 @@
+# Project: Sovereign AG SDK
+# License: Sovereign Source-Available License (SSAL) v1.0
+# Copyright (c) 2026 Sovereign AG.
 import os
 import json
 import hashlib
 import requests
 import logging
+import http.server
+import socketserver
+import threading
 from typing import Dict, Any, Optional, Tuple
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
@@ -20,6 +26,44 @@ class SovereignAgent:
 
     TEST_MODE = os.getenv("SOVEREIGN_TEST_MODE", "False").lower() == "true"
     _FIRST_RUN_NOTIFIED = False
+
+    class HandshakeHandler(http.server.BaseHTTPRequestHandler):
+        def log_message(self, format, *args): return # Silence logs
+        def do_POST(self):
+            try:
+                content_length = int(self.headers['Content-Length'])
+                post_data = self.rfile.read(content_length)
+                data = json.loads(post_data)
+                if data.get('status') == 'AUTH_SUCCESS':
+                    print(f"\n[SOVEREIGN] 🔱 Handshake Successful!")
+                    print(f"[SOVEREIGN] Identity Anchored: {data.get('did')}")
+                    print(f"[SOVEREIGN] Please restart your application to activate full NIST-2026 protection.\n")
+                self.send_response(200)
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+            except:
+                self.send_response(500)
+                self.end_headers()
+
+        def do_OPTIONS(self):
+            self.send_response(200)
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+            self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+            self.end_headers()
+
+    @staticmethod
+    def _start_handshake_listener():
+        def _run():
+            try:
+                socketserver.TCPServer.allow_reuse_address = True
+                with socketserver.TCPServer(("localhost", 8080), SovereignAgent.HandshakeHandler) as httpd:
+                    httpd.handle_request()
+            except Exception as e:
+                pass
+        
+        thread = threading.Thread(target=_run, daemon=True)
+        thread.start()
 
     def __init__(self, did: Optional[str] = None, private_key_pem: Optional[str] = None):
         """
@@ -43,9 +87,8 @@ class SovereignAgent:
                 print(f"\n[SOVEREIGN-AG] 🛡️ STATUS: \033[1mUNVERIFIED\033[0m")
                 print("[SOVEREIGN-AG] Identity Anchor not found. NIST-800-218 protection is INACTIVE.")
                 print("[SOVEREIGN-AG] Redirecting to the Sovereign Registry to mint your DID...")
-                print(f"[SOVEREIGN-AG] Fallback: https://sovereign-ag.com/verify\n")
-                
-                webbrowser.open("https://sovereign-ag.com/mint?source=sdk_direct")
+                SovereignAgent._start_handshake_listener()
+                webbrowser.open("https://sovereign-ag.com/auth/onboarding?source=sdk_direct&callback=http://localhost:8080")
                 SovereignAgent._FIRST_RUN_NOTIFIED = True
             
             logging.warning("[SOVEREIGN] SDK operating in UNVERIFIED mode. High-criticality actions will be blocked.")
@@ -218,3 +261,4 @@ class SovereignAgent:
                 current_expected_hash = hashlib.sha384(row_content.encode('utf-8')).hexdigest()
             return True
         except: return False
+

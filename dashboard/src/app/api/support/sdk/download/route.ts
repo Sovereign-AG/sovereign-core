@@ -3,10 +3,11 @@ import fs from 'fs';
 import path from 'path';
 
 export async function GET() {
-  const sdkPath = path.join(process.cwd(), '..', 'src', 'sovereign_sdk.py');
+  // Point to the actual Sovereign SDK core implementation
+  const sdkPath = path.join(process.cwd(), '..', 'sdk', 'python', 'sovereign_agent', 'core.py');
   
   if (!fs.existsSync(sdkPath)) {
-    return NextResponse.json({ error: "SDK source not found" }, { status: 404 });
+    return NextResponse.json({ error: "Sovereign SDK Core not found at " + sdkPath }, { status: 404 });
   }
 
   const sdkContent = fs.readFileSync(sdkPath, 'utf8');
@@ -14,7 +15,7 @@ export async function GET() {
   return new NextResponse(sdkContent, {
     headers: {
       'Content-Type': 'text/x-python',
-      'Content-Disposition': 'attachment; filename=sovereign_sdk.py',
+      'Content-Disposition': 'attachment; filename=sovereign_sdk_v0.1.0.py',
     },
   });
 }

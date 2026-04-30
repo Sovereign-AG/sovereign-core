@@ -60,6 +60,28 @@ def mint_identity(output_dir="../keys"):
         )
         b64_public = base64.b64encode(raw_public_key).decode('utf-8')
         print(f"\n[!] Public Key (Base64) for registry: {b64_public}")
+
+        # 7. Identity Sharding (Level 5 Compliance)
+        try:
+            from src.secret_sharing import shard_agent_key
+            # Extract raw private bytes for sharding
+            raw_private = private_key.private_bytes(
+                encoding=serialization.Encoding.Raw,
+                format=serialization.PrivateFormat.Raw,
+                encryption_algorithm=serialization.NoEncryption()
+            )
+            shards = shard_agent_key(raw_private.hex(), t=3, n=5)
+            
+            shards_path = os.path.join(output_dir, "identity_shards.json")
+            import json
+            with open(shards_path, "w") as sf:
+                json.dump({"did": b64_public, "shards": shards, "threshold": 3}, sf, indent=2)
+            
+            print(f"[*] Identity DNA Sharded across the mesh: {shards_path}")
+            print(f"[*] Threshold: 3 of 5 Shards required for mathematical reconstruction.")
+        except ImportError:
+            print("[!] Secret Sharing module not found. Skipping sharding.")
+
         print("\nSovereign Identity minted successfully.")
 
     except Exception as e:

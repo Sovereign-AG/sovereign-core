@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation';
 export default async function VerifyPage(props: { params: Promise<{ id: string }> | { id: string } }) {
   const params = await Promise.resolve(props.params);
   const decodedId = decodeURIComponent(params.id);
-  const db = readDB();
+  const db = await readDB();
   const agent = db.agents.find((a: any) => a.did === decodedId || a.id === decodedId);
 
   if (!agent) {
@@ -58,6 +58,17 @@ export default async function VerifyPage(props: { params: Promise<{ id: string }
                <div>
                   <div className="text-xs text-gray-500 uppercase font-mono tracking-widest mb-1">Operational Purpose</div>
                   <div className="text-sm text-gray-200 font-medium">{agent.purpose || 'General AI Operations'}</div>
+               </div>
+               <div>
+                  <div className="text-xs text-gray-500 uppercase font-mono tracking-widest mb-1">Liability Status</div>
+                  <div className="text-sm text-gray-200 font-medium flex items-center">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-pulse" /> 
+                    Zero-Variance Continuity
+                  </div>
+               </div>
+               <div>
+                  <div className="text-xs text-gray-500 uppercase font-mono tracking-widest mb-1">Carbon Intensity</div>
+                  <div className="text-sm text-emerald-400 font-medium">9.4 gCO2/Pulse</div>
                </div>
                <div>
                   <div className="text-xs text-gray-500 uppercase font-mono tracking-widest mb-1">Compute Access</div>

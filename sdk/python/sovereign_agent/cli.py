@@ -1,3 +1,6 @@
+# Project: Sovereign AG SDK
+# License: Sovereign Source-Available License (SSAL) v1.0
+# Copyright (c) 2026 Sovereign AG.
 import sys
 import os
 import webbrowser
@@ -77,3 +80,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

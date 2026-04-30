@@ -15,7 +15,7 @@ export default function LandingPage() {
           <span className="font-semibold text-[16px] tracking-tight text-white">Sovereign AG</span>
           <div className="flex items-center space-x-2 px-2.5 py-1 bg-white/5 border border-white/10 rounded-full">
             <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
-            <span className="text-[10px] font-medium tracking-wide text-emerald-400">Elite 20 Genesis</span>
+            <span className="text-[10px] font-medium tracking-wide text-emerald-400">Elite 20 Production</span>
           </div>
         </div>
         <nav className="flex items-center space-x-8">

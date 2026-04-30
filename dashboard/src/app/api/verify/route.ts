@@ -4,7 +4,8 @@ import { readDB, writeDB } from '@/lib/db';
 export async function POST(request: Request) {
   try {
     const { did } = await request.json();
-    const db = readDB();
+    const db = await readDB();
+
     
     const agent = db.agents.find((a: any) => a.did === did);
     if (!agent) {
@@ -55,7 +56,8 @@ export async function POST(request: Request) {
       controller: agent.owner
     });
 
-    writeDB(db);
+    await writeDB(db);
+
 
     return NextResponse.json({ 
       success: true, 

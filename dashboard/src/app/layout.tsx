@@ -70,6 +70,8 @@ const globalSchema = {
   ]
 };
 
+import { Providers } from "./providers";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -80,36 +82,38 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-slate-50 relative selection:bg-slate-200">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(globalSchema) }}
-        />
-        
-        {/* 1. Global Blueprint Grid (Institutional Architecture) */}
-        <div 
-          className="fixed inset-0 pointer-events-none z-0 opacity-[0.08]" 
-          style={{ backgroundImage: 'linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)', backgroundSize: '32px 32px' }} 
-        />
-        
-        {/* 2. Aurora Mesh Gradient (Subtle Volumetric Light) */}
-        <div className="fixed -top-[20%] -right-[10%] w-[1000px] h-[1000px] rounded-full bg-gradient-to-br from-emerald-300/10 via-teal-200/5 to-blue-300/10 blur-[150px] pointer-events-none z-0" />
-        
-        <div className="relative z-10 flex flex-col min-h-full">
-          <InstitutionalHeader />
-          <CmdKPalette />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <InstitutionalFooter />
-          <CookieConsent />
-        </div>
+      <body className="min-h-full flex flex-col bg-background relative selection:bg-white/10">
+        <Providers>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(globalSchema) }}
+          />
+          
+          {/* 1. Global Blueprint Grid (Institutional Architecture) */}
+          <div 
+            className="fixed inset-0 pointer-events-none z-0 opacity-[0.08]" 
+            style={{ backgroundImage: 'linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)', backgroundSize: '32px 32px' }} 
+          />
+          
+          {/* 2. Aurora Mesh Gradient (Subtle Volumetric Light) */}
+          <div className="fixed -top-[20%] -right-[10%] w-[1000px] h-[1000px] rounded-full bg-gradient-to-br from-emerald-300/10 via-teal-200/5 to-blue-300/10 blur-[150px] pointer-events-none z-0" />
+          
+          <div className="relative z-10 flex flex-col min-h-full">
+            <InstitutionalHeader />
+            <CmdKPalette />
+            <main className="flex-grow">
+              {children}
+            </main>
+            <InstitutionalFooter />
+            <CookieConsent />
+          </div>
 
-        {/* 3. Industrial Paper Noise (Top Layer, Lowest Opacity) */}
-        <div 
-          className="fixed inset-0 pointer-events-none z-[100] mix-blend-multiply opacity-[0.02]" 
-          style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%222%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }} 
-        />
+          {/* 3. Industrial Paper Noise (Top Layer, Lowest Opacity) */}
+          <div 
+            className="fixed inset-0 pointer-events-none z-[100] mix-blend-multiply opacity-[0.02]" 
+            style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%222%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }} 
+          />
+        </Providers>
       </body>
     </html>
   );

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, FileText, Shield, Zap, Book, Layout, Command } from 'lucide-react';
+import { Search, FileText, Shield, Award, Book, Layout, Command } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function CmdKPalette() {
@@ -11,7 +11,7 @@ export default function CmdKPalette() {
   const router = useRouter();
 
   const actions = [
-    { name: 'Claim Genesis Grant', icon: Zap, href: '/grant', keywords: 'money free credit' },
+    { name: 'Claim Sovereign Grant', icon: Award, href: '/grant', keywords: 'money free credit' },
     { name: 'Compliance Registry', icon: Shield, href: '/compliance', keywords: 'nist legal audit' },
     { name: 'Technical Docs', icon: Book, href: '/docs', keywords: 'sdk python help' },
     { name: 'Network Ledger', icon: Layout, href: '/network', keywords: 'status audit activity' },

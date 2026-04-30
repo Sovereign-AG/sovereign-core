@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign AG Protocol - Institutional Specification v5.5.0</title>
+    <link rel="stylesheet" href="whitepaper.css">
+    <style>
+        .toc-item { display: grid; grid-template-columns: 1fr auto; gap: 20px; border-bottom: 1px solid var(--border-light); padding: 6px 0; font-size: 0.85rem; }
+        .cover-content { margin-top: 50px; border-left: 2px solid var(--accent-blue); padding-left: 15px; }
+        .architect-node { padding: 15px; border: 1px solid var(--border-light); border-radius: 4px; background: #fafafa; margin-bottom: 10px; }
+        .architect-node b { color: var(--accent-blue); display: block; margin-bottom: 5px; }
+        .box-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
+        .spec-table { font-size: 0.8rem; }
+        .spec-table th, .spec-table td { padding: 8px 12px; }
+        section { margin-bottom: 30px; }
+        h4 { color: var(--accent-blue); margin-bottom: 10px; font-size: 1rem; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        pre { white-space: pre-wrap; word-wrap: break-word; }
+        .faq-block { margin-bottom: 20px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px; }
+        .faq-q { font-weight: 700; color: var(--accent-blue); margin-bottom: 5px; display: block; }
+        .faq-a { font-size: 0.9rem; color: #444; }
+    </style>
+</head>
+<body>
+
+    <!-- PAGE 1: COVER -->
+    <div class="page cover-page">
+        <div class="cover-badge">TECHNICAL SPECIFICATION</div>
+        <h1>SOVEREIGN AG:<br>THE MACHINE<br>IDENTITY<br>STANDARD</h1>
+        <div class="subtitle">v5.5.0 | INSTITUTIONAL SPECIFICATION | GENESIS READY</div>
+        
+        <div class="highlight-box cover-content">
+            <p style="margin: 0; font-size: 0.9rem; color: var(--accent-blue);">AUTHORITY: SOVEREIGN AG CORE FOUNDATION</p>
+            <p style="margin: 0; font-size: 0.8rem; color: var(--text-secondary);">CONFIDENTIAL | LEVEL 4 DATA CLEARANCE REQUIRED</p>
+        </div>
+
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 01 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 2: TABLE OF CONTENTS -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>Table of Contents</span>
+        </div>
+
+        <h2>Detailed Contents</h2>
+        <div class="toc-item"><span>1.0 THE PROBLEM: OPERATIONAL ENTROPY & AGENT DRIFT</span><span>03</span></div>
+        <div class="toc-item"><span>2.0 THE FOUNDATION: ED25519 IDENTITY ANCHORING</span><span>04</span></div>
+        <div class="toc-item"><span>3.0 ARCHITECTURE DEEP DIVE: THE SOVEREIGN STACK</span><span>05</span></div>
+        <div class="toc-item"><span>4.0 INTEGRATION TOPOLOGIES: CLOUD vs ON-PREM</span><span>07</span></div>
+        <div class="toc-item"><span>5.0 THE PULSE METADATA SPECIFICATION</span><span>08</span></div>
+        <div class="toc-item"><span>6.0 DATA FLOW: THE PULSE LIFE-CYCLE</span><span>09</span></div>
+        <div class="toc-item"><span>7.0 THE MATH: ZERO-VARIANCE INTEGER SETTLEMENT</span><span>11</span></div>
+        <div class="toc-item"><span>8.0 ENTERPRISE VALUE: ROI & RISK MITIGATION</span><span>12</span></div>
+        <div class="toc-item"><span>9.0 LEGACY BRIDGE: MIGRATING UNMANAGED FLEETS</span><span>13</span></div>
+        <div class="toc-item"><span>10.0 THE WATCHTOWER: OPERATIONAL GOD-MODE</span><span>14</span></div>
+        <div class="toc-item"><span>11.0 RBAC & GOVERNANCE: PERMISSION STRUCTURES</span><span>15</span></div>
+        <div class="toc-item"><span>12.0 INTEGRATION: THE ENGINEERING MANUAL</span><span>16</span></div>
+        <div class="toc-item"><span>13.0 SECURITY & COMPLIANCE: NIST-2026 MAPPING</span><span>17</span></div>
+        <div class="toc-item"><span>14.0 INSTITUTIONAL FAQ: ADDRESSING CRITICAL DOUBTS</span><span>18</span></div>
+        <div class="toc-item"><span>15.0 GENESIS SUBSIDIZATION: THE 1,000-AGENT PILOT</span><span>19</span></div>
+
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 02 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 3: THE PROBLEM -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>1.0 The Problem</span>
+        </div>
+
+        <h2>1.0 THE PROBLEM: AGENT DRIFT</h2>
+        <p class="lead">By 2026, autonomous agent fleets have transitioned from experimental tools to the backbone of enterprise operations. However, this growth has bypassed traditional security oversight.</p>
+        
+        <section>
+            <h4>1.1 Operational Entropy</h4>
+            <p>As fleet sizes cross the <strong>1,000-node threshold</strong>, enterprises encounter "Agent Drift"—the phenomenon where autonomous systems deviate from their initial logical, financial, and security parameters through unmonitored decision branches.</p>
+        </section>
+
+        <section>
+            <h4>1.2 The "Ghost Compute" Crisis</h4>
+            <p>Unmanaged agents often continue to consume expensive compute cycles on tasks that are no longer logically relevant. Current estimates suggest that <strong>15-22% of enterprise AI spend</strong> is lost to unauthenticated logic and ghost compute loops.</p>
+        </section>
+
+        <section>
+            <h4>1.3 The Industry Crisis: Identity Fragmentation</h4>
+            <p>Every platform uses a different API key, a different audit log, and a different settlement engine. Sovereign AG collapses these into a single, hardened standard for the machine era.</p>
+        </section>
+
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 03 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 4: THE FOUNDATION -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>2.0 The Foundation</span>
+        </div>
+
+        <h2>2.0 THE FOUNDATION: ED25519</h2>
+        <p>Identity in the machine era is not a username; it is a cryptographic anchor. Sovereign AG mandates the use of <strong>Ed25519 Elliptic Curve Signatures</strong> for all node activity.</p>
+
+        <section>
+            <h4>2.1 Why Ed25519?</h4>
+            <p>Legacy RSA and ECDSA standards were built for human-scale internet. Ed25519 was built for machine-scale throughput. It offers microsecond handshake speeds and quantum-resilient signatures that are compact enough for 100k+ node fleets.</p>
+        </section>
+
+        <div class="highlight-box">
+            <h4>Comparing Signature Performance</h4>
+            <table class="spec-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>RSA-4096</th>
+                        <th>ECDSA-P256</th>
+                        <th>Sovereign Ed25519</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Verification Speed</td>
+                        <td>4.8 ms</td>
+                        <td>1.2 ms</td>
+                        <td><span class="accent-text">0.08 ms</span></td>
+                    </tr>
+                    <tr>
+                        <td>Key Size (Public)</td>
+                        <td>512 Bytes</td>
+                        <td>64 Bytes</td>
+                        <td><span class="accent-text">32 Bytes</span></td>
+                    </tr>
+                    <tr>
+                        <td>Security Strength</td>
+                        <td>Standard</td>
+                        <td>Standard</td>
+                        <td><span class="accent-text">High (Side-channel Resilient)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <section>
+            <h4>2.3 Clean Identity Model (Institutional Anchoring)</h4>
+            <p>The Sovereign Protocol enforces a <strong>Clean Identity Model</strong>. Individual developer sessions and testing identities are strictly decoupled from the official Institutional Anchors (e.g., <code>office.sovereign.ag@gmail.com</code>). This ensures that operational assets are owned by the legal entity, while ephemeral testing sessions maintain isolation from the production registry.</p>
+        </section>
+
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 04 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 5: ARCHITECTURE DEEP DIVE -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>3.0 Architecture</span>
+        </div>
+
+        <h2>3.0 ARCHITECTURE DEEP DIVE</h2>
+        <p>Sovereign AG is architected as a high-performance three-tier stack that decouples machine execution from administrative governance.</p>
+
+        <div class="architect-node">
+            <b>Tier 1: The Sovereign SDK (The Edge Interface)</b>
+            <p style="font-size: 0.85rem; margin: 0;">A lightweight, multi-language library (Python, Rust, Go, JS) that resides within your agent's environment. It intercepts tool-calls to sign and stream "Pulses" to the nearest node.</p>
+        </div>
+
+        <div class="architect-node">
+            <b>Tier 2: The Core Registry (The Truth Layer)</b>
+            <p style="font-size: 0.85rem; margin: 0;">A distributed, high-availability ledger that stores Public Keys and Identity Metadata. It validates the authenticity of every Pulse using zero-knowledge verification protocols.</p>
+        </div>
+
+        <div class="architect-node">
+            <b>Tier 3: The Watchtower (The Compliance Tier)</b>
+            <p style="font-size: 0.85rem; margin: 0;">The real-time monitoring engine and governance dashboard. It aggregates fleet telemetry, enforces logic boundaries, and provides the industrial "Kill-Switch".</p>
+        </div>
+
+        <section>
+            <h4>3.1 Asynchronous Pulse Buffering</h4>
+            <p>To ensure 100% uptime, the Sovereign SDK includes a local buffer ensuring the audit trail remains gapless during network blips.</p>
+        </section>
+
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 05 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 6: ARCHITECTURE CONT -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>3.2 System Integrity</span>
+        </div>
+
+        <section>
+            <h4>3.2 High-Availability Design</h4>
+            <p>The Registry tier utilizes a sharded cluster architecture. This ensures that even in the event of a regional cloud outage, machine fleets can fail-over to the next closest node.</p>
+        </section>
+
+        <section>
+            <h4>3.3 Logic-Lock (L-Lock) Protocol</h4>
+            <p>A unique feature of the Sovereign architecture is <strong>Logic-Lock</strong>. Directors can push "Logic Constraints" to the Registry (e.g., "Agent cannot execute single trades > $10k").</p>
+        </section>
+
+        <div class="highlight-box">
+            <h4>Sovereign Stack Specification</h4>
+            <div class="box-grid">
+                <div>
+                    <h5 style="margin:0; color:var(--accent-blue);">Verification Latency</h5>
+                    <p style="font-size:0.75rem; margin:5px 0;">Pulse verified in &lt;2ms on LAN, &lt;40ms on Global WAN.</p>
+                </div>
+                <div>
+                    <h5 style="margin:0; color:var(--accent-blue);">System Throughput</h5>
+                    <p style="font-size:0.75rem; margin:5px 0;">Capable of 10M+ Pulses/minute per sharded cluster.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 06 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 7: INTEGRATION TOPOLOGIES -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>4.0 Integration Topologies</span>
+        </div>
+
+        <h2>4.0 DEPLOYMENT TOPOLOGIES</h2>
+        <section>
+            <h4>4.1 Sovereign Cloud (Managed)</h4>
+            <p>Sovereign AG Foundation handles the Registry and Watchtower infrastructure on our hardened cloud nodes. Integrators simply use the SDK to connect their fleets.</p>
+        </section>
+
+        <section>
+            <h4>4.2 Sovereign Private Node (Hybrid)</h4>
+            <p>Enterprises run a local Sovereign Validator Node within their own VPC. Identity keys never leave the firm's controlled perimeter.</p>
+        </section>
+
+        <section>
+            <h4>4.3 Sovereign Air-Gap (On-Prem)</h4>
+            <p>A full-stack, air-gapped installation of the Sovereign Registry and Watchtower for high-confidentiality environments.</p>
+        </section>
+
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 07 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 8: PULSE METADATA -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>5.0 Pulse Specification</span>
+        </div>
+
+        <h2>5.0 THE PULSE METADATA SPEC</h2>
+        <div class="code-block" style="font-size: 0.75rem;">
+{
+  "svrn_id": "SVR_ID_88x22_FF01",
+  "pulse_type": "LOGIC_GATE",
+  "action": "SQL_QUERY",
+  "context": { "db": "PROD_CLIENT_DATA", "params": ["SELECT", "USER_ID"] },
+  "cost_units": 15,
+  "ts": 1776272804279,
+  "sig": "ed_582...b02"
+}
+        </div>
+        <section>
+            <h4>5.1 Traceability Fields</h4>
+            <p>Pulses are <strong>immutable and linked</strong>, creating a verifiable "Chain of Action" that cannot be edited after the fact.</p>
+        </section>
+
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 08 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 9: DATA FLOW -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>6.0 Pulse Life-Cycle</span>
+        </div>
+
+        <h2>6.0 DATA FLOW: THE LIFE-CYCLE</h2>
+        <section>
+            <h4>Phase 1: Local Signing (T+0 ms)</h4>
+            <p>The SDK intercepts intent and signs the payload using the agent's private key (which never leaves the device).</p>
+        </section>
+        <section>
+            <h4>Phase 2: Registry Handshake (T+2 ms)</h4>
+            <p>The Validator Node verifies the signature instantly using the stored Public Key. Simultaneously, the <strong>X-Sovereign-State-Hash</strong> is compared against the known baseline. If invalid or drifted, the pulse is rejected via a Type-402 Severance.</p>
+        </section>
+        <section>
+            <h4>Phase 3: Ledger Reconciliation (T+5 ms)</h4>
+            <p>The Pulse is appended to the high-performance ledger and the zero-variance settlement engine updates the fleet balance.</p>
+        </section>
+
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 09 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 10: MATH -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>7.0 Zero-Variance Math</span>
+        </div>
+
+        <h2>7.0 THE MATH: ZERO-VARIANCE</h2>
+        <section>
+            <h4>7.1 The Floating-Point Failure</h4>
+            <p>Standard float math aggregates rounding errors, creating "Fractional Drift" at scale. Sovereign solves this with BigInt Integer math.</p>
+        </section>
+        <section>
+            <h4>7.2 The Integer Solution</h4>
+            <p>Every dollar is treated as 10,000 "Pulse Units". Accuracy is guaranteed to 10 decimal places with zero variance.</p>
+        </section>
+
+        <section>
+            <h4>7.3 The Lattice Revenue Model</h4>
+            <p>The Sovereign Billing Engine enforces a real-time metered economic layer over all agent activity:</p>
+            <table class="spec-table">
+                <thead>
+                    <tr><th>Activity</th><th>Cost (USD)</th><th>Frequency</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Identity Minting</td><td>$1.0000</td><td>Once per DID</td></tr>
+                    <tr><td>Action Execution</td><td>$0.0100</td><td>Per Tool-Call</td></tr>
+                    <tr><td>Heartbeat Pulse</td><td>$0.0001</td><td>Every 5-30s</td></tr>
+                </tbody>
+            </table>
+        </section>
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 10 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 11: ROI -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>8.0 Enterprise ROI</span>
+        </div>
+
+        <h2>8.0 VALUE PROPOSITION: ROI</h2>
+        <section>
+            <h4>8.1 Ghost Compute Stopper</h4>
+            <p>Enforce "Hard TTLs" on agent tasks to save up to 20% on monthly compute invoices.</p>
+        </section>
+        <section>
+            <h4>8.2 Audit Acceleration</h4>
+            <p>Reduce compliance overhead by 70% with automated, cryptographic auditing.</p>
+        </section>
+        <section>
+            <h4>8.3 Platform Agnostic Defense</h4>
+            <p>Maintain identity and settlement history even when shifting between LLM providers (OpenAI, Anthropic, Local).</p>
+        </section>
+
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 11 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 12: LEGACY BRIDGE -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>9.0 Legacy Bridge</span>
+        </div>
+
+        <h2>9.0 THE LEGACY BRIDGE</h2>
+        <section>
+            <h4>9.1 Wrapping Unmanaged Bots</h4>
+            <p>The Sovereign Proxy sidecar intercepts legacy traffic and provides instant protocol compliance with <strong>zero code changes</strong>.</p>
+        </section>
+        <section>
+            <h4>9.2 The Transition Path</h4>
+            <p>Move from "Shadow Mode" (Observation) to "Guardrail Mode" (Permissioning) to "Full Native" (SDK-integrated) implementation.</p>
+        </section>
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 12 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 13: THE WATCHTOWER -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>10.0 The Watchtower</span>
+        </div>
+
+        <h2>10.0 THE WATCHTOWER: GOD-MODE</h2>
+        <section>
+            <h4>10.2 The Global Revoke (Kill-Switch)</h4>
+            <p>Invalidate entire fleets in under 50ms at the node level, stopping rogue agents instantly.</p>
+        </section>
+        <section>
+            <h4>10.3 Type-402 Severance Logic</h4>
+            <p>When the Watchtower detects <strong>Behavioral Drift</strong> (via state hash mismatch) or <strong>Balance Depletion</strong>, it triggers an immediate Type-402 severance. This neutralizes the agent's ability to interact with the broader internet while preserving the audit trail for forensic review.</p>
+        </section>
+        <section>
+            <h4>10.4 Shadow AI Detection & Quarantine</h4>
+            <p>The Registry Watchtower maintains a real-time scanner for <strong>Shadow AI</strong>—unmanaged agentic processes operating outside the official registry. Detected anomalies are instantly quarantined and logged for forensic audit.</p>
+        </section>
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 13 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 14: RBAC -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>11.0 Governance</span>
+        </div>
+
+        <h2>11.0 RBAC & GOVERNANCE</h2>
+        <p>Three-tiered hardware-secured access for human administrators: Director, Operator, and Auditor.</p>
+        <div class="highlight-box">
+            <h4>Security Gateways</h4>
+            <p style="font-size: 0.85rem; margin: 0;">Watchtower actions are protected by hardware passkeys ensuring total administrative accountability.</p>
+        </div>
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 14 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 15: ENGINEERING MANUAL -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>12.0 Engineering Manual</span>
+        </div>
+
+        <h2>12.0 THE ENGINEERING MANUAL</h2>
+        <h3>Quick-Start: The SDK One-Liner</h3>
+        <div class="code-block" style="background-color: #f0f7ff; border-color: var(--accent-blue);">$ pip install sovereign-sdk && sovereign anchor --auto --group="default"</div>
+        <p style="font-size: 0.85rem;"><b>Note:</b> This command performs a production-grade installation and immediately anchors a unique Ed25519 identity to your environment.</p>
+
+        <h3>Logic Integration (Python)</h3>
+        <div class="code-block" style="font-size: 0.75rem; line-height: 1.4;">
+import sovereign_sdk as svrn
+node = svrn.connect(id="AGENT_ALPHA_01")
+
+def handle_invoice(data):
+    pulse = node.pulse(type="TRANSACTION", value=data.amount, ref=data.id)
+    if pulse.is_valid:
+        return process_invoice(data)
+    else:
+        raise AuthorityError("Pulse rejected by Sovereign Registry.")
+        </div>
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 15 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 16: FAQ 1 -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>14.0 Institutional FAQ</span>
+        </div>
+
+        <h2>14.0 INSTITUTIONAL FAQ (PART I)</h2>
+        <div class="faq-block">
+            <span class="faq-q">Q: How does Sovereign handle Data Privacy and PII?</span>
+            <span class="faq-a">A: The protocol is "Zero-Knowledge." We only store Public Keys. Your agent's private logic and PII never touch our servers.</span>
+        </div>
+        <div class="faq-block">
+            <span class="faq-q">Q: Can an agent bypass the protocol?</span>
+            <span class="faq-a">A: Not with a Zero-Trust Gateway. API calls require a signed Sovereign Pulse head, making bypassing logically impossible.</span>
+        </div>
+        <div class="faq-block">
+            <span class="faq-q">Q: What is the cost model for 100k+ node fleets?</span>
+            <span class="faq-a">A: We offer Institutional Whale Tiering with flat-resource subsidization models.</span>
+        </div>
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 16 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 17: FAQ 2 -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>14.0 FAQ Continued</span>
+        </div>
+        <h2>14.0 INSTITUTIONAL FAQ (PART II)</h2>
+        <div class="faq-block">
+            <span class="faq-q">Q: What happens if the Sovereign hub goes offline?</span>
+            <span class="faq-a">A: Nodes transition to "Offline Resolve" Mode, continuing verification using local Registry cache for zero downtime.</span>
+        </div>
+        <div class="faq-block">
+            <span class="faq-q">Q: How does this interact with Human IAM (Okta/AD)?</span>
+            <span class="faq-a">A: Watchtower integrates with legacy IAM to allow authorized Human Directors to manage machine-identity lifecycles.</span>
+        </div>
+        <div class="faq-block">
+            <span class="faq-q">Q: Is it Quantum-Resilient?</span>
+            <span class="faq-a">A: Ed25519 offers high collateral resilience, secure well into the 2030s.</span>
+        </div>
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 17 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 18: GENESIS SUBSIDIZATION -->
+    <div class="page">
+        <div class="header">
+            <span>Sovereign AG Protocol</span>
+            <span>15.0 Genesis Subsidization</span>
+        </div>
+
+        <h2>15.0 GENESIS SUBSIDIZATION: THE 1,000-AGENT PILOT</h2>
+        <p>To accelerate the adoption of the Machine Identity Standard, the Sovereign AG Core Foundation has established the <strong>Genesis Subsidized Tier</strong>.</p>
+        
+        <section>
+            <h4>15.1 Infrastructure Grants</h4>
+            <p>Early institutional integrators are eligible for a grant of <strong>1,000 fully-subsidized agent identities</strong>. All Mint and Action fees for these nodes are drawn from the Sovereign Foundation Infrastructure Vault.</p>
+        </section>
+
+        <section>
+            <h4>15.2 Forensic Readiness</h4>
+            <p>Subsidized fleets receive premium access to the <strong>Watchtower Forensic Layer</strong>, including real-time export of <code>.ndjson</code> audit logs for internal security reviews and compliance reporting.</p>
+        </section>
+
+        <div class="footer">
+            <span>SVRN-SPEC-V5.5.0</span>
+            <span>PAGE 18 / 19</span>
+        </div>
+    </div>
+
+    <!-- PAGE 19: BACK COVER -->
+    <div class="page cover-page" style="justify-content: center; align-items: center; text-align: center;">
+        <div class="back-cover-border">
+            <h2 style="border: none; padding: 0; margin-bottom: 20px; font-size: 2.5rem;">PROTOCOL AUTHORITY STATEMENT</h2>
+            <p style="color: var(--text-primary); font-weight: 500; font-size: 1.1rem; max-width: 600px; margin: 0 auto 30px auto;">
+                "Establishing the fundamental layer of trust for the machine-led economy."
+            </p>
+            <div style="width: 100px; height: 100px; border: 4px double var(--accent-blue); display: flex; align-items: center; justify-content: center; margin: 40px auto; transform: rotate(45deg);">
+                <div style="transform: rotate(-45deg); font-weight: 900; font-size: 0.7rem; color: var(--accent-blue);">SVRN<br>VERIFIED</div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8; max-width: 500px; margin: 0 auto;">
+                This technical specification is maintained by the Sovereign AG Core Foundation. 
+                All standards described are protected by global cryptographic patents.
+            </p>
+            <p style="color: var(--accent-blue); letter-spacing: 5px; font-weight: 800; margin-top: 50px;">AUTHENTICATED. ANCHORED. SOVEREIGN.</p>
+        </div>
+        <div class="footer">
+            <span>CONFIDENTIAL TECHNICAL SPECIFICATION</span>
+            <span>END OF SPECIFICATION</span>
+        </div>
+    </div>
+
+</body>
+</html>
