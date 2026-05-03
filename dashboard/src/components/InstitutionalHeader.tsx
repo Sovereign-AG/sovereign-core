@@ -26,13 +26,16 @@ export default function InstitutionalHeader() {
   const hasSession = authStatus === 'authenticated' || hasLegacySession;
 
   const handleSignOut = async () => {
+    // 1. Clear Institutional Session (Legacy Bridge)
     await fetch('/api/auth/svtp-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'CLEAR' })
     });
+
+    // 2. Clear NextAuth Session
     localStorage.removeItem('svtp_anchor_email');
-    window.location.href = '/';
+    signOut({ callbackUrl: '/' });
   };
 
   return (

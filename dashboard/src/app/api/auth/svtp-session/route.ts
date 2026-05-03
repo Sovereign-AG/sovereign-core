@@ -22,9 +22,11 @@ export async function POST(request: Request) {
 
     if (action === 'CLEAR') {
       const cookieStore = await cookies();
-      cookieStore.set('svtp_session', '', { maxAge: 0, path: '/' }); // Use set with maxAge 0 to be more reliable in some Next versions
-      // Note: signOut() from next-auth should also be called on the client
-      return NextResponse.json({ success: true, message: 'Session Terminated' });
+      cookieStore.set('svtp_session', '', { maxAge: 0, path: '/' });
+      cookieStore.set('SVTP_session', '', { maxAge: 0, path: '/' });
+      cookieStore.set('satp_session', '', { maxAge: 0, path: '/' });
+      cookieStore.set('SATP_session', '', { maxAge: 0, path: '/' });
+      return NextResponse.json({ success: true, message: 'Institutional Session Purged' });
     }
 
     return NextResponse.json({ success: false, error: 'Invalid Action' }, { status: 400 });
