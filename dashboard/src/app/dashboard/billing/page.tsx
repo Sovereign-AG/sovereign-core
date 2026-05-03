@@ -57,8 +57,8 @@ export default function SovereignBilling() {
   return (
     <div className="min-h-screen bg-[#000000] text-[#E8EAED] font-sans selection:bg-blue-500/30">
       
-      {/* Institutional Top Bar (GCP Style) */}
-      <div className="h-16 border-b border-white/5 flex items-center px-8 justify-between bg-[#000000]/80 backdrop-blur-xl sticky top-16 z-40">
+      {/* Institutional Top Bar (Primary Header in Billing Nexus) */}
+      <div className="h-16 border-b border-white/5 flex items-center px-8 justify-between bg-[#000000]/80 backdrop-blur-xl sticky top-0 z-40">
         <div className="flex items-center space-x-6">
            <Link href="/dashboard" className="p-2.5 hover:bg-white/5 rounded-full transition-colors text-gray-500 hover:text-white">
               <ArrowLeft size={20} />
@@ -81,7 +81,7 @@ export default function SovereignBilling() {
         </div>
       </div>
 
-      <div className="flex h-[calc(100vh-128px)]">
+      <div className="flex h-[calc(100vh-64px)]">
         
         {/* Navigation Sidebar */}
         <aside className="w-64 border-r border-white/5 bg-[#000000] flex flex-col">

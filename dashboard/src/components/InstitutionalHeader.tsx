@@ -3,11 +3,18 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useSession, signIn, signOut } from "next-auth/react";
+import { usePathname } from 'next/navigation';
 import { SVTPLogo } from './SVTPLogo';
 import { ShieldCheck, Search } from 'lucide-react';
 
 export default function InstitutionalHeader() {
+  const pathname = usePathname();
   const { data: session, status: authStatus } = useSession();
+
+  // Institutional Rule: Hide primary header when in specialized billing nexus to avoid double-header clutter
+  if (pathname?.startsWith('/dashboard/billing')) {
+    return null;
+  }
   const [hasLegacySession, setHasLegacySession] = React.useState(false);
 
   React.useEffect(() => {
