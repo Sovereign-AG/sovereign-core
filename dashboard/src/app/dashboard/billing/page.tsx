@@ -20,8 +20,18 @@ export default function SovereignBilling() {
   const [isHandshakeOpen, setIsHandshakeOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+  const [showSuccess, setShowSuccess] = useState(false);
   
-  const [stats, setStats] = useState({
+  useEffect(() => {
+    const status = new URLSearchParams(window.location.search).get('status');
+    if (status === 'success') {
+      setShowSuccess(true);
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+      // Auto-hide after 5 seconds
+      setTimeout(() => setShowSuccess(false), 5000);
+    }
+  }, []);
     balance: 499.94,
     unbilled: 0.00,
     totalSettled: 11.00,
