@@ -399,14 +399,8 @@ export default function SovereignBilling() {
             ))}
           </div>
           
-          <div className="mt-auto px-3 pb-4 space-y-1">
-             <div className="h-px bg-white/5 my-4 mx-4" />
-             <button className="w-full flex items-center px-4 py-2 text-[13px] font-medium text-gray-500 hover:text-gray-300 transition-colors">
-                <Settings size={16} className="mr-4" /> Settings
-             </button>
-             <button className="w-full flex items-center px-4 py-2 text-[13px] font-medium text-gray-500 hover:text-gray-300 transition-colors">
-                <Shield size={16} className="mr-4" /> Compliance
-             </button>
+          <div className="mt-auto px-3 pb-4">
+             {/* Secondary actions removed to avoid duplication with main dashboard navigation */}
           </div>
         </aside>
 
