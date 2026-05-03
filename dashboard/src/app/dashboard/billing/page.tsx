@@ -358,13 +358,6 @@ export default function SovereignBilling() {
            </div>
         </div>
         <div className="flex items-center space-x-6">
-           <button className="text-[12px] font-medium text-gray-500 hover:text-white transition-colors">
-              Feedback
-           </button>
-           <button className="text-[12px] font-medium text-gray-500 hover:text-white transition-colors">
-              Support
-           </button>
-           <div className="h-4 w-px bg-white/10" />
            <button 
              onClick={() => setIsHandshakeOpen(true)}
              disabled={isProcessing}
