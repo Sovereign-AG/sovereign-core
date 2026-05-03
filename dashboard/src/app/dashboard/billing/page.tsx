@@ -58,26 +58,30 @@ export default function SovereignBilling() {
     <div className="min-h-screen bg-[#000000] text-[#E8EAED] font-sans selection:bg-blue-500/30">
       
       {/* Institutional Top Bar (GCP Style) */}
-      <div className="h-14 border-b border-white/5 flex items-center px-6 justify-between bg-[#000000]/50 backdrop-blur-md sticky top-14 z-40">
-        <div className="flex items-center space-x-4">
-           <Link href="/dashboard" className="p-2 hover:bg-white/5 rounded-full transition-colors text-gray-400 hover:text-white">
-              <ArrowLeft size={18} />
+      <div className="h-16 border-b border-white/5 flex items-center px-8 justify-between bg-[#000000]/80 backdrop-blur-xl sticky top-16 z-40">
+        <div className="flex items-center space-x-6">
+           <Link href="/dashboard" className="p-2.5 hover:bg-white/5 rounded-full transition-colors text-gray-500 hover:text-white">
+              <ArrowLeft size={20} />
            </Link>
-           <div className="h-4 w-px bg-white/10" />
-           <h1 className="text-sm font-semibold tracking-tight">Billing & Cost Management</h1>
-           <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-wider">Production</span>
+           <div className="h-6 w-px bg-white/10" />
+           <div className="flex items-center space-x-3">
+              <h1 className="text-base font-medium tracking-tight text-white">Billing & Cost Management</h1>
+              <span className="px-2 py-0.5 rounded-sm bg-blue-500/10 text-blue-400 text-[9px] font-black uppercase tracking-[0.15em] border border-blue-500/20">
+                 Production
+              </span>
+           </div>
         </div>
-        <div className="flex items-center space-x-3">
-           <button className="px-3 py-1.5 text-[11px] font-bold text-gray-400 hover:text-white transition-colors border border-white/10 rounded-md hover:bg-white/5">
-              Submit Feedback
+        <div className="flex items-center space-x-6">
+           <button className="text-[11px] font-bold text-gray-500 hover:text-white transition-colors tracking-wide">
+              SUBMIT FEEDBACK
            </button>
-           <button className="px-3 py-1.5 text-[11px] font-bold text-gray-400 hover:text-white transition-colors">
-              Help
+           <button className="text-[11px] font-bold text-gray-500 hover:text-white transition-colors tracking-wide">
+              HELP
            </button>
         </div>
       </div>
 
-      <div className="flex h-[calc(100vh-112px)]">
+      <div className="flex h-[calc(100vh-128px)]">
         
         {/* Navigation Sidebar */}
         <aside className="w-64 border-r border-white/5 bg-[#000000] flex flex-col">
