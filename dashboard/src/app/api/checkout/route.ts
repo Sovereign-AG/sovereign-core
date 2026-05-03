@@ -43,11 +43,16 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ 
-      url: typeof payment === 'object' && payment !== null && 'payment_link' in payment ? payment.payment_link : null 
+      url: typeof payment === 'object' && payment !== null && 'payment_link' in payment ? payment.payment_link : null,
+      debug: payment // Temporarily expose for debugging the handshake
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("[DODO_CHECKOUT_ERROR]:", error);
-    return NextResponse.json({ error: "Handshake with Dodo failed" }, { status: 500 });
+    return NextResponse.json({ 
+      error: "Handshake with Dodo failed", 
+      message: error?.message || "Unknown error",
+      details: error?.response?.data || null
+    }, { status: 500 });
   }
 }

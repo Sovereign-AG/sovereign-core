@@ -49,7 +49,8 @@ export default function SovereignBilling() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert("Institutional handshake failed. Please verify API key propagation.");
+        const errorMsg = data.message || data.error || "Institutional handshake failed.";
+        alert(`${errorMsg}\n\nPlease verify that DODO_API_KEY is provisioned in .env.local.`);
       }
     } catch (err) {
       console.error(err);
