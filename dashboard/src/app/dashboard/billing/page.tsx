@@ -383,7 +383,6 @@ export default function SovereignBilling() {
             {[
               { id: 'overview', label: 'Overview', icon: LayoutDashboard },
               { id: 'usage', label: 'Usage', icon: BarChart3 },
-              { id: 'methods', label: 'Payment methods', icon: CreditCard },
               { id: 'history', label: 'Transactions', icon: History },
             ].map((item) => (
               <button 
