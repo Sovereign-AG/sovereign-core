@@ -183,7 +183,6 @@ export default function SovereignBilling() {
           </div>
       </div>
 
-      {/* Usage Chart Card */}
       <div className="bg-[#000000] border border-white/10 rounded-xl overflow-hidden p-6">
          <div className="flex items-center justify-between mb-8">
             <div>
@@ -196,7 +195,6 @@ export default function SovereignBilling() {
             </div>
          </div>
 
-         {/* Mock Bar Chart */}
          <div className="h-[240px] w-full flex items-end justify-between gap-1 group/chart">
             {[34, 45, 67, 89, 45, 34, 23, 56, 78, 90, 45, 67, 34, 56, 78, 89, 45, 67, 89, 100, 78, 56, 45, 67, 89, 45, 23, 56, 78, 95].map((val, i) => (
                <div key={i} className="flex-1 flex flex-col justify-end items-center group relative">
@@ -209,7 +207,6 @@ export default function SovereignBilling() {
                       i === 29 ? "bg-blue-400" : "bg-blue-500/40 group-hover:bg-blue-500"
                     )}
                   />
-                  {/* Tooltip */}
                   <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-xl">
                      May {i + 1}: {Math.floor(val * 123)} units
                   </div>
@@ -223,7 +220,6 @@ export default function SovereignBilling() {
          </div>
       </div>
 
-      {/* Service Breakdown Table */}
       <div className="bg-[#000000] border border-white/10 rounded-xl overflow-hidden">
          <div className="px-6 py-4 border-b border-white/5 bg-white/[0.01]">
             <h3 className="text-[15px] font-medium text-white">Usage by Service</h3>
@@ -254,6 +250,91 @@ export default function SovereignBilling() {
                   ))}
                </tbody>
             </table>
+         </div>
+      </div>
+    </div>
+  );
+
+  const renderHistory = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+          <h2 className="text-[28px] font-normal text-white tracking-tight">Transactions</h2>
+          <div className="flex items-center space-x-3">
+             <div className="relative group">
+                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-hover:text-gray-300 transition-colors" />
+                <input 
+                  type="text" 
+                  placeholder="Filter by ID or Hash..." 
+                  className="bg-[#000000] border border-white/10 rounded-lg pl-10 pr-4 py-2 text-[13px] w-[300px] focus:border-blue-500/50 outline-none transition-all placeholder:text-gray-600"
+                />
+             </div>
+             <button className="flex items-center space-x-2 bg-[#000000] border border-white/10 rounded-lg px-4 py-2 text-[13px] font-medium text-gray-300 hover:bg-white/5 transition-all">
+                <Filter size={14} className="text-gray-500" />
+                <span>Filters</span>
+             </button>
+             <button className="p-2 hover:bg-white/5 rounded text-gray-500 hover:text-white transition-all border border-white/5">
+                <Download size={16} />
+             </button>
+          </div>
+      </div>
+
+      <div className="bg-[#000000] border border-white/10 rounded-xl overflow-hidden">
+         <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+               <thead>
+                  <tr className="border-b border-white/5 text-[11px] font-bold text-gray-500 uppercase tracking-widest">
+                     <th className="px-6 py-3 font-medium">Date</th>
+                     <th className="px-6 py-3 font-medium">Description</th>
+                     <th className="px-6 py-3 font-medium">Status</th>
+                     <th className="px-6 py-3 font-medium">Transaction ID</th>
+                     <th className="px-6 py-3 font-medium text-right">Amount (SVTP)</th>
+                  </tr>
+               </thead>
+               <tbody className="text-[13px]">
+                  {Array.from({ length: 10 }).map((_, i) => {
+                    const tx = stats.transactions[i % stats.transactions.length];
+                    return (
+                      <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group cursor-pointer">
+                        <td className="px-6 py-4 text-gray-500 whitespace-nowrap">{tx.date}</td>
+                        <td className="px-6 py-4">
+                           <div className="text-white font-medium">{tx.type}</div>
+                           <div className="text-[11px] text-gray-600 mt-1 flex items-center">
+                              Handshake Verified <ShieldCheck size={10} className="ml-1 text-emerald-500/50" />
+                           </div>
+                        </td>
+                        <td className="px-6 py-4">
+                           <span className={cn(
+                             "px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-tighter border",
+                             tx.status === 'SETTLED' ? "bg-white/5 border-white/10 text-gray-400" : "bg-blue-500/10 border-blue-500/20 text-blue-400"
+                           )}>
+                             {tx.status}
+                           </span>
+                        </td>
+                        <td className="px-6 py-4 font-mono text-gray-500 text-[12px]">
+                           {tx.id}
+                           <div className="text-[10px] opacity-0 group-hover:opacity-100 transition-opacity mt-1">{tx.hash}</div>
+                        </td>
+                        <td className={cn(
+                           "px-6 py-4 text-right font-mono text-[14px]",
+                           tx.amount > 0 ? "text-emerald-400" : "text-white"
+                        )}>
+                           {tx.amount > 0 ? `+${tx.amount.toFixed(2)}` : tx.amount.toFixed(4)}
+                        </td>
+                      </tr>
+                    );
+                  })}
+               </tbody>
+            </table>
+         </div>
+         <div className="px-6 py-4 border-t border-white/5 bg-white/[0.01] flex items-center justify-between text-[13px] text-gray-500">
+            <div className="flex items-center space-x-6">
+               <span>Rows per page: <span className="text-white ml-1">10</span> <ChevronDown size={14} className="inline ml-1" /></span>
+               <span>1–10 of 1,250</span>
+            </div>
+            <div className="flex items-center space-x-6">
+               <button className="hover:text-white disabled:opacity-30 flex items-center" disabled><ChevronRight size={18} className="rotate-180 mr-1" /> Previous</button>
+               <button className="hover:text-white flex items-center">Next <ChevronRight size={18} className="ml-1" /></button>
+            </div>
          </div>
       </div>
     </div>
@@ -343,7 +424,8 @@ export default function SovereignBilling() {
               >
                 {activeTab === 'overview' && renderOverview()}
                 {activeTab === 'usage' && renderUsage()}
-                {(activeTab !== 'overview' && activeTab !== 'usage') && (
+                {activeTab === 'history' && renderHistory()}
+                {(activeTab !== 'overview' && activeTab !== 'usage' && activeTab !== 'history') && (
                   <div className="flex flex-col items-center justify-center h-[60vh] text-gray-500 space-y-4">
                      <Lock size={48} className="opacity-20" />
                      <p className="text-[14px] font-medium uppercase tracking-widest">Nexus Module Restricted</p>
