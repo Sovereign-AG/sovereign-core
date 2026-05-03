@@ -11,10 +11,6 @@ export default function InstitutionalHeader() {
   const pathname = usePathname();
   const { data: session, status: authStatus } = useSession();
 
-  // Institutional Rule: Hide primary header when in specialized billing nexus to avoid double-header clutter
-  if (pathname?.startsWith('/dashboard/billing')) {
-    return null;
-  }
   const [hasLegacySession, setHasLegacySession] = React.useState(false);
 
   React.useEffect(() => {
@@ -29,6 +25,11 @@ export default function InstitutionalHeader() {
         console.warn('[SVTP_AUTH] Legacy Session Check Delayed:', err);
       });
   }, [authStatus]);
+
+  // Institutional Rule: Hide primary header when in specialized billing nexus to avoid double-header clutter
+  if (pathname?.startsWith('/dashboard/billing')) {
+    return null;
+  }
 
   const hasSession = authStatus === 'authenticated' || hasLegacySession;
 
