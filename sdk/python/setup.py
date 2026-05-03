@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="sovereign-sdk",
+    name="svtp-sdk",
     version="1.0.0",
-    description="Official Sovereign AG Python SDK - Transparent Proxy Wrapper for AI Agents.",
+    description="Official SVTP v1.0 Python SDK - Transparent Proxy Wrapper for AI Agents.",
     author="Sovereign AG",
-    author_email="dev@sovereign-ag.in",
-    url="https://github.com/sovereign-ag/sovereign-python-sdk",
+    author_email="office.sovereign.ag@gmail.com",
+    url="https://github.com/Sovereign-AG/sovereign-core",
     packages=find_packages(),
     install_requires=[
         "requests>=2.25.0",
@@ -15,7 +15,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "sovereign = sovereign_agent.cli:main",
+            "svtp = svtp_agent.cli:main",
         ],
     },
     classifiers=[
@@ -24,6 +24,10 @@ setup(
         "Operating System :: OS Independent",
         "Topic :: Security :: Cryptography",
     ],
-    license="Sovereign Source-Available License v1.0",
+    license="SVTP Source-Available License v1.0",
     python_requires=">=3.8",
 )
+
+
+
+

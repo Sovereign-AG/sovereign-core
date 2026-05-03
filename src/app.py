@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Dict, Any
 
-# Sovereign AG: High-Authority API Registry
+# SVTP v1.0: High-Authority API Registry
 # Standard: NIST 2026 Web Bot Auth (FastAPI Implementation)
 # Pillar 1 (Identity) & Pillar 3 (Audit) Integration
 
@@ -17,7 +17,7 @@ sys.path.append(os.path.dirname(__file__))
 from verify_trust import verify_trust
 from audit_logger import LOG_FILE
 
-app = FastAPI(title="Sovereign Protocol API", version="v1.0.0")
+app = FastAPI(title="SVTP v1.0 Protocol API", version="v1.0.0")
 
 # --- NIST-Compliant CORS Configuration ---
 # Allowing Alpha Partners for Cloud-to-Cloud interaction
@@ -26,7 +26,7 @@ app.add_middleware(
     allow_origins=["*"], # In production, this should be restricted to partner domains
     allow_credentials=True,
     allow_methods=["GET", "POST"],
-    allow_headers=["X-Sovereign-Audit-ID", "Content-Type", "Authorization"],
+    allow_headers=["X-SVTP-Audit-ID", "Content-Type", "Authorization"],
 )
 
 # --- API Models ---
@@ -52,7 +52,7 @@ async def verify_endpoint(payload: VerifyPayload):
         pk_path = os.path.join(os.getcwd(), "keys", "public_key.pem")
 
     if not os.path.exists(pk_path):
-        raise HTTPException(status_code=404, detail="Sovereign DID not found in registry.")
+        raise HTTPException(status_code=404, detail="SVTP DID not found in registry.")
 
     # 2. Cryptographic Check
     is_valid = verify_trust(pk_path, payload.message, payload.signature)
@@ -61,7 +61,7 @@ async def verify_endpoint(payload: VerifyPayload):
         return {
             "status": "VERIFIED",
             "did": payload.did,
-            "message": "Sovereign Identity Confirmed."
+            "message": "SVTP Identity Confirmed."
         }
     else:
         raise HTTPException(
@@ -100,9 +100,12 @@ async def get_audit_trail(did: str):
 
 @app.get("/health")
 async def health_check():
-    return {"status": "SOVEREIGN_OPERATIONAL", "port": 8080}
+    return {"status": "svtp_OPERATIONAL", "port": 8080}
 
 if __name__ == "__main__":
     # Launching on 8080 for NIST NCCoE partnership integration
-    print("[SOVEREIGN PROTOCOL API: BOOTING ON PORT 8080]")
+    print("[SVTP v1.0 PROTOCOL API: BOOTING ON PORT 8080]")
     uvicorn.run(app, host="0.0.0.0", port=8080)
+
+
+

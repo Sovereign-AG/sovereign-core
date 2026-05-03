@@ -1,4 +1,4 @@
-# Sovereign AG: Cloud-Native Identity Registry
+# SATP v1.0: Cloud-Native Identity Registry
 # Standard: NIST 2026 High-Performance Web Bot Auth (v1.2.0)
 # Foundation: Python 3.11-Slim
 

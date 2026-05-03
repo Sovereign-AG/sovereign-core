@@ -3,7 +3,7 @@ import json
 import logging
 from typing import Dict, Any
 
-# Sovereign AG: Central Nervous System (Gateway)
+# SVTP v1.0: Central Nervous System (Gateway)
 # Integration Layer: Identity (P1) + Authorization (P2) + Audit (P3)
 
 # Support modular imports
@@ -11,19 +11,19 @@ import sys
 sys.path.append(os.path.dirname(__file__))
 
 from verify_trust import verify_trust
-from policy_engine import SovereignGuard
-from audit_logger import SovereignAuditor
+from policy_engine import SVTPGuard
+from audit_logger import SVTPAuditor
 
 # Configuration
 KEYS_BASE_DIR = os.path.join(os.getcwd(), "keys")
 
 # Standard NIST-aligned logging for the Gateway itself
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: [GATEWAY] %(message)s')
-logger = logging.getLogger("SovereignGateway")
+logger = logging.getLogger("SVTPGateway")
 
 def process_agent_request(did: str, signature: str, message: str, requested_action: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Sovereign AG Handshake: The Single Point of Truth for Agentic Interaction.
+    SVTP v1.0 Handshake: The Single Point of Truth for Agentic Interaction.
     
     1. Verify Trust (Identity)
     2. Evaluate Policy (Authorization)
@@ -41,7 +41,7 @@ def process_agent_request(did: str, signature: str, message: str, requested_acti
         }
     }
 
-    # Helper: Resolve DID to Agent ID (Assuming did:sov:<agent_id> format)
+    # Helper: Resolve DID to Agent ID (Assuming did:SVTP:<agent_id> format)
     agent_id = did.split(":")[-1]
     agent_keys_dir = os.path.join(KEYS_BASE_DIR, agent_id)
     public_key_path = os.path.join(agent_keys_dir, "public_key.pem")
@@ -59,7 +59,7 @@ def process_agent_request(did: str, signature: str, message: str, requested_acti
 
     # --- Pillar 2: Authorization Evaluation ---
     logger.info(f"Evaluating Authorization Mandate for {did}...")
-    guard = SovereignGuard()
+    guard = SVTPGuard()
     auth_result = guard.evaluate_request(did, requested_action)
     
     if auth_result == "GRANT":
@@ -71,7 +71,7 @@ def process_agent_request(did: str, signature: str, message: str, requested_acti
 
     # --- Pillar 3: Cryptographic Audit ---
     logger.info(f"Committing Cryptographic Audit for {did}...")
-    auditor = SovereignAuditor()
+    auditor = SVTPAuditor()
     audit_success = auditor.log_action(
         did, 
         requested_action.get("endpoint", "UNKNOWN_ACTION"), 
@@ -94,19 +94,19 @@ def _finalize_response(response: Dict[str, Any], message: str) -> Dict[str, Any]
 
 if __name__ == "__main__":
     # Gateway Integration Demonstration
-    print("\n[SOVEREIGN AG GATEWAY: CENTRAL NERVOUS SYSTEM]")
+    print("\n[SVTP v1.0 GATEWAY: CENTRAL NERVOUS SYSTEM]")
     print("-" * 52)
     
     # 1. Mock Credentials (Simulating an Agent's incoming bundle)
     # Target Agent MUST be minted first (e.g. AGENT_TEST_001)
-    did = "did:sov:AGENT_TEST_001"
+    did = "did:SVTP:AGENT_TEST_001"
     
     # Generate a VALID signature for this message test
     # (Normally the agent does this locally)
     from cryptography.hazmat.primitives import serialization
     from cryptography.hazmat.primitives.asymmetric import ed25519
     
-    msg = "Sovereign Handshake Challenge 2026"
+    msg = "SVTP Handshake Challenge 2026"
     pk_path = f"keys/AGENT_TEST_001/private_key.pem"
     
     if os.path.exists(pk_path):
@@ -126,3 +126,6 @@ if __name__ == "__main__":
         print(json.dumps(result, indent=2))
     else:
         print("[!] Error: Simulated Agent Keys not found. Ensure AGENT_TEST_001 is minted.")
+
+
+

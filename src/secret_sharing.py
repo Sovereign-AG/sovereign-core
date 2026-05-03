@@ -2,7 +2,7 @@ import random
 from typing import List, Tuple
 from cryptography.hazmat.primitives import hashes
 
-# Sovereign Protocol: Phase 2 - Level 5 (Identity Sharding)
+# SVTP v1.0 Protocol: Phase 2 - Level 5 (Identity Sharding)
 # Logic: Shamir's Secret Sharing (SSS)
 # Requirement: Mathematically impossible to reconstruct without mesh consensus.
 
@@ -61,3 +61,6 @@ def shard_agent_key(private_key_hex: str, t: int = 3, n: int = 5):
     secret_int = int(private_key_hex, 16)
     shards = IdentitySharder.create_shards(secret_int, t, n)
     return [(x, hex(y)) for x, y in shards]
+
+
+

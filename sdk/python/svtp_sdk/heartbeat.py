@@ -1,6 +1,6 @@
-# Project: Sovereign AG SDK
-# License: Sovereign Source-Available License (SSAL) v1.0
-# Copyright (c) 2026 Sovereign AG.
+# Project: SVTP v1.0 SDK
+# License: SVTP Source-Available License (SSAL) v1.0
+# Copyright (c) 2026 SVTP v1.0.
 import threading
 import time
 import hashlib
@@ -30,24 +30,28 @@ class HeartbeatEngine:
                 state_str = str(state)
             return hashlib.sha256(state_str.encode()).hexdigest()
         except Exception as e:
-            logging.error(f"[SOVEREIGN_HEARTBEAT] Error hashing state: {e}")
+            logging.error(f"[SVTP_HEARTBEAT] Error hashing state: {e}")
             return "unknown_state_hash"
 
     def _run(self):
         while self.running:
             state_hash = self._calculate_state_hash()
             self.on_pulse(self.agent_id, state_hash)
-            time.sleep(10)
+            time.sleep(0.1) # SVTP-00: 100ms Self-Healing Pulse
 
     def start(self):
         if not self.running:
             self.running = True
             self._thread = threading.Thread(target=self._run, daemon=True)
             self._thread.start()
-            logging.info(f"[SOVEREIGN] Heartbeat Engine started for {self.agent_id}")
+            logging.info(f"[SVTP] Heartbeat Engine started for {self.agent_id}")
 
     def stop(self):
         self.running = False
         if self._thread:
             self._thread.join(timeout=1)
+
+
+
+
 

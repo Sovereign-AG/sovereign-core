@@ -9,15 +9,15 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.exceptions import InvalidSignature
 
-# Sovereign Protocol: Pillar 3 (Database Audit Registry)
+# SVTP v1.0 Protocol: Pillar 3 (Database Audit Registry)
 # Standard: SQLite-backed High-Frequency Audit Trail
 # Pillar 3 Compliance: Cryptographic Chaining (SHA-384)
 
-DB_PATH = os.path.join(os.getcwd(), "data", "sovereign.db")
+DB_PATH = os.path.join(os.getcwd(), "data", "SVTP.db")
 
-class SovereignAuditor:
+class SVTPAuditor:
     """
-    Sovereign Protocol - Pillar 3 (Audit Database).
+    SVTP v1.0 Protocol - Pillar 3 (Audit Database).
     Optimized for high-frequency AI agent requests with indexed search.
     Now includes 'Identity Registry' for subscription status.
     """
@@ -54,7 +54,7 @@ class SovereignAuditor:
             )
         ''')
         
-        # 3. Reputation Ledger (Sovereign Trust Passport)
+        # 3. Reputation Ledger (SVTP Trust Passport)
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS reputation (
                 did TEXT PRIMARY KEY,
@@ -109,7 +109,7 @@ class SovereignAuditor:
             print(f"Reputation Update Failed: {e}")
 
     def get_trust_passport(self, did: str) -> Dict[str, Any]:
-        """Returns the Sovereign Trust Passport (STP) for a DID."""
+        """Returns the SVTP Trust Passport (STP) for a DID."""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute('SELECT score, total_actions, compliance_status FROM reputation WHERE did = ?', (did,))
@@ -124,7 +124,7 @@ class SovereignAuditor:
             
         score = row[0]
         tier = "Bronze"
-        if score > 1000: tier = "Sovereign"
+        if score > 1000: tier = "SVTP"
         elif score > 500: tier = "Gold"
         elif score > 100: tier = "Silver"
         
@@ -221,3 +221,6 @@ class SovereignAuditor:
         rows = cursor.fetchall()
         conn.close()
         return [{"id": r[0], "timestamp": r[1], "did": r[2], "action": r[3], "outcome": r[4], "signature": r[5], "previous_hash": r[6]} for r in rows]
+
+
+

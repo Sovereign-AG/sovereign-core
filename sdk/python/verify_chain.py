@@ -1,6 +1,6 @@
-# Project: Sovereign AG SDK
-# License: Sovereign Source-Available License (SSAL) v1.0
-# Copyright (c) 2026 Sovereign AG.
+# Project: SVTP v1.0 SDK
+# License: SVTP Source-Available License (SSAL) v1.0
+# Copyright (c) 2026 SVTP v1.0.
 import json
 import hashlib
 import sys
@@ -62,8 +62,12 @@ def verify_ledger(ledger_path: str):
         print(f"RESULT: INTEGRITY COMPROMISED ({corrupted_entries} errors detected).")
 
 if __name__ == "__main__":
-    path = "sovereign_ledger.ndjson"
+    path = "svtp_ledger.ndjson"
     if len(sys.argv) > 1:
         path = sys.argv[1]
     verify_ledger(path)
+
+
+
+
 

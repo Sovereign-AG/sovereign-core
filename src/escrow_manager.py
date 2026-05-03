@@ -3,7 +3,7 @@ import time
 import logging
 import json
 
-# Sovereign Protocol: Phase 2 - Level 3 (Automated Liability & Smart Escrow)
+# SVTP v1.0 Protocol: Phase 2 - Level 3 (Automated Liability & Smart Escrow)
 # Integration: NexaPay Settlement Layer
 # Logic: Self-Insuring Financial Protocol
 
@@ -12,10 +12,10 @@ logger = logging.getLogger("EscrowManager")
 class ForensicAuditor:
     """
     Manages cryptographic forensic logs and NexaPay Revenue Tickers.
-    Transitions Sovereign AG into a high-throughput revenue-generating protocol.
+    Transitions SVTP v1.0 into a high-throughput revenue-generating protocol.
     """
     
-    def __init__(self, ledger_path="sovereign_forensic.ndjson", revenue_path="sovereign_revenue.json"):
+    def __init__(self, ledger_path="svtp_forensic.ndjson", revenue_path="svtp_revenue.json"):
         self.ledger_path = ledger_path
         self.revenue_path = revenue_path
 
@@ -119,3 +119,6 @@ class ForensicAuditor:
     def deposit_escrow(self, did: str, amount: float = 1.00):
         # Anchor micro-deposit as a trust signal (Non-Payout)
         return True
+
+
+

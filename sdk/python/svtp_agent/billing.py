@@ -23,3 +23,7 @@ def get_dodo_checkout_url(product_id: str, agent_did: str, test_mode: bool = Fal
     # Note: registry uses the 'external_id' or 'customer_reference' to map the payment to the DID
     return f"{DODO_BASE_URL}/buy/{product_id}?customer_reference={agent_did}&quantity=1"
 
+
+
+
+

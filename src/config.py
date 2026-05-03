@@ -6,17 +6,17 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
 
-# Sovereign Protocol: Cryptographic Configuration Management
+# SVTP v1.0 Protocol: Cryptographic Configuration Management
 # Standard: NIST SP 800-57 Revision 5 (Key Management)
 # Pillar 1 Isolation: Enforcing Environment-only Private Key Injection
 
-class SovereignSettings(BaseSettings):
+class SVTPSettings(BaseSettings):
     """
-    Sovereign AG Production Settings.
+    SVTP v1.0 Production Settings.
     Enforces that high-entropy private keys never touch the container's file system.
     """
-    # Pillar 1: Identity Private Key (Must be injected via SOVEREIGN_PRIVATE_KEY env var)
-    sovereign_private_key: SecretStr = Field(..., alias="SOVEREIGN_PRIVATE_KEY")
+    # Pillar 1: Identity Private Key (Must be injected via SVTP_PRIVATE_KEY env var)
+    SVTP_PRIVATE_KEY: SecretStr = Field(..., alias="SVTP_PRIVATE_KEY")
     
     # Pillar 3: Audit Settings
     log_level: str = "INFO"
@@ -29,22 +29,22 @@ class SovereignSettings(BaseSettings):
         env_file_encoding="utf-8"
     )
 
-class SovereignKeyRegistry:
+class SVTPKeyRegistry:
     """
-    Sovereign Protocol - Key Rotation Manager.
+    SVTP v1.0 Protocol - Key Rotation Manager.
     Allows for non-disruptive rotation of cryptographic signing identities without API downtime.
     """
     def __init__(self):
-        self._settings: Optional[SovereignSettings] = None
+        self._settings: Optional[SVTPSettings] = None
         self._private_key: Optional[ed25519.Ed25519PrivateKey] = None
         self._initialize()
 
     def _initialize(self):
         """Initializes the cryptographic context from injected environment variables."""
         try:
-            self._settings = SovereignSettings()
-            self._load_active_key(self._settings.sovereign_private_key.get_secret_value())
-            logging.info("[KEY_MANAGER] Sovereign Protocol initialized with Secure Env Key.")
+            self._settings = SVTPSettings()
+            self._load_active_key(self._settings.SVTP_PRIVATE_KEY.get_secret_value())
+            logging.info("[KEY_MANAGER] SVTP Protocol initialized with Secure Env Key.")
         except Exception as e:
             logging.error(f"[KEY_MANAGER] Failed to initialize securely: {str(e)}")
 
@@ -61,7 +61,7 @@ class SovereignKeyRegistry:
     def get_signing_key(self) -> ed25519.Ed25519PrivateKey:
         """Returns the active operational signing key."""
         if not self._private_key:
-            raise RuntimeError("Sovereign Identity is not initialized. Ensure SOVEREIGN_PRIVATE_KEY is set.")
+            raise RuntimeError("SVTP Identity is not initialized. Ensure SVTP_PRIVATE_KEY is set.")
         return self._private_key
 
     def rotate_identity(self, new_pk_pem: str):
@@ -69,7 +69,7 @@ class SovereignKeyRegistry:
         Standard: NIST SP 800-57 Compliant Key Rotation.
         Swaps the in-memory signing identity while the API remains operational.
         """
-        logging.warning("[KEY_ROTATION] Initiating Sovereign Identity Swap...")
+        logging.warning("[KEY_ROTATION] Initiating SVTP Identity Swap...")
         try:
             # 1. Pre-validation of new key material
             temp_key = serialization.load_pem_private_key(new_pk_pem.encode('utf-8'), password=None)
@@ -82,9 +82,12 @@ class SovereignKeyRegistry:
             logging.error(f"[KEY_ROTATION] FAILURE: New key material rejected. {str(e)}")
 
 # Singleton access to the global cryptographic context
-registry = SovereignKeyRegistry()
+registry = SVTPKeyRegistry()
 
 if __name__ == "__main__":
     # Internal Cryptographic Context
-    print("\n[SOVEREIGN PROTOCOL: CRYPTOGRAPHIC CONTEXT]")
+    print("\n[SVTP v1.0 PROTOCOL: CRYPTOGRAPHIC CONTEXT]")
     print("-" * 50)
+
+
+

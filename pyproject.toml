@@ -3,16 +3,16 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "sovereign-sdk"
+name = "svtp-sdk"
 version = "0.1.0"
-description = "Hardened AI Agent Identity & NIST-800-218 Compliance Wrapper."
+description = "Sovereign Verification & Trust Protocol (SVTP) SDK - NIST-Compliant Identity Layer."
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
 authors = [
-    { name = "Sovereign AG", email = "engineering@sovereign-ag.com" }
+    { name = "Sovereign AG", email = "office.sovereign.ag@gmail.com" }
 ]
-keywords = ["sovereign", "identity", "nist", "trust", "sdk"]
+keywords = ["svtp", "identity", "nist", "trust", "sdk", "sovereign"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -25,8 +25,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://sovereign-ag.com"
+Homepage = "https://svtp-protocol.org"
 Repository = "https://github.com/Sovereign-AG/sovereign-core"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/sovereign_sdk"]
+packages = ["src/svtp_sdk"]

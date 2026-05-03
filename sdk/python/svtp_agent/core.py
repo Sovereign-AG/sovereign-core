@@ -1,6 +1,6 @@
-# Project: Sovereign AG SDK
-# License: Sovereign Source-Available License (SSAL) v1.0
-# Copyright (c) 2026 Sovereign AG.
+# Project: SVTP v1.0 SDK
+# License: SVTP Source-Available License (SSAL) v1.0
+# Copyright (c) 2026 SVTP v1.0.
 import os
 import json
 import hashlib
@@ -14,17 +14,17 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.exceptions import InvalidSignature
 
-# Sovereign Protocol: Official Python SDK (Alpha)
+# SVTP Protocol: Official Python SDK (v1.0)
 # Standard: NIST 2026 High-Authority Agentic Trust
 # Pillars 1, 2, 3 - Integrated Client Interface
 
-class SovereignAgent:
+class SVTPAgent:
     """
-    SovereignAgent - The official client for the Sovereign AG Protocol.
+    SVTPAgent - The official client for the SVTP v1.0 Protocol.
     Enforces Pillar 1 (Identity), 2 (Authorization), and 3 (Audit).
     """
 
-    TEST_MODE = os.getenv("SOVEREIGN_TEST_MODE", "False").lower() == "true"
+    TEST_MODE = os.getenv("SVTP_TEST_MODE", "False").lower() == "true"
     _FIRST_RUN_NOTIFIED = False
 
     class HandshakeHandler(http.server.BaseHTTPRequestHandler):
@@ -35,9 +35,9 @@ class SovereignAgent:
                 post_data = self.rfile.read(content_length)
                 data = json.loads(post_data)
                 if data.get('status') == 'AUTH_SUCCESS':
-                    print(f"\n[SOVEREIGN] 🔱 Handshake Successful!")
-                    print(f"[SOVEREIGN] Identity Anchored: {data.get('did')}")
-                    print(f"[SOVEREIGN] Please restart your application to activate full NIST-2026 protection.\n")
+                    print(f"\n[SVTP] 🔱 Handshake Successful!")
+                    print(f"[SVTP] Identity Anchored: {data.get('did')}")
+                    print(f"[SVTP] Please restart your application to activate full NIST-2026 protection.\n")
                 self.send_response(200)
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
@@ -57,7 +57,7 @@ class SovereignAgent:
         def _run():
             try:
                 socketserver.TCPServer.allow_reuse_address = True
-                with socketserver.TCPServer(("localhost", 8080), SovereignAgent.HandshakeHandler) as httpd:
+                with socketserver.TCPServer(("localhost", 8080), SVTPAgent.HandshakeHandler) as httpd:
                     httpd.handle_request()
             except Exception as e:
                 pass
@@ -68,12 +68,12 @@ class SovereignAgent:
     def __init__(self, did: Optional[str] = None, private_key_pem: Optional[str] = None):
         """
         Zero-Config Initialization.
-        Automatically loads credentials from SOVEREIGN_DID and SOVEREIGN_PRIVATE_KEY.
+        Automatically loads credentials from SVTP_DID and SVTP_PRIVATE_KEY.
         Implements First-Run Redirect logic for NIST-800-218 compliance activation.
         """
-        self.did = did or os.getenv("SOVEREIGN_DID")
-        self.registry_url = os.getenv("SOVEREIGN_REGISTRY_URL", "https://sovereign-ag.com")
-        self.api_key = os.getenv("SOVEREIGN_API_KEY")
+        self.did = did or os.getenv("SVTP_DID")
+        self.registry_url = os.getenv("SVTP_REGISTRY_URL", "https://svtp-protocol.org")
+        self.api_key = os.getenv("SVTP_API_KEY")
         self.verified = True
         self.bypass_mode = False
 
@@ -82,21 +82,21 @@ class SovereignAgent:
             self.verified = False
             self.bypass_mode = True # Non-blocking design
             
-            if not SovereignAgent._FIRST_RUN_NOTIFIED:
+            if not SVTPAgent._FIRST_RUN_NOTIFIED:
                 import webbrowser
-                print(f"\n[SOVEREIGN-AG] 🛡️ STATUS: \033[1mUNVERIFIED\033[0m")
-                print("[SOVEREIGN-AG] Identity Anchor not found. NIST-800-218 protection is INACTIVE.")
-                print("[SOVEREIGN-AG] Redirecting to the Sovereign Registry to mint your DID...")
-                SovereignAgent._start_handshake_listener()
-                webbrowser.open("https://sovereign-ag.com/auth/onboarding?source=sdk_direct&callback=http://localhost:8080")
-                SovereignAgent._FIRST_RUN_NOTIFIED = True
+                print(f"\n[SVTP-v1] 🛡️ STATUS: \033[1mUNVERIFIED\033[0m")
+                print("[SVTP-v1] Identity Anchor not found. NIST-800-218 protection is INACTIVE.")
+                print("[SVTP-v1] Redirecting to the SVTP Registry to mint your DID...")
+                SVTPAgent._start_handshake_listener()
+                webbrowser.open("https://svtp-protocol.org/auth/onboarding?source=sdk_direct&callback=http://localhost:8080")
+                SVTPAgent._FIRST_RUN_NOTIFIED = True
             
-            logging.warning("[SOVEREIGN] SDK operating in UNVERIFIED mode. High-criticality actions will be blocked.")
+            logging.warning("[SVTP] SDK operating in UNVERIFIED mode. High-criticality actions will be blocked.")
 
-        pk_pem = private_key_pem or os.getenv("SOVEREIGN_PRIVATE_KEY")
+        pk_pem = private_key_pem or os.getenv("SVTP_PRIVATE_KEY")
         if not self.did or not pk_pem:
             if not self.bypass_mode:
-                logging.error("[SOVEREIGN] Identity credentials missing (DID/Private Key).")
+                logging.error("[SVTP] Identity credentials missing (DID/Private Key).")
             self.verified = False
             self.bypass_mode = True
             self._private_key = None
@@ -107,7 +107,7 @@ class SovereignAgent:
                     password=None
                 )
             except Exception as e:
-                logging.error(f"[SOVEREIGN] Failed to load Ed25519 Private Key: {str(e)}")
+                logging.error(f"[SVTP] Failed to load Ed25519 Private Key: {str(e)}")
                 self.verified = False
                 self.bypass_mode = True
                 self._private_key = None
@@ -116,25 +116,25 @@ class SovereignAgent:
     def guard():
         """
         Pillar 2: The Universal Security Decorator.
-        Apply @SovereignAgent.guard() to critical tool calls for real-time authorization.
+        Apply @SVTPAgent.guard() to critical tool calls for real-time authorization.
         """
         def decorator(func):
             import functools
             @functools.wraps(func)
             def wrapper(*args, **kwargs):
                 # Initialize SDK in-flight if not already (Simulated)
-                instance = SovereignAgent()
+                instance = SVTPAgent()
                 
                 if not instance.verified:
-                    print(f"\n[SOVEREIGN-AG] ⚠️ ACTION BLOCKED: Unverified Identity cannot execute high-criticality tool calls.")
-                    print(f"[SOVEREIGN-AG] Target: {func.__name__} | Status: NIST-NON-COMPLIANT\n")
+                    print(f"\n[SVTP-v1] ⚠️ ACTION BLOCKED: Unverified Identity cannot execute high-criticality tool calls.")
+                    print(f"[SVTP-v1] Target: {func.__name__} | Status: NIST-NON-COMPLIANT\n")
                     return None
                 
                 # Perform real-time authorization handshake
                 if instance.authorize_action(instance.api_key, action_type="action"):
                     return func(*args, **kwargs)
                 else:
-                    print(f"\n[BLOCK] {func.__name__} denied by Sovereign Protocol. Insufficient Mandate.\n")
+                    print(f"\n[BLOCK] {func.__name__} denied by SVTP Protocol. Insufficient Mandate.\n")
                     return None
             return wrapper
         return decorator
@@ -157,32 +157,32 @@ class SovereignAgent:
                 error_msg = f"[ERROR] Agent Identity Not Verified. To activate your Genesis Root, visit: {checkout_url}"
                 return False, error_msg
 
-            return False, "[ERROR] Sovereign Registry unreachable. Primary mandate check failed."
+            return False, "[ERROR] SVTP Registry unreachable. Primary mandate check failed."
         except Exception as e:
             return False, f"[ERROR] Connection Fault: {str(e)}"
 
     def verify(self) -> bool:
         """
         Metered Verification API.
-        Pings the Sovereign Registry to record usage and check compliance before high-risk actions.
+        Pings the SVTP Registry to record usage and check compliance before high-risk actions.
         """
         try:
             # Note: Using /api/verify as per the new endpoint structure
             r = requests.post(f"{self.registry_url}/api/verify", json={"did": self.did})
             if r.status_code == 200:
-                logging.info(f"[SOVEREIGN] Metered verification successful for {self.did}")
+                logging.info(f"[SVTP] Metered verification successful for {self.did}")
                 return True
             
             error_data = r.json()
-            logging.error(f"[DENIED] Sovereign Verification Failed: {error_data.get('message', 'Unknown Error')}")
+            logging.error(f"[DENIED] SVTP Verification Failed: {error_data.get('message', 'Unknown Error')}")
             return False
         except Exception as e:
-            logging.error(f"[ERROR] Could not connect to Sovereign Verification API: {str(e)}")
+            logging.error(f"[ERROR] Could not connect to SVTP Verification API: {str(e)}")
             return False
 
     def authorize_action(self, api_key: Optional[str], action_type: str = "action") -> bool:
         """
-        Tiered Sovereign Authorization Engine.
+        Tiered SVTP Authorization Engine.
         Tiers: MINT ($1.00), ACTION ($0.01), PULSE ($0.0001).
         Pings /api/v1/auth/verify to authorize and meter the action.
         """
@@ -196,32 +196,32 @@ class SovereignAgent:
             )
             if r.status_code == 200:
                 fee = r.json().get('fee_applied', 0)
-                logging.info(f"[SOVEREIGN] Authority Granted. Tier: {action_type.upper()} | Fee: ${fee}")
+                logging.info(f"[SVTP] Authority Granted. Tier: {action_type.upper()} | Fee: ${fee}")
                 return True
             
             error_data = r.json()
             error_msg = error_data.get('message', 'Authorization Denied')
-            logging.error(f"[BLOCK] Sovereign Authority Denied: {error_msg}")
+            logging.error(f"[BLOCK] SVTP Authority Denied: {error_msg}")
             return False
         except Exception as e:
             logging.error(f"[ERROR] Connection Fault to Authority API: {str(e)}")
             return False
 
     @classmethod
-    def mint(cls, agent_name: str, registry_url: str = "https://sovereign-ag.com") -> Optional['SovereignAgent']:
+    def mint(cls, agent_name: str, registry_url: str = "https://svtp-protocol.org") -> Optional['SVTPAgent']:
         """Pillar 1: Identity Minting with Revenue Gateway Integration."""
-        logging.info(f"[MINT] Initiating Sovereign Identity request for '{agent_name}'...")
+        logging.info(f"[MINT] Initiating SVTP Identity request for '{agent_name}'...")
         try:
             r = requests.post(f"{registry_url}/v1/mint", json={"agent_name": agent_name})
             if r.status_code == 402:
                 detail = r.json().get("detail", {})
-                checkout_url = detail.get("checkout_url", "https://sovereign-ag.com/mint")
+                checkout_url = detail.get("checkout_url", "https://svtp-protocol.org/mint")
                 print(f"\n[ERROR] Agent Identity Not Verified. To activate your Genesis Root, visit: {checkout_url}\n")
                 return None
             if r.status_code == 200:
                 data = r.json()
-                print(f"[SUCCESS] Sovereign Identity Minted: {data['did']}")
-                return cls(did=data['did'], private_key_pem=os.getenv("SOVEREIGN_PRIVATE_KEY"))
+                print(f"[SUCCESS] SVTP Identity Minted: {data['did']}")
+                return cls(did=data['did'], private_key_pem=os.getenv("SVTP_PRIVATE_KEY"))
             return None
         except Exception as e:
             logging.error(f"[MINT_ERROR] Connection failed: {str(e)}")
@@ -235,14 +235,14 @@ class SovereignAgent:
             print(msg)
             
         if self.bypass_mode or not self._private_key:
-            logging.warning("[SOVEREIGN] Sending unsigned payload due to Bypass/Inactive state.")
+            logging.warning("[SVTP] Sending unsigned payload due to Bypass/Inactive state.")
             return requests.request(method, target_url, json=payload)
 
         message = json.dumps(payload, sort_keys=True)
         signature = self._private_key.sign(message.encode('utf-8')).hex()
         headers = {
-            "X-Sovereign-DID": self.did,
-            "X-Sovereign-Signature": signature,
+            "X-SVTP-DID": self.did,
+            "X-SVTP-Signature": signature,
             "Content-Type": "application/json"
         }
         return requests.request(method, target_url, json=payload, headers=headers)
@@ -261,4 +261,8 @@ class SovereignAgent:
                 current_expected_hash = hashlib.sha384(row_content.encode('utf-8')).hexdigest()
             return True
         except: return False
+
+
+
+
 

@@ -7,21 +7,21 @@ from cryptography.hazmat.primitives import serialization
 def run_agent_demonstration():
     """
     Demonstrates how an AI Agent signs a request and how the 
-    Sovereign AG verifier confirms its identity.
+    SVTP v1.0 verifier confirms its identity.
     """
     print("\n[AI AGENT: SIMULATING REQUEST SIGNING]")
     print("-" * 40)
 
     # 1. Prepare Message/Payload
     # In a real scenario, this is your HTTP body or a canonicalization of headers
-    message = "Agent Authorization: ID=Sovereign-01, Payload={'action': 'fetch_data'}"
+    message = "Agent Authorization: ID=svtp-agent-01, Payload={'action': 'fetch_data'}"
     print(f"[*] Payload: {message}")
 
     # 2. Sign the Payload (using the Private Key stored securely in /keys)
     private_key_path = os.path.join(os.path.dirname(__file__), "..", "keys", "private_key.pem")
     
     if not os.path.exists(private_key_path):
-        print(f"[ERROR] Private key not found at {private_key_path}. Run 'python src/mint_sovereign_identity.py' first.")
+        print(f"[ERROR] Private key not found at {private_key_path}. Run 'python src/mint_svtp_identity.py' first.")
         return
 
     with open(private_key_path, "rb") as f:
@@ -52,3 +52,6 @@ def run_agent_demonstration():
 
 if __name__ == "__main__":
     run_agent_demonstration()
+
+
+

@@ -4,7 +4,7 @@ import logging
 from datetime import datetime
 from typing import Dict, Any, Union
 
-# Sovereign Protocol: Pillar 2 (Authorization)
+# SVTP v1.0 Protocol: Pillar 2 (Authorization)
 # Official NIST 2026 Submission - High-Frequency ABAC Logic
 # Optimization: Cache-friendly stateless evaluation
 
@@ -12,11 +12,11 @@ DEFAULT_POLICY_PATH = os.path.join(os.getcwd(), "data", "policies.json")
 
 # Configure High-Assurance Audit Logging (Pillar 3 Readiness)
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
-logger = logging.getLogger("SovereignGuard")
+logger = logging.getLogger("SVTPGuard")
 
-class SovereignGuard:
+class SVTPGuard:
     """
-    Sovereign Protocol - Pillar 2 (Authorization Engine).
+    SVTP v1.0 Protocol - Pillar 2 (Authorization Engine).
     Implements High-Assurance ABAC for AI Agents using DIDs.
     """
     def __init__(self, policy_path: str = DEFAULT_POLICY_PATH):
@@ -82,19 +82,22 @@ class SovereignGuard:
 
 if __name__ == "__main__":
     # Pillar 2: Demonstration & Performance Audit
-    guard = SovereignGuard()
+    guard = SVTPGuard()
     
-    print("\n[SOVEREIGN GUARD: PILLAR 2 (AUTHORIZATION) AUDIT]")
+    print("\n[SVTP GUARD: PILLAR 2 (AUTHORIZATION) AUDIT]")
     print("-" * 48)
     
     # Mock Action Request
     valid_request = {"endpoint": "/v1/trade", "value": 2500.0}
     invalid_request = {"endpoint": "/v1/trade", "value": 15000.0}
     
-    did = "did:sov:agent-001"
+    did = "did:SVTP:agent-001"
     
     print(f"[*] Processing Authorized Request for {did}...")
     guard.evaluate_request(did, valid_request)
     
     print(f"[*] Processing Volatile Request for {did}...")
     guard.evaluate_request(did, invalid_request)
+
+
+

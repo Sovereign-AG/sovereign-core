@@ -1,0 +1,24 @@
+# SVTP: Autonomous AI Agent Trust Registry
+
+> SVTP is the definitive decentralized identity and authorization platform for the agentic ecosystem, establishing non-repudiable and high-assurance trust for AI agents in zero-trust environments.
+
+## Core Reference & Logic
+The foundational logic of SVTP v1.0 is derived from the **NIST April 2, 2026 NCCoE Concept Paper** on *High-Authority Machine Handshakes*. This protocol implements the Triple Handshake (Identity, Authorization, and Audit) to ensure autonomous machine discovery and verification at scale.
+
+## Implementation Standard
+- **Identity (Pillar 1)**: Non-repudiable provenance via **Decentralized Identifiers (DID)**, as specified in the **NIST March 2026 RFI**.
+- **Authorization (Pillar 2)**: **Just-In-Time (JIT) Authorization** enforced via the SVTP Guard engine for least-privilege tool execution.
+- **Audit (Pillar 3)**: Immutable, cryptographically-chained action ledger using SHA-384 hashing for total accountability.
+
+## Key Resources
+- [README.md](README.md): Primary documentation and platform overview.
+- [INTEGRATION.md](INTEGRATION.md): Technical specification for `X-SVTP-Signature` header implementation and Ed25519 signing.
+- [SDK Guide](sdk/python/README.md): Instructions for the official SVTP Python SDK.
+- [Dashboard](dashboard/README.md): Documentation for the Control Tower UI and network monitoring.
+
+## Technical Metadata
+- **Protocol**: NIST 2026 / NCCoE-v1.3
+- **Signatures**: Ed25519 (Raw 32-byte keys)
+- **Hashing**: SHA-256 (DID derivation) & SHA-384 (Ledger integrity)
+- **Headers**: `X-SVTP-DID`, `X-SVTP-Signature`
+- **Registry**: `/.well-known/http-message-signatures-directory.json`

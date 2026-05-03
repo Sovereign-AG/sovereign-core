@@ -1,13 +1,13 @@
 version: '3.8'
 
-# Sovereign AG: Cloud-Native Architecture
+# SATP v1.0: Cloud-Native Architecture
 # Scale-Ready: Kubernetes (K8s) or AWS ECS Compatibility
 # Pillar Isolation: Distributed Identity & Audit
 
 services:
   registry:
     build: .
-    container_name: sovereign-registry-alpha
+    container_name: satp-registry-alpha
     restart: always
     ports:
       - "8000:8000"
@@ -35,4 +35,4 @@ services:
 
 networks:
   default:
-    name: sovereign-net
+    name: satp-net

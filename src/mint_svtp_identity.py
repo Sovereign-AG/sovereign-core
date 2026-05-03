@@ -3,7 +3,7 @@ import base64
 from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.hazmat.primitives import serialization
 
-# Sovereignty AG: Core Identity Minting Utility
+# SVTP v1.0: Core Identity Minting Utility
 # Algorithm: Ed25519 (NIST-preferred for non-repudiation)
 # Standard: PKCS8 for Private Key, SubjectPublicKeyInfo for Public Key
 
@@ -12,7 +12,7 @@ def mint_identity(output_dir="../keys"):
     Generates a new Ed25519 key pair and saves them to the specified directory.
     Uses low-level cryptography primitives for maximum trust.
     """
-    print("Initializing Sovereign AG Identity Mint...")
+    print("Initializing SVTP v1.0 Identity Mint...")
 
     # 1. Generate Ed25519 Private Key
     private_key = ed25519.Ed25519PrivateKey.generate()
@@ -82,7 +82,7 @@ def mint_identity(output_dir="../keys"):
         except ImportError:
             print("[!] Secret Sharing module not found. Skipping sharding.")
 
-        print("\nSovereign Identity minted successfully.")
+        print("\nSVTP Identity minted successfully.")
 
     except Exception as e:
         print(f"[ERROR] Failed to save keys: {e}")
@@ -92,3 +92,6 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
     keys_dir = os.path.abspath(os.path.join(script_dir, "..", "keys"))
     mint_identity(keys_dir)
+
+
+

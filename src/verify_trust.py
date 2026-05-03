@@ -6,11 +6,11 @@ import time
 from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.hazmat.primitives import serialization
 
-# Sovereign Protocol: Phase 2 - Level 1 (Zero-Knowledge Behavioral Provability)
+# SVTP v1.0 Protocol: Phase 2 - Level 1 (Zero-Knowledge Behavioral Provability)
 # Standard: Recursive ZK-SNARK inspired Schnorr NIZKP
 # Target Latency: Microsecond (us) scale verification
 
-class SovereignZKP:
+class SVTPZKP:
     """
     Highly optimized ZK Proof Verification Engine.
     Uses Schnorr Identification Protocol under Fiat-Shamir Heuristic.
@@ -44,7 +44,7 @@ class SovereignZKP:
 
             # 2. Cryptographic Check: s*G == R + c*Public_Key
             # In an institutional deployment, this is accelerated via SIMD/AVX
-            # For the Sovereign Protocol Python Validator, we utilize C-accelerated primitives.
+            # For the SVTP Protocol Python Validator, we utilize C-accelerated primitives.
             
             # MOCK ZK CIRCUIT VERIFICATION (Mathematical Simulation)
             # In a full Plonky2/STARK environment, this would involve polynomial constraints.
@@ -78,7 +78,7 @@ def verify_trust(public_key_path: str, baseline_hash: str, proof_json: str) -> b
         proof = json.loads(proof_json)
         
         start_time = time.perf_counter_ns()
-        success = SovereignZKP.verify_behavior_proof(pk_bytes, proof, baseline_hash)
+        success = SVTPZKP.verify_behavior_proof(pk_bytes, proof, baseline_hash)
         end_time = time.perf_counter_ns()
         
         latency_us = (end_time - start_time) / 1000
@@ -95,7 +95,7 @@ def verify_trust(public_key_path: str, baseline_hash: str, proof_json: str) -> b
         return False
 
 def main():
-    parser = argparse.ArgumentParser(description="Sovereign AG: ZK-SNARK Behavioral Verifier")
+    parser = argparse.ArgumentParser(description="SVTP v1.0: ZK-SNARK Behavioral Verifier")
     parser.add_argument("--public-key", required=True)
     parser.add_argument("--baseline", required=True)
     parser.add_argument("--proof", required=True)
@@ -105,3 +105,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+

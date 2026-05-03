@@ -1,5 +1,5 @@
-# Project: Sovereign AG SDK
-# License: Sovereign Source-Available License (SSAL) v1.0
+# Project: SVTP v1.0 SDK
+# License: SVTP Source-Available License (SSAL) v1.0
 # Copyright (c) 2026 Sovereign AG.
 import sys
 import os
@@ -7,23 +7,23 @@ import webbrowser
 import requests
 import logging
 
-# Sovereign Protocol: Official CLI Tool (Alpha)
+# SVTP Protocol: Official CLI Tool (v1.0)
 # Standard: Decentralized Identity & Auth Lifecycle Management
 
 def main():
     """
-    Sovereign AG CLI - Entry point for High-Authority Agentic Controls.
-    Usage: sovereign <command> [args]
+    SVTP v1.0 CLI - Entry point for High-Authority Agentic Controls.
+    Usage: SVTP <command> [args]
     """
     if len(sys.argv) < 2:
-        print("\nSovereign Protocol CLI (Alpha)")
+        print("\nSVTP Protocol CLI (v1.0)")
         print("------------------------------")
-        print("Usage: sovereign [checkout | verify | status]\n")
+        print("Usage: SVTP [checkout | verify | status]\n")
         return
 
     command = sys.argv[1].lower()
-    registry_url = os.getenv("SOVEREIGN_REGISTRY_URL", "http://127.0.0.1:8000")
-    did = os.getenv("SOVEREIGN_DID")
+    registry_url = os.getenv("SVTP_REGISTRY_URL", "http://127.0.0.1:8000")
+    did = os.getenv("SVTP_DID")
 
     if command == "checkout":
         """
@@ -31,10 +31,10 @@ def main():
         Opens the specialized Dodo activation portal in the default browser.
         """
         if not did:
-            print("[ERROR] SOVEREIGN_DID environment variable not set. Identity initialization required.")
+            print("[ERROR] SVTP_DID environment variable not set. Identity initialization required.")
             return
 
-        print(f"[*] Retrieving Sovereign Activation Portal for: {did}...")
+        print(f"[*] Retrieving SVTP Activation Portal for: {did}...")
         try:
             # Query the status endpoint to get the latest checkout URL
             r = requests.get(f"{registry_url}/v1/status/{did}")
@@ -53,7 +53,7 @@ def main():
                 else:
                     print("[ERROR] Internal logic failure: Checkout URL missing from Registry.")
             else:
-                print(f"[ERROR] Sovereign Registry returned {r.status_code}: {r.text}")
+                print(f"[ERROR] SVTP Registry returned {r.status_code}: {r.text}")
         except Exception as e:
             print(f"[ERROR] Failed to reach Registry at {registry_url}: {str(e)}")
 
@@ -80,4 +80,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
 

@@ -5,7 +5,7 @@ import json
 import threading
 import logging
 
-# Sovereign Protocol: Phase 2 - Level 4 (The "Phantom" DePIN Mesh)
+# SVTP v1.0 Protocol: Phase 2 - Level 4 (The "Phantom" DePIN Mesh)
 # Standard: Sharded Gossip Protocol for Decentralized Hubless Sync
 # Logic: Peers verify state-hashes of neighbors to maintain 1,000,000-node grid integrity.
 
@@ -82,3 +82,6 @@ def start_mesh_service(node_did: str):
     daemon = threading.Thread(target=mesh_loop, daemon=True)
     daemon.start()
     return mesh
+
+
+

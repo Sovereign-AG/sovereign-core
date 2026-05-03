@@ -4,7 +4,7 @@ import time
 import os
 
 DASHBOARD_URL = "http://localhost:3000"
-ORG_ID = "sovereign-org"
+ORG_ID = "SVTP-org"
 
 def test_settlement_flow():
     print("--- Phase 1: Assessment Accrual ---")
@@ -15,7 +15,7 @@ def test_settlement_flow():
     print(f"Action Tax Response: {resp.status_code} - {resp.json()}")
     
     # Check DB state
-    db_path = r"c:\Users\Aditya\Desktop\Sovereign AG\sovereign_db.json"
+    db_path = r"c:\Users\Aditya\Desktop\Sovereign AG\svtp_db.json"
     with open(db_path, "r") as f:
         db = json.load(f)
     
@@ -67,3 +67,7 @@ def test_settlement_flow():
 
 if __name__ == "__main__":
     test_settlement_flow()
+
+
+
+

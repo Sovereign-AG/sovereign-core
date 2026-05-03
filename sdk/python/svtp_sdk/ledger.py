@@ -1,7 +1,7 @@
-# Sovereign AG SDK - Forensic Ledger
-# License: Sovereign Source-Available License (SSAL) v1.0
-# Copyright (c) 2026 Sovereign AG.
-# Commercial use > 10 agents requires a Sovereign Enterprise License.
+# SVTP v1.0 SDK - Forensic Ledger
+# License: SVTP Source-Available License (SSAL) v1.0
+# Copyright (c) 2026 SVTP v1.0.
+# Commercial use > 10 agents requires an SVTP Enterprise License.
 
 import json
 import os
@@ -9,16 +9,20 @@ import time
 import threading
 import queue
 import hashlib
+import hmac
 import copy
 from typing import Dict, Any, Optional
 
-class SovereignLedger:
+class SVTPLedger:
     """
-    SovereignLedger - Manages the immutable NDJSON ledger with Forensic Hash-Chaining.
+    SVTPLedger - Manages the immutable NDJSON ledger with Forensic Hash-Chaining.
     Every entry is cryptographically linked to the predecessor.
     """
-    def __init__(self, ledger_path: str = "sovereign_ledger.ndjson", tax_callback=None):
+    def __init__(self, ledger_path: str = "svtp_ledger.ndjson", 
+                 signing_key: Optional[str] = None,
+                 tax_callback=None):
         self.ledger_path = os.path.abspath(ledger_path)
+        self._signing_key = (signing_key or "SVTP_GENESIS_SECRET").encode()
         self._tax_callback = tax_callback
         os.makedirs(os.path.dirname(self.ledger_path), exist_ok=True)
         
@@ -63,7 +67,7 @@ class SovereignLedger:
                 last_line = f.read().strip()
                 return hashlib.sha256(last_line).hexdigest() if last_line else "0" * 64
         except Exception as e:
-            print(f"[SOVEREIGN_LEDGER] Hash-Chain Seed Error: {e}")
+            print(f"[svtp_ledger] Hash-Chain Seed Error: {e}")
             return "0" * 64
 
     def _worker(self):
@@ -82,6 +86,12 @@ class SovereignLedger:
                             metadata["action_checksum"] = self._generate_action_checksum(metadata)
                     
                     entry["prev_hash"] = self._last_line_hash
+                    
+                    # Cryptographic Integrity Signature (HMAC-SHA256)
+                    line_to_sign = json.dumps(entry, sort_keys=True)
+                    signature = hmac.new(self._signing_key, line_to_sign.encode(), hashlib.sha256).hexdigest()
+                    entry["signature"] = signature
+                    
                     line = json.dumps(entry, sort_keys=True)
                     
                     # Atomic append with buffered sync for 1M+ pulse throughput
@@ -108,7 +118,7 @@ class SovereignLedger:
             except queue.Empty:
                 continue
             except Exception as e:
-                print(f"[SOVEREIGN_LEDGER_WORKER] Error: {e}")
+                print(f"[svtp_ledger_WORKER] Error: {e}")
 
     def _generate_action_checksum(self, metadata: Dict[str, Any]) -> str:
         """Generates a non-repudiable checksum for actions."""
@@ -136,3 +146,7 @@ class SovereignLedger:
         """Clean shutdown - wait for queue to drain."""
         self._queue.join()
         self._stop_event.set()
+
+
+
+

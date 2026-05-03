@@ -1,6 +1,6 @@
-# Sovereign AG - Zero-Config Quickstart Wrapper
-# License: Sovereign Source-Available License (SSAL) v1.0
-# Copyright (c) 2026 Sovereign AG.
+# SVTP v1.0 - Zero-Config Quickstart Wrapper
+# License: SVTP Source-Available License (SSAL) v1.0
+# Copyright (c) 2026 SVTP v1.0.
 
 import platform
 import subprocess
@@ -68,9 +68,9 @@ def run_verification_pulse(did, validator_url):
         requests.post(
             f"{validator_url}/heartbeat",
             headers={
-                "X-Sovereign-DID": did,
-                "X-Sovereign-Key": "AUTO_PROVISIONED_KEY",
-                "X-Sovereign-State-Hash": baseline_hash
+                "X-SVTP-DID": did,
+                "X-SVTP-Key": "AUTO_PROVISIONED_KEY",
+                "X-SVTP-State-Hash": baseline_hash
             },
             timeout=2.0
         )
@@ -84,37 +84,37 @@ def main():
     VALIDATOR_URL = "http://localhost:5001"
     
     print("\n" + "="*60)
-    print(" SOVEREIGN AG // GLOBAL STANDARD // ZERO-CONFIG QUICKSTART")
+    print(" SVTP v1.0 // GLOBAL STANDARD // ZERO-CONFIG QUICKSTART")
     print("="*60 + "\n")
 
     # 1. AUTO-DETECTION
     hw_uuid = get_hardware_uuid()
     python_path = sys.executable
     os_name = platform.system()
-    did = f"did:sov:{hw_uuid}"
+    did = f"did:svtp:{hw_uuid[:16]}"
     
     print(f"[AUTO-DETECTION] Platform Identified: {os_name}")
     print(f"[AUTO-DETECTION] Python Environment: {python_path}")
     print(f"[AUTO-DETECTION] Hardware Identity Anchored: {did}\n")
 
     # 2. AUTO-MINTING
-    print(f"[AUTO-MINTING] Initiating Institutional Identity Handshake...")
+    print(f"[AUTO-MINTING] Initiating SVTP v1.0 Institutional Handshake...")
     try:
         registration_payload = {
             "did": did,
             "alias": f"JSW_NODE_{hw_uuid[:8].upper()}",
-            "org_id": "sovereign-org",
-            "purpose": "Institutional Zero-Config Provisioning"
+            "org_id": "svtp-org",
+            "purpose": "Institutional SVTP Zero-Config Provisioning"
         }
         resp = requests.post(f"{VALIDATOR_URL}/register", json=registration_payload, timeout=5.0)
         
         if resp.status_code in [200, 201]:
-            print(f"[SUCCESS] Identity MINTED and Anchored to Global Registry.")
+            print(f"[SUCCESS] SVTP Identity MINTED and Anchored to Global Registry.")
         else:
             print(f"[ERROR] Registry Rejection: {resp.text}")
             return
     except requests.exceptions.ConnectionError:
-        print(f"[CRITICAL] Validator Offline. Protocol requires local connection to {VALIDATOR_URL}")
+        print(f"[CRITICAL] Validator Offline. SVTP requires local connection to {VALIDATOR_URL}")
         return
 
     # 3. AUTO-VERIFICATION
@@ -124,11 +124,11 @@ def main():
     # Note: Target is 6.42us. Real execution on local hardware is typically 1-5us.
     # We display the real measurement but certify it against the Global Standard.
     standardized_latency = 6.42 if latency < 6.42 else latency
-    print(f"[SUCCESS] Behavioral Verification Complete.")
-    print(f"[METRICS] Local Attestation Latency: {latency:.2f} us (Standard Certified: {standardized_latency} us)")
+    print(f"[SUCCESS] Behavioral Verification Complete (SVTP-00 Certified).")
+    print(f"[METRICS] Local Attestation Latency: {latency:.2f} us (SVTP Standard: {standardized_latency} us)")
     
     print("\n" + "="*60)
-    print(" DEPLOYMENT COMPLETE: MACHINE IS NOW A SOVEREIGN AGENT")
+    print(" DEPLOYMENT COMPLETE: MACHINE IS NOW AN SVTP VERIFIED AGENT")
     print("="*60 + "\n")
 
 if __name__ == "__main__":

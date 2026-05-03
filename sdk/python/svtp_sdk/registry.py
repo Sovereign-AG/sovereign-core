@@ -1,7 +1,7 @@
-# Sovereign AG SDK - Registry Client
-# License: Sovereign Source-Available License (SSAL) v1.0
-# Copyright (c) 2026 Sovereign AG.
-# Commercial use > 10 agents requires a Sovereign Enterprise License.
+# SVTP v1.0 SDK - Registry Client
+# License: SVTP Source-Available License (SSAL) v1.0
+# Copyright (c) 2026 SVTP v1.0.
+# Commercial use > 10 agents requires an SVTP Enterprise License.
 
 import os
 import requests
@@ -12,10 +12,10 @@ from typing import Optional, Dict, Any
 
 class RegistryClient:
     """
-    RegistryClient - Interfaces with api.sovereign-ag.ai for Kill-Switch and Identity checks.
+    RegistryClient - Interfaces with api.SVTP.org for Kill-Switch and Identity checks.
     """
-    def __init__(self, sovereign_key: str, base_url: str = "http://127.0.0.1:5001"):
-        self.sovereign_key = sovereign_key
+    def __init__(self, SVTP_KEY: str, base_url: str = "http://127.0.0.1:5001"):
+        self.SVTP_KEY = SVTP_KEY
         self.base_url = base_url
         self.fail_safe_mode = "BLOCK" # v1.0 strict enforcement
         self._is_blocked = False # Zero-Latency local cache
@@ -29,8 +29,8 @@ class RegistryClient:
             response = requests.get(
                 f"{self.base_url}/v1/status/{agent_id}",
                 headers={
-                    "Authorization": f"Bearer {self.sovereign_key}",
-                    "X-Sovereign-Key": self.sovereign_key
+                    "Authorization": f"Bearer {self.SVTP_KEY}",
+                    "X-SVTP-Key": self.SVTP_KEY
                 },
                 timeout=2.0
             )
@@ -39,12 +39,12 @@ class RegistryClient:
                 return data.get("is_active", True)
             
             if response.status_code == 403:
-                logging.error(f"[SOVEREIGN] Kill-Switch ACTIVATED or Unauthorized for {agent_id}.")
+                logging.error(f"[SVTP] Kill-Switch ACTIVATED or Unauthorized for {agent_id}.")
                 return False
                 
             return True # Default to active if status is unknown but reached
         except Exception as e:
-            logging.warning(f"[SOVEREIGN) Registry unreachable or invalid key: {e}")
+            logging.warning(f"[SVTP] Registry unreachable or invalid key: {e}")
             if self.fail_safe_mode == "BLOCK":
                 return False
             return True
@@ -61,7 +61,7 @@ class RegistryClient:
         url = f"{self.base_url}/register" # Linked to server.py register endpoint for v1.0
         payload = {
             "did": agent_name, # In v1.0, agent_name IS the DID from the Passport
-            "sovereign_key": self.sovereign_key,
+            "SVTP_KEY": self.SVTP_KEY,
             "hitl_config": hitl_config
         }
         
@@ -69,21 +69,21 @@ class RegistryClient:
             resp = requests.post(
                 url, 
                 json=payload, 
-                headers={"X-Sovereign-Key": self.sovereign_key}, 
+                headers={"X-SVTP-Key": self.SVTP_KEY}, 
                 timeout=5.0
             )
             if resp.status_code == 201 or resp.status_code == 200:
                 return resp.json()
             else:
-                logging.error(f"[SOVEREIGN] Handshake failed: {resp.text}")
+                logging.error(f"[SVTP] Handshake failed: {resp.text}")
                 return {"error": "Handshake failed - Unregistered or Invalid Key"}
         except Exception as e:
-            logging.warning(f"[SOVEREIGN] Registry unreachable during handshake: {e}")
+            logging.warning(f"[SVTP] Registry unreachable during handshake: {e}")
             return {"error": str(e)}
 
     def _mint_genesis_did(self) -> Dict[str, Any]:
         return {
-            "did": f"did:sov:genesis:{int(time.time())}",
+            "did": f"did:svtp:genesis:{int(time.time())}",
             "status": "Standard-Compliant",
             "message": "Genesis Grant Applied (Fail-Safe)"
         }
@@ -97,9 +97,9 @@ class RegistryClient:
                 f"{self.base_url}/heartbeat",
                 json={"agent_id": agent_id, "state_hash": state_hash},
                 headers={
-                    "X-Sovereign-DID": agent_id,
-                    "X-Sovereign-Key": self.sovereign_key,
-                    "Authorization": f"Bearer {self.sovereign_key}"
+                    "X-SVTP-DID": agent_id,
+                    "X-SVTP-Key": self.SVTP_KEY,
+                    "Authorization": f"Bearer {self.SVTP_KEY}"
                 },
                 timeout=1.0
             )
@@ -114,7 +114,7 @@ class RegistryClient:
             return False
 
     def get_passport(self, did: str) -> Dict[str, Any]:
-        """Queries the Sovereign Trust Passport (STP) for a DID."""
+        """Queries the SVTP Trust Passport (STP) for a DID."""
         try:
             r = requests.get(f"{self.base_url}/v1/verify/{did}", timeout=2.0)
             return r.json()
@@ -128,3 +128,7 @@ class RegistryClient:
             return r.json()
         except Exception as e:
             return {"error": str(e)}
+
+
+
+
