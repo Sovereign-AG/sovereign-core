@@ -10,10 +10,14 @@ import {
   Lock, Globe, Shield, LayoutDashboard, Search, Filter, MoreHorizontal, Settings,
   BarChart3, AlertCircle, ChevronRight, Info
 } from 'lucide-react';
+import { useSession } from "next-auth/react";
 import { cn } from '@/lib/utils';
+import InstitutionalHandshake from '@/components/InstitutionalHandshake';
 
 export default function SovereignBilling() {
   const router = useRouter();
+  const { data: session } = useSession();
+  const [isHandshakeOpen, setIsHandshakeOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   
@@ -128,7 +132,7 @@ export default function SovereignBilling() {
               </div>
               <div className="flex items-center space-x-3">
                  <button 
-                  onClick={() => handleCheckout(100, 'TOP_UP')}
+                  onClick={() => setIsHandshakeOpen(true)}
                   disabled={isProcessing}
                   className="px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded hover:bg-blue-700 transition-all shadow-sm disabled:opacity-50"
                  >
@@ -278,6 +282,20 @@ export default function SovereignBilling() {
           </div>
         </main>
       </div>
+
+      <InstitutionalHandshake 
+        isOpen={isHandshakeOpen}
+        onClose={() => setIsHandshakeOpen(false)}
+        onConfirm={() => {
+          setIsHandshakeOpen(false);
+          handleCheckout(100, 'TOP_UP');
+        }}
+        user={{
+          name: session?.user?.name || "Institutional Actor",
+          email: session?.user?.email || "billing@sovereign.ag",
+          avatar: session?.user?.image || undefined
+        }}
+      />
     </div>
   );
 }
