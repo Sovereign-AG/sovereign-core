@@ -8,7 +8,7 @@ import {
   ArrowLeft, CreditCard, Receipt, TrendingUp, ShieldCheck, 
   ArrowUpRight, Download, Activity, Landmark, History, DollarSign, Wallet,
   Info, AlertCircle, CheckCircle2, ChevronRight, BarChart3, FileText,
-  Lock, Globe, Shield
+  Lock, Globe, Shield, LayoutDashboard
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
