@@ -437,10 +437,8 @@ export default function SovereignBilling() {
       <InstitutionalHandshake 
         isOpen={isHandshakeOpen}
         onClose={() => setIsHandshakeOpen(false)}
-        onConfirm={() => {
-          setIsHandshakeOpen(false);
-          handleCheckout(100, 'TOP_UP');
-        }}
+        isLoading={isProcessing}
+        onConfirm={() => handleCheckout(100, 'TOP_UP')}
         user={{
           name: session?.user?.name || "Institutional Actor",
           email: session?.user?.email || "billing@sovereign.ag",
