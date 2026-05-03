@@ -363,7 +363,7 @@ export default function SovereignBilling() {
              disabled={isProcessing}
              className="px-4 py-1.5 bg-[#8AB4F8] text-[#001D35] text-[12px] font-bold rounded hover:bg-[#A1C2FA] transition-all disabled:opacity-50"
            >
-              {isProcessing ? 'Handshake...' : 'Add funds'}
+              {isProcessing ? 'Handshake...' : 'Setup billing'}
            </button>
         </div>
       </div>
