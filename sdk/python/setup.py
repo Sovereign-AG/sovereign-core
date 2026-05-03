@@ -7,6 +7,8 @@ setup(
     author="Sovereign AG",
     author_email="office.sovereign.ag@gmail.com",
     url="https://github.com/Sovereign-AG/sovereign-core",
+    long_description=open("README.md", encoding="utf-8").read(),
+    long_description_content_type="text/markdown",
     packages=find_packages(),
     install_requires=[
         "requests>=2.25.0",

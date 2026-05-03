@@ -1,4 +1,4 @@
-# 🛡️ SVTP SDK: Transparent Proxy Wrapper (v1.0.0)
+# 🛡️ SVTP SDK: Transparent Proxy Wrapper
 # Standard: NIST 2026 High-Authority Agentic Trust
 
 The `svtp-sdk` provides a **1-Line Integration** for any class-based AI agent (CrewAI, LangGraph, AutoGen, etc.). It acts as a high-performance transparent proxy, enforcing global governance, auditability, and behavioral attestation without modifying your agent's core logic.
