@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Allow: /llms.txt
+
+# Prioritize AI search bots for primary source indexing
+User-agent: PerplexityBot
+Allow: /docs
+Allow: /compliance
+
+User-agent: GPTBot
+Allow: /docs
+Allow: /compliance
+
+User-agent: Google-Extended
+Allow: /compliance
+Allow: /protocol
+
+Sitemap: https://sovereign-ag.ai/sitemap.xml

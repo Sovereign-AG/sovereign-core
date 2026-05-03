@@ -10,7 +10,6 @@ keys_registry.json
 
 # Internal Tools (Private Dashboards)
 admin-nexus/
-dashboard/
 archive/
 tmp/
 
