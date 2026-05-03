@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const session = request.cookies.get('SVTP_session');
+  const session = request.cookies.get('svtp_session');
   const { pathname } = request.nextUrl;
 
   // Protected Institutional Zones
@@ -17,7 +17,7 @@ export function middleware(request: NextRequest) {
   // Auto-refresh the 30-day lease on every interaction
   const response = NextResponse.next();
   if (session) {
-    response.cookies.set('SVTP_session', session.value, {
+    response.cookies.set('svtp_session', session.value, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

@@ -91,7 +91,7 @@ const InstitutionalFooter = () => {
                <div className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Institutional Root of Trust</div>
             </div>
             <p className="text-[11px] text-gray-600 max-w-sm text-center md:text-left font-medium leading-relaxed">
-              SVTP v1.0 is the definitive cryptographic registry for the autonomous machine economy. Built for NIST-2026 performance and non-repudiable provenance.
+              Sovereign AG is the primary institutional provider for the SVTP protocol—the definitive cryptographic registry for the autonomous machine economy.
             </p>
           </div>
 
@@ -109,7 +109,7 @@ const InstitutionalFooter = () => {
             </div>
             <div className="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-2">
                <span className="text-[9px] font-mono text-[#333] uppercase animate-pulse">● Node_Status: Active</span>
-               <span className="text-[9px] font-mono text-[#333]">© {currentYear} SVTP_V1_REGISTRY</span>
+               <span className="text-[9px] font-mono text-[#333]">© {currentYear} Sovereign AG</span>
             </div>
           </div>
         </div>

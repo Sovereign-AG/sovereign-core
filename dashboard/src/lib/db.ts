@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-const dbPath = path.resolve(process.cwd(), '..', 'SVTP_db.json');
-const ledgerPath = path.resolve(process.cwd(), '..', 'SVTP_ledger.ndjson');
+const dbPath = path.resolve(process.cwd(), '..', 'svtp_db.json');
+const ledgerPath = path.resolve(process.cwd(), '..', 'svtp_ledger.ndjson');
 
 let cachedDB: any = null;
 let lastCacheTime = 0;
@@ -193,7 +193,7 @@ export async function bulkRegisterAgents(orgId: string, agents: any[]) {
   if (!org) return { success: false, error: 'ORG_NOT_FOUND' };
 
   // SVTP-ISSUANCE: Formalize identities through the Root of Trust
-  const { SVTP } = require('./SVTP');
+  const { SVTP } = require('./svtp');
   
   const formalizedAgents = agents.map(agent => {
      const identity = SVTP.issuePassport(orgId, agent.capabilities || ['GENERAL_AGENCY']);

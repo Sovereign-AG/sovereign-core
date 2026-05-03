@@ -43,7 +43,7 @@ export default function InstitutionalHeader() {
           <div className="flex items-center space-x-6">
             <Link href="/" className="flex items-center space-x-3 group">
               <SVTPLogo size={28} className="text-white group-hover:text-yellow-400 transition-colors" />
-              <span className="font-bold text-[17px] tracking-tight text-white">SVTP v1.0</span>
+              <span className="font-bold text-[18px] tracking-tight text-white">Sovereign AG</span>
             </Link>
             <div className="hidden lg:flex items-center px-3.5 py-1.5 bg-yellow-400 border border-yellow-500 rounded-full text-[10px] font-bold text-black tracking-wide gap-2.5">
                <span className="relative flex h-1.5 w-1.5">
