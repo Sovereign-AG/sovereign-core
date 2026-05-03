@@ -4,10 +4,10 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
   ArrowLeft, CreditCard, Receipt, TrendingUp, ShieldCheck, 
   ArrowUpRight, Download, Activity, Landmark, History, DollarSign, Wallet,
-  Lock, Globe, Shield, LayoutDashboard, Search, Filter, MoreHorizontal, Settings
+  Lock, Globe, Shield, LayoutDashboard, Search, Filter, MoreHorizontal, Settings,
+  BarChart3, AlertCircle, ChevronRight, Info
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
