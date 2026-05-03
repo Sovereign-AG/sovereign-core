@@ -1,10 +1,8 @@
 import DodoPayments from 'dodopayments';
 import { NextResponse } from 'next/server';
 
-const apiKey = 'JaC0TCpdEFJGjmoz.bQgQydzDTzBxVGjxZNoOmDPk8kvM9XuDVac5JOaGAF5GEI3l';
-
 const client = new DodoPayments({
-  bearerToken: apiKey
+  bearerToken: process.env.DODO_API_KEY || ''
 });
 
 export async function POST() {

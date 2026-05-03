@@ -7,361 +7,272 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, CreditCard, Receipt, TrendingUp, ShieldCheck, 
   ArrowUpRight, Download, Activity, Landmark, History, DollarSign, Wallet,
-  Info, AlertCircle, CheckCircle2, ChevronRight, BarChart3, FileText,
-  Lock, Globe, Shield, LayoutDashboard
+  Lock, Globe, Shield, LayoutDashboard, Search, Filter, MoreHorizontal, Settings
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function SovereignBilling() {
   const router = useRouter();
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
+  
   const [stats, setStats] = useState({
     balance: 499.94,
-    unbilled: 0,
-    totalSettled: 0.12,
-    threshold: 1000,
+    unbilled: 0.00,
+    totalSettled: 11.00,
+    threshold: 1000.00,
     freeSlots: 5,
-    provisionedCount: 0,
+    provisionedCount: 12,
     insurability: 98.4,
     transactions: [
-      { id: 'TX-4921', date: 'Just Now', type: 'Action Resolution', amount: -0.01, status: 'Settled', hash: '0x8f2a...c3e1' },
-      { id: 'TX-4920', date: '5m ago', type: 'Agent Pulse Tax', amount: -0.0001, status: 'Settled', hash: '0x1d4b...a9f2' },
-      { id: 'TX-4919', date: '12m ago', type: 'Forensic Audit', amount: -0.01, status: 'Settled', hash: '0x9e5c...d0b4' },
-      { id: 'TX-PROT-001', date: '2026-05-01', type: 'Protocol Initializer', amount: 500.00, status: 'Confirmed', hash: 'GENESIS' },
+      { id: 'TX-4921', date: '2026-05-03 14:22', type: 'Action Resolution', amount: -0.0100, status: 'SETTLED', hash: '0x8f2a...c3e1' },
+      { id: 'TX-4920', date: '2026-05-03 14:15', type: 'Agent Pulse Tax', amount: -0.0001, status: 'SETTLED', hash: '0x1d4b...a9f2' },
+      { id: 'TX-4919', date: '2026-05-03 14:02', type: 'Forensic Audit', amount: -0.0100, status: 'SETTLED', hash: '0x9e5c...d0b4' },
+      { id: 'TX-PROT-001', date: '2026-05-01 09:00', type: 'Protocol Initializer', amount: 500.00, status: 'CONFIRMED', hash: 'GENESIS' },
     ]
   });
 
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [activeTab, setActiveTab] = useState('overview');
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const statsRes = await fetch('/api/stats');
-        const statsData = await statsRes.json();
-        if (statsData.success) {
-          setStats(prev => ({
-            ...prev,
-            balance: statsData.balance,
-            unbilled: statsData.unbilledAssessments,
-            threshold: statsData.settlementThreshold || 1000,
-            totalSettled: statsData.realizedRevenue,
-            provisionedCount: statsData.totalAgents
-          }));
-        }
-      } catch (e) {}
-    };
-    loadData();
-    const interval = setInterval(loadData, 15000);
-    return () => clearInterval(interval);
-  }, []);
+  const handleCheckout = async (amount: number, type: string) => {
+    try {
+      setIsProcessing(true);
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount, type })
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Institutional handshake failed. Please verify API key propagation.");
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-[#000] text-gray-200 font-sans selection:bg-emerald-500/30">
+    <div className="min-h-screen bg-[#000000] text-[#E8EAED] font-sans selection:bg-blue-500/30">
       
-      {/* Top Professional Banner */}
-      <div className="h-1 bg-gradient-to-r from-emerald-500 via-blue-500 to-indigo-600 w-full" />
+      {/* Institutional Top Bar (GCP Style) */}
+      <div className="h-14 border-b border-white/5 flex items-center px-6 justify-between bg-[#000000]/50 backdrop-blur-md sticky top-14 z-40">
+        <div className="flex items-center space-x-4">
+           <Link href="/dashboard" className="p-2 hover:bg-white/5 rounded-full transition-colors text-gray-400 hover:text-white">
+              <ArrowLeft size={18} />
+           </Link>
+           <div className="h-4 w-px bg-white/10" />
+           <h1 className="text-sm font-semibold tracking-tight">Billing & Cost Management</h1>
+           <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-wider">Production</span>
+        </div>
+        <div className="flex items-center space-x-3">
+           <button className="px-3 py-1.5 text-[11px] font-bold text-gray-400 hover:text-white transition-colors border border-white/10 rounded-md hover:bg-white/5">
+              Submit Feedback
+           </button>
+           <button className="px-3 py-1.5 text-[11px] font-bold text-gray-400 hover:text-white transition-colors">
+              Help
+           </button>
+        </div>
+      </div>
 
-      <div className="max-w-[1400px] mx-auto flex flex-col min-h-screen">
+      <div className="flex h-[calc(100vh-112px)]">
         
-        {/* Navigation Header */}
-        <header className="h-20 border-b border-white/5 px-8 flex items-center justify-between bg-black/50 backdrop-blur-xl sticky top-0 z-50">
-          <div className="flex items-center space-x-8">
-            <Link href="/dashboard" className="p-2 hover:bg-white/5 rounded-xl transition-colors text-gray-400 hover:text-white">
-              <ArrowLeft size={20} />
-            </Link>
-            <div className="h-6 w-[1px] bg-white/10" />
-            <div>
-              <h1 className="text-lg font-bold tracking-tight text-white uppercase">SVTP Billing</h1>
-              <div className="flex items-center space-x-2 mt-0.5">
-                <span className="text-[10px] text-gray-500 font-mono tracking-widest uppercase">Institutional Ledger</span>
-                <div className="w-1 h-1 rounded-full bg-emerald-500" />
-                <span className="text-[10px] text-emerald-500 font-bold uppercase tracking-widest">Live Sync</span>
-              </div>
-            </div>
+        {/* Navigation Sidebar */}
+        <aside className="w-64 border-r border-white/5 bg-[#000000] flex flex-col">
+          <div className="p-4 space-y-1">
+            {[
+              { id: 'overview', label: 'Billing Overview', icon: LayoutDashboard },
+              { id: 'reports', label: 'Cost Table', icon: BarChart3 },
+              { id: 'budgets', label: 'Budgets & Alerts', icon: AlertCircle },
+              { id: 'commitments', label: 'Commitments', icon: ShieldCheck },
+            ].map((item) => (
+              <button 
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={cn(
+                  "w-full flex items-center px-4 py-2.5 text-[13px] font-medium rounded-lg transition-all",
+                  activeTab === item.id ? "bg-blue-500/10 text-blue-400" : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
+                )}
+              >
+                <item.icon size={16} className="mr-3" />
+                {item.label}
+              </button>
+            ))}
           </div>
           
-          <div className="flex items-center space-x-4">
-             <div className="hidden md:flex items-center space-x-6 px-6 py-2 bg-white/[0.02] border border-white/5 rounded-full">
-                <div className="text-center">
-                  <div className="text-[9px] text-gray-500 font-black uppercase tracking-widest">Insurability Score</div>
-                  <div className="text-xs font-mono font-bold text-white">{stats.insurability}%</div>
-                </div>
-                <div className="h-4 w-[1px] bg-white/10" />
-                <div className="text-center">
-                  <div className="text-[9px] text-gray-500 font-black uppercase tracking-widest">Protocol Version</div>
-                  <div className="text-xs font-mono font-bold text-gray-400">1.0.4-S</div>
-                </div>
-             </div>
-             <button className="px-5 py-2 bg-white text-black text-[11px] font-black uppercase tracking-widest hover:bg-gray-200 transition-all rounded-full shadow-lg shadow-white/5">
-                Download Statements
+          <div className="mt-auto border-t border-white/5 p-4 space-y-1">
+             <button className="w-full flex items-center px-4 py-2 text-[12px] font-medium text-gray-500 hover:text-gray-300 transition-colors">
+                <Settings size={14} className="mr-3" /> Billing Settings
+             </button>
+             <button className="w-full flex items-center px-4 py-2 text-[12px] font-medium text-gray-500 hover:text-gray-300 transition-colors">
+                <CreditCard size={14} className="mr-3" /> Payment Methods
              </button>
           </div>
-        </header>
+        </aside>
 
-        <div className="flex flex-1 overflow-hidden">
-          
-          {/* Sub-navigation Sidebar (Google Cloud Style) */}
-          <aside className="w-64 border-r border-white/5 p-6 space-y-8 hidden lg:block">
-            <div className="space-y-1">
-              <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-3 mb-4">Operations</div>
-              {[
-                { id: 'overview', label: 'Billing Overview', icon: LayoutDashboard },
-                { id: 'methods', label: 'Payment Methods', icon: CreditCard },
-                { id: 'usage', label: 'Usage Breakdown', icon: BarChart3 },
-                { id: 'history', label: 'Transactions', icon: History }
-              ].map((item) => (
-                <button 
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={cn(
-                    "w-full flex items-center px-4 py-2.5 text-[13px] font-semibold rounded-xl transition-all",
-                    activeTab === item.id ? "bg-white/5 text-white" : "text-gray-400 hover:bg-white/[0.02] hover:text-gray-200"
-                  )}
-                >
-                  <item.icon size={16} className={cn("mr-3", activeTab === item.id ? "text-emerald-500" : "text-gray-600")} />
-                  {item.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="pt-8 space-y-1">
-              <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-3 mb-4">Governance</div>
-              <button className="w-full flex items-center px-4 py-2.5 text-[13px] font-semibold text-gray-400 hover:bg-white/[0.02] rounded-xl transition-all">
-                <Shield size={16} className="mr-3 text-gray-600" /> Cost Controls
-              </button>
-              <button className="w-full flex items-center px-4 py-2.5 text-[13px] font-semibold text-gray-400 hover:bg-white/[0.02] rounded-xl transition-all">
-                <FileText size={16} className="mr-3 text-gray-600" /> Tax Identity
-              </button>
-            </div>
-          </aside>
-
-          {/* Main Billing Content */}
-          <main className="flex-1 overflow-y-auto p-10 space-y-10 custom-scrollbar">
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-y-auto p-8 custom-scrollbar bg-[#050505]">
+          <div className="max-w-6xl mx-auto space-y-8">
             
-            {/* Top Cards: The Google Cloud Look */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Page Header */}
+            <div className="flex items-end justify-between border-b border-white/5 pb-6">
+              <div>
+                <h2 className="text-2xl font-normal text-white">Billing Overview</h2>
+                <p className="text-sm text-gray-500 mt-1">Sovereign AG Institutional Account: <span className="font-mono text-gray-400">SVTP-MAIN-ORG</span></p>
+              </div>
+              <div className="flex items-center space-x-3">
+                 <button 
+                  onClick={() => handleCheckout(100, 'TOP_UP')}
+                  disabled={isProcessing}
+                  className="px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded hover:bg-blue-700 transition-all shadow-sm disabled:opacity-50"
+                 >
+                    {isProcessing ? 'Processing...' : 'Add Funds'}
+                 </button>
+                 <button className="px-4 py-2 border border-white/10 text-white text-xs font-bold rounded hover:bg-white/5 transition-all">
+                    Settle Dues
+                 </button>
+              </div>
+            </div>
+
+            {/* Financial Summary Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               
-              {/* Primary: Current Costs */}
-              <div className="lg:col-span-2 bg-[#050505] border border-white/5 rounded-[32px] p-10 flex flex-col md:flex-row gap-10 items-center justify-between group hover:border-white/10 transition-all shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
-                   <Activity size={200} />
+              {/* Cost Summary Card */}
+              <div className="md:col-span-3 bg-[#000000] border border-white/10 rounded-lg p-6 space-y-6">
+                <div className="flex items-center justify-between">
+                   <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Current Month Accrual</h3>
+                   <span className="text-[10px] font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded">Real-time</span>
                 </div>
-                <div className="space-y-6 relative z-10 w-full md:w-auto">
-                   <div>
-                     <div className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-3">Accrued Unbilled Liabilities</div>
-                     <div className="text-6xl font-bold text-white tracking-tighter">
-                        ${stats.unbilled.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                     </div>
-                   </div>
-                   <div className="flex items-center space-x-6">
-                      <div className="flex items-center text-xs font-medium text-emerald-500">
-                        <TrendingUp size={14} className="mr-2" /> 
-                        Real-time Metering
-                      </div>
-                      <div className="h-4 w-[1px] bg-white/10" />
-                      <div className="text-xs text-gray-400 font-medium">
-                        Next Cycle: <span className="text-white">Sunday 23:59 IST</span>
-                      </div>
-                   </div>
+                <div className="flex items-baseline space-x-3">
+                   <div className="text-5xl font-light text-white">${stats.unbilled.toFixed(2)}</div>
+                   <div className="text-sm text-gray-500">USD</div>
                 </div>
-
-                <div className="w-full md:w-64 space-y-6 relative z-10">
-                   <div className="space-y-2">
-                      <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
-                         <span className="text-gray-500">Settlement Threshold</span>
-                         <span className="text-white">${stats.threshold.toLocaleString()}</span>
-                      </div>
-                      <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                         <motion.div 
-                           initial={{ width: 0 }}
-                           animate={{ width: `${Math.min((stats.unbilled / stats.threshold) * 100, 100)}%` }}
-                           className={cn("h-full rounded-full transition-all duration-1000", (stats.unbilled / stats.threshold) > 0.8 ? "bg-amber-500" : "bg-emerald-500")}
-                         />
-                      </div>
-                      <div className="text-[9px] text-gray-600 font-mono text-right">
-                         {(stats.unbilled / stats.threshold * 100).toFixed(1)}% TO AUTO-DEDUCTION
-                      </div>
+                <div className="pt-4 border-t border-white/5 space-y-4">
+                   <div className="flex justify-between items-center text-[11px]">
+                      <span className="text-gray-500 font-medium uppercase tracking-tight">Settlement Threshold</span>
+                      <span className="text-gray-300 font-mono">${stats.threshold.toLocaleString()}</span>
                    </div>
-                   <button 
-                     onClick={() => router.push('/dashboard/checkout')}
-                     className="w-full py-4 bg-white text-black text-[11px] font-black uppercase tracking-widest hover:bg-gray-200 transition-all rounded-2xl shadow-xl shadow-white/5"
-                   >
-                     Force Settle Balance
-                   </button>
+                   <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: `${(stats.unbilled / stats.threshold) * 100}%` }}
+                        className="h-full bg-blue-500"
+                      />
+                   </div>
+                   <p className="text-[10px] text-gray-600 leading-relaxed uppercase tracking-wider">
+                      Handshake will automatically trigger at 100% threshold or Sunday 23:59 IST.
+                   </p>
                 </div>
               </div>
 
-              {/* Account Health */}
-              <div className="bg-[#050505] border border-white/5 rounded-[32px] p-8 flex flex-col justify-between shadow-sm group hover:border-white/10 transition-all">
-                 <div className="space-y-4">
-                    <div className="flex justify-between items-start">
-                       <div className="p-3 bg-white/5 rounded-2xl text-gray-400 group-hover:text-emerald-500 transition-colors">
-                          <Globe size={24} />
-                       </div>
-                       <Badge type="Verified">Protocol Active</Badge>
-                    </div>
-                    <div className="space-y-1">
-                       <div className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Total Settled</div>
-                       <div className="text-3xl font-bold text-white">${stats.totalSettled.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
+              {/* Status Sidebars */}
+              <div className="space-y-6">
+                 <div className="bg-[#000000] border border-white/10 rounded-lg p-5 space-y-4">
+                    <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Registry Balance</h3>
+                    <div className="text-2xl font-light text-white">${stats.balance.toFixed(2)}</div>
+                    <div className="flex items-center text-[10px] text-emerald-400 font-bold">
+                       <ShieldCheck size={12} className="mr-1.5" /> AG-SECURED
                     </div>
                  </div>
-                 <div className="pt-6 border-t border-white/5 space-y-4">
-                    <div className="flex justify-between items-center text-[11px]">
-                       <span className="text-gray-500">Fleet Coverage</span>
-                       <span className="text-white font-bold">{stats.provisionedCount} Active Nodes</span>
-                    </div>
-                    <div className="flex justify-between items-center text-[11px]">
-                       <span className="text-gray-500">Billing Identity</span>
-                       <span className="text-white font-bold truncate max-w-[120px]">SVTP Main Org</span>
+                 <div className="bg-[#000000] border border-white/10 rounded-lg p-5 space-y-4">
+                    <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Fleet Compliance</h3>
+                    <div className="text-2xl font-light text-white">{stats.insurability}%</div>
+                    <div className="flex items-center text-[10px] text-gray-500 font-medium">
+                       Based on NIST-2026 Audit
                     </div>
                  </div>
               </div>
-
             </div>
 
-            {/* Bottom Section: History & Methods */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-20">
-               
-               {/* Transaction Audit Ledger */}
-               <div className="lg:col-span-2 space-y-6">
-                  <div className="flex items-center justify-between">
-                     <h2 className="text-base font-bold text-white uppercase tracking-tight">Financial Audit Trail</h2>
-                     <button className="text-[10px] font-black text-emerald-500 uppercase tracking-widest hover:text-emerald-400 transition-colors flex items-center">
-                        View Full Ledger <ChevronRight size={14} className="ml-1" />
-                     </button>
-                  </div>
-                  
-                  <div className="bg-[#050505] border border-white/5 rounded-[32px] overflow-hidden shadow-2xl">
-                     <table className="w-full text-left text-[12px]">
-                        <thead className="border-b border-white/5 text-gray-500 font-bold uppercase tracking-widest">
-                           <tr>
-                              <th className="px-8 py-5">Event ID</th>
-                              <th className="px-8 py-5">Description</th>
-                              <th className="px-8 py-5">Status</th>
-                              <th className="px-8 py-5 text-right">Amount</th>
-                           </tr>
-                        </thead>
-                        <tbody className="divide-y divide-white/[0.03]">
-                           {stats.transactions.map((tx, i) => (
-                              <tr key={i} className="hover:bg-white/[0.02] transition-colors group">
-                                 <td className="px-8 py-5 font-mono text-gray-500 group-hover:text-gray-300 transition-colors">{tx.id}</td>
-                                 <td className="px-8 py-5">
-                                    <div className="text-white font-medium">{tx.type}</div>
-                                    <div className="text-[10px] text-gray-600 mt-0.5 font-mono">{tx.hash}</div>
-                                 </td>
-                                 <td className="px-8 py-5">
-                                    <div className="flex items-center">
-                                       <div className={cn("w-1.5 h-1.5 rounded-full mr-2", tx.amount > 0 ? "bg-emerald-500" : "bg-gray-500")} />
-                                       <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{tx.status}</span>
-                                    </div>
-                                 </td>
-                                 <td className={cn("px-8 py-5 text-right font-mono font-bold text-sm", tx.amount > 0 ? "text-emerald-500" : "text-white")}>
-                                    {tx.amount > 0 ? '+' : ''}{tx.amount.toLocaleString(undefined, { minimumFractionDigits: tx.amount < 0.01 ? 4 : 2 })}
-                                 </td>
-                              </tr>
-                           ))}
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
-
-               {/* Institutional Settlement Rail */}
-               <div className="space-y-6">
-                  <h2 className="text-base font-bold text-white uppercase tracking-tight">Settlement Rail</h2>
-                  <div className="bg-[#050505] border border-white/5 rounded-[32px] p-8 space-y-8 relative overflow-hidden group shadow-sm">
-                     <div className="absolute top-0 right-0 p-8 opacity-[0.02] text-white">
-                        <Lock size={120} />
-                     </div>
-                     
-                     <div className="space-y-4 relative z-10">
-                        <p className="text-xs text-gray-400 leading-relaxed font-medium">
-                           Connect an Institutional Settlement Method to enable automatic weekly deductions and high-volume agent provisioning.
-                        </p>
-                        <div className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl space-y-3">
-                           <div className="flex items-center text-[10px] font-black text-gray-500 uppercase tracking-widest">
-                              <Info size={12} className="mr-2" /> Compliance Requirement
-                           </div>
-                           <p className="text-[10px] text-gray-400 leading-relaxed uppercase">
-                              NIST-800-218 mandates an active financial anchor for agent fleets exceeding 5 units.
-                           </p>
-                        </div>
-                     </div>
-
-                     <div className="space-y-4 relative z-10">
-                        {isConnecting ? (
-                           <div className="w-full py-12 flex flex-col items-center justify-center space-y-4">
-                              <Activity className="text-emerald-500 animate-spin" size={32} />
-                              <div className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] animate-pulse">Establishing Secure Channel...</div>
-                           </div>
-                        ) : (
-                           <>
-                             <button 
-                               onClick={() => {
-                                 setIsConnecting(true);
-                                 setTimeout(() => {
-                                   setIsConnecting(false);
-                                   router.push('/dashboard/checkout');
-                                 }, 1500);
-                               }}
-                               className="w-full py-4 bg-white text-black text-[11px] font-black uppercase tracking-widest hover:bg-gray-200 transition-all rounded-2xl flex items-center justify-center shadow-xl"
-                             >
-                               <PlusCircle size={16} className="mr-2" /> Add Settlement Method
-                             </button>
-                             <div className="flex items-center justify-center space-x-4 opacity-30 transition-all cursor-not-allowed">
-                               <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Supported:</span>
-                               <Landmark size={18} />
-                               <div className="font-bold text-sm italic uppercase tracking-tighter">Sovereign Direct</div>
-                             </div>
-                           </>
+            {/* Detailed Transaction Ledger (The "Google" Table) */}
+            <div className="bg-[#000000] border border-white/10 rounded-lg overflow-hidden">
+              <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between">
+                 <h3 className="text-sm font-semibold text-white">Financial Audit Trail</h3>
+                 <div className="flex items-center space-x-4">
+                    <button className="p-1.5 text-gray-500 hover:text-white transition-colors">
+                       <Filter size={16} />
+                    </button>
+                    <button className="p-1.5 text-gray-500 hover:text-white transition-colors">
+                       <Download size={16} />
+                    </button>
+                 </div>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-white/5 text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4">Event ID</th>
+                      <th className="px-6 py-4">Description</th>
+                      <th className="px-6 py-4 text-center">Status</th>
+                      <th className="px-6 py-4">Timestamp</th>
+                      <th className="px-6 py-4 text-right">Amount (USD)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-[12px] font-medium">
+                    {stats.transactions.map((tx, i) => (
+                      <tr 
+                        key={tx.id} 
+                        className={cn(
+                          "border-b border-white/5 transition-colors hover:bg-white/[0.02]",
+                          i === stats.transactions.length - 1 && "border-0"
                         )}
-                     </div>
-                  </div>
-
-                  {/* Budget Alert Small Card */}
-                  <div className="bg-white/[0.02] border border-white/5 rounded-[32px] p-8 space-y-4">
-                     <div className="flex items-center justify-between">
-                        <div className="text-[10px] font-black text-gray-500 uppercase tracking-widest flex items-center">
-                           <AlertCircle size={14} className="mr-2" /> Threshold Warning
-                        </div>
-                        <div className="text-[10px] font-bold text-emerald-500 uppercase">Active</div>
-                     </div>
-                     <p className="text-[11px] text-gray-400 leading-relaxed font-medium">
-                        You will receive an encrypted notification when unbilled usage exceeds <span className="text-white font-bold">$800.00</span> (80% of threshold).
-                     </p>
-                  </div>
-               </div>
-
+                      >
+                        <td className="px-6 py-4 font-mono text-gray-400">{tx.id}</td>
+                        <td className="px-6 py-4">
+                           <div className="text-gray-200">{tx.type}</div>
+                           <div className="text-[10px] text-gray-600 font-mono mt-0.5">{tx.hash}</div>
+                        </td>
+                        <td className="px-6 py-4">
+                           <div className="flex items-center justify-center">
+                              <span className={cn(
+                                "px-2 py-0.5 rounded text-[9px] font-bold tracking-widest uppercase",
+                                tx.status === 'SETTLED' ? "bg-gray-400/10 text-gray-400" : "bg-blue-500/10 text-blue-400"
+                              )}>
+                                ● {tx.status}
+                              </span>
+                           </div>
+                        </td>
+                        <td className="px-6 py-4 text-gray-500">{tx.date}</td>
+                        <td className={cn(
+                          "px-6 py-4 text-right font-mono",
+                          tx.amount > 0 ? "text-emerald-400" : "text-white"
+                        )}>
+                          {tx.amount > 0 ? `+${tx.amount.toFixed(2)}` : tx.amount.toFixed(4)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="px-6 py-4 bg-white/[0.01] flex items-center justify-between text-[11px] text-gray-600">
+                 <div className="flex items-center space-x-6">
+                    <span>Rows per page: 10</span>
+                    <span>1-4 of 1250</span>
+                 </div>
+                 <div className="flex items-center space-x-2">
+                    <button className="p-1 hover:text-white disabled:opacity-30" disabled>Previous</button>
+                    <button className="p-1 hover:text-white">Next</button>
+                 </div>
+              </div>
             </div>
 
-          </main>
-        </div>
+            {/* Compliance Footnote */}
+            <div className="flex items-start space-x-4 p-6 bg-blue-500/5 border border-blue-500/10 rounded-lg">
+               <Info size={16} className="text-blue-400 shrink-0 mt-0.5" />
+               <div className="space-y-1">
+                 <h4 className="text-[12px] font-bold text-blue-300">Institutional Notice</h4>
+                 <p className="text-[11px] text-blue-200/60 leading-relaxed">
+                   Sovereign AG billing cycles are governed by the SVTP v1.0 root authority. 
+                   All financial settlements are cryptographically linked to the protocol ledger for audit compliance. 
+                   Unbilled liabilities exceeding the threshold will trigger an immediate settlement handshake to preserve registry availability.
+                 </p>
+               </div>
+            </div>
 
+          </div>
+        </main>
       </div>
     </div>
   );
 }
-
-// Reuse components from page.tsx or local versions
-function Badge({ children, type = 'Default' }: { children: React.ReactNode, type?: string }) {
-  const colors: Record<string, string> = {
-    'Verified': 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
-    'Critical': 'bg-red-500/10 text-red-500 border-red-500/20',
-    'Warning': 'bg-amber-500/10 text-amber-500 border-amber-500/20',
-    'Default': 'bg-white/5 text-gray-400 border-white/10'
-  };
-  return (
-    <span className={cn("px-2 py-1 rounded-full text-[9px] font-black uppercase tracking-[0.15em] border", colors[type] || colors.Default)}>
-      {children}
-    </span>
-  );
-}
-
-function PlusCircle({ size, className }: { size: number, className?: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
-    </svg>
-  );
-}
-
-
